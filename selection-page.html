@@ -1,28 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.7">
-    <title>Select Option</title>
+    <title>Plana - New York City</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/roboto/2.0.0/css/roboto.min.css" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
             background-color: black;
             color: white;
             font-family: 'Roboto', sans-serif;
-            margin: 0;
-            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
         }
 
         .title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
+            font-size: clamp(1rem, 4vw, 2rem);
+            margin-bottom: clamp(0.75rem, 2.25vw, 1.25rem);
             opacity: 0;
             animation: fadeIn 1s ease-in forwards;
+            word-wrap: break-word;
+            max-width: 100%;
         }
 
         .options-container {
@@ -73,7 +82,7 @@
         }
 
         .option-icon {
-            font-size: 3rem;
+            font-size: 5rem;
             margin-bottom: 1rem;
             z-index: 2;
         }
