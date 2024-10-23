@@ -1,14 +1,13 @@
-<!-- food_places.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>City Guide - Food Places</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Guide - Food Places</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
-<style>
+    <style>
         * {
             box-sizing: border-box;
             margin: 0;
@@ -27,63 +26,186 @@
             padding: 20px;
             text-align: center;
         }
-.results-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.place-box {
-    background-color: black;
-    color: white;
-    padding: 20px;
-    border: 2px solid white;
-    border-radius: 25px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.place-box img {
-    max-width: 100%;
-    height: auto;
-}
-
-.choice-button {
-    background-color: black;
-    color: white;
-    border: 1px solid white;
-    padding: 5px 10px;
-    margin: 0 5px;
-    cursor: pointer;
-}
-
-.choice-button:hover {
-    background-color: #333;
-}
-
-#restaurant-count {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.2em;
-}
-
-#selected-neighborhoods {
-    color: yellow;
-    margin-bottom: 20px;
-}
-</style>
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .place-box {
+            background-color: black;
+            color: white;
+            padding: 20px;
+            border: 2px solid white;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .place-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+        }
+        .choice-button {
+            background-color: black;
+            color: white;
+            border: 1px solid white;
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .choice-button:hover {
+            background-color: white;
+            color: black;
+        }
+        .filters-container {
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .filter-group {
+            position: relative;
+            min-width: 150px;
+        }
+        .filter-button {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .filter-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .filter-button.active {
+            background-color: white;
+            color: black;
+        }
+        .filter-options {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 100%;
+            background-color: rgb(20, 20, 20);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .filter-options.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .filter-option {
+            display: flex;
+            align-items: center;
+            padding: 8px 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+        }
+        .filter-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .filter-option input {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .filter-option input[type="radio"],
+        .filter-option input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid white;
+            border-radius: 50%;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .filter-option input[type="checkbox"] {
+            border-radius: 4px;
+        }
+        .filter-option input[type="radio"]:checked,
+        .filter-option input[type="checkbox"]:checked {
+            background-color: white;
+            position: relative;
+        }
+        .filter-option input[type="radio"]:checked::after,
+        .filter-option input[type="checkbox"]:checked::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .filter-option input[type="checkbox"]:checked::after {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+    </style>
 </head>
 <body>
 <div class="results-container">
-  <div id="selected-neighborhoods"></div>
-  <div id="restaurant-count"></div>
-  <div id="restaurant-list"></div>
+    <div class="filters-container">
+        <div class="filter-group">
+            <button class="filter-button" data-filter="meal">Meal</button>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="radio" name="meal" value="lunch"> Lunch
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="meal" value="brunch"> Brunch
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="meal" value="dinner"> Dinner
+                </label>
+            </div>
+        </div>
+        <div class="filter-group">
+            <button class="filter-button" data-filter="price">Price</button>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="checkbox" name="price" value="$"> $
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="price" value="$$"> $$
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="price" value="$$$"> $$$
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="price" value="$$$$"> $$$$
+                </label>
+            </div>
+        </div>
+    </div>
+    <div id="restaurant-list"></div>
 </div>
 
 <script>
     class RestaurantDisplay {
         constructor() {
             this.restaurants = [];
+            this.selectedPrices = new Set();
         }
     
         parseCSV(csvText) {
@@ -116,9 +238,7 @@
         }
     
         getSelectedNeighborhoods() {
-            // Get all checked neighborhood checkboxes from neighborhood-selection.html
             const selectedNeighborhoods = localStorage.getItem('selectedNeighborhoods');
-            console.log("Selected neighborhoods from localStorage:", selectedNeighborhoods); // Debugging line
             return selectedNeighborhoods ? JSON.parse(selectedNeighborhoods) : [];
         }
     
@@ -126,9 +246,11 @@
             const selectedNeighborhoods = this.getSelectedNeighborhoods();
             if (selectedNeighborhoods.length === 0) return [];
             
-            return this.restaurants.filter(restaurant => 
-                selectedNeighborhoods.includes(restaurant.neighborhood)
-            );
+            return this.restaurants.filter(restaurant => {
+                const neighborhoodMatch = selectedNeighborhoods.includes(restaurant.neighborhood);
+                const priceMatch = this.selectedPrices.size === 0 || this.selectedPrices.has(restaurant.budget);
+                return neighborhoodMatch && priceMatch;
+            });
         }
     
         createRestaurantBox(restaurant) {
@@ -160,18 +282,63 @@
         }
     
         updateDisplay() {
-            const selectedNeighborhoods = this.getSelectedNeighborhoods();
-            document.getElementById('selected-neighborhoods').textContent = `Selected Neighborhoods: ${selectedNeighborhoods.join(', ')}`;
-            
             const filteredRestaurants = this.filterRestaurants();
             const container = document.getElementById('restaurant-list');
-            const countDisplay = document.getElementById('restaurant-count');
-            
-            countDisplay.textContent = `Found ${filteredRestaurants.length} restaurant${filteredRestaurants.length !== 1 ? 's' : ''}`;
             container.innerHTML = '';
             
             filteredRestaurants.forEach(restaurant => {
                 container.appendChild(this.createRestaurantBox(restaurant));
+            });
+        }
+
+        setupEventListeners() {
+            // Price filter listeners
+            const priceCheckboxes = document.querySelectorAll('input[name="price"]');
+            priceCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        this.selectedPrices.add(checkbox.value);
+                    } else {
+                        this.selectedPrices.delete(checkbox.value);
+                    }
+                    this.updateDisplay();
+                });
+            });
+
+            // Filter button listeners
+            const filterButtons = document.querySelectorAll('.filter-button');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const filterGroup = button.closest('.filter-group');
+                    const options = filterGroup.querySelector('.filter-options');
+                    const wasActive = button.classList.contains('active');
+
+                    // Close all other filter options
+                    document.querySelectorAll('.filter-options').forEach(opt => {
+                        opt.classList.remove('show');
+                    });
+                    document.querySelectorAll('.filter-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Toggle current filter
+                    if (!wasActive) {
+                        options.classList.add('show');
+                        button.classList.add('active');
+                    }
+                });
+            });
+
+            // Close filters when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.filter-group')) {
+                    document.querySelectorAll('.filter-options').forEach(opt => {
+                        opt.classList.remove('show');
+                    });
+                    document.querySelectorAll('.filter-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                }
             });
         }
     }
@@ -180,8 +347,7 @@
     document.addEventListener('DOMContentLoaded', async function() {
         const display = new RestaurantDisplay();
         await display.fetchRestaurants('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/food_places.csv');
-    
-        // Initial display update
+        display.setupEventListeners();
         display.updateDisplay();
     });
 </script>
