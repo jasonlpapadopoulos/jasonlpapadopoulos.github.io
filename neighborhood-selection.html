@@ -408,8 +408,8 @@
             </div>
         </div>
     </div>
-
-    <button class="submit-button" href="food_places.html" disabled>Show Me Around</button>
+    <div id="selected-neighborhoods" style="color: yellow; margin-top: 20px;">Selected Neighborhoods: None</div>
+    <button class="submit-button" disabled>Show Me Around</button>
 
     <script>
         // Handle collapsible sections
@@ -432,6 +432,7 @@
                     checkbox.checked = e.target.checked;
                 });
                 updateSubmitButton();
+                updateSelectedNeighborhoods();
             });
         });
 
@@ -449,6 +450,7 @@
                     selectAll.indeterminate = someChecked && !allChecked;
                     
                     updateSubmitButton();
+                    updateSelectedNeighborhoods();
                 }
             });
         });
@@ -460,6 +462,33 @@
             const isAnyChecked = Array.from(allCheckboxes).some(checkbox => checkbox.checked);
             submitButton.disabled = !isAnyChecked;
         }
+
+        // Add event listener to button for navigation
+        document.querySelector('.submit-button').addEventListener('click', function() {
+            if (!this.disabled) {
+                const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+                
+                localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
+                
+                window.location.href = 'food_places.html';
+            }
+        });
+
+        // Update selected neighborhoods display
+        function updateSelectedNeighborhoods() {
+            const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+            
+            document.getElementById('selected-neighborhoods').textContent = `Selected Neighborhoods: ${selectedNeighborhoods.length > 0 ? selectedNeighborhoods.join(', ') : 'None'}`;
+        }
+
+        // Initial update of the displayed neighborhoods
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSelectedNeighborhoods();
+        });
     </script>
 </body>
 </html>

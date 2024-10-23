@@ -64,129 +64,124 @@
     margin-bottom: 20px;
     font-size: 1.2em;
 }
-</style>
 
+#selected-neighborhoods {
+    color: yellow;
+    margin-bottom: 20px;
+}
+</style>
+</head>
+<body>
 <div class="results-container">
+  <div id="selected-neighborhoods"></div>
   <div id="restaurant-count"></div>
   <div id="restaurant-list"></div>
 </div>
 
 <script>
-class RestaurantDisplay {
-    constructor() {
-        this.restaurants = [];
-        this.selectedNeighborhoods = new Set();
-    }
-
-    // Parse CSV string into array of objects
-    parseCSV(csvText) {
-        const lines = csvText.split('\n');
-        const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
-        
-        return lines.slice(1)
-            .filter(line => line.trim())
-            .map(line => {
-                const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)
-                    .map(val => val.replace(/"/g, '').trim());
-                
-                return headers.reduce((obj, header, index) => {
-                    obj[header] = values[index];
-                    return obj;
-                }, {});
-            });
-    }
-
-    // Fetch and process CSV data
-    async fetchRestaurants(csvUrl) {
-        try {
-            const response = await fetch(csvUrl);
-            const csvText = await response.text();
-            this.restaurants = this.parseCSV(csvText);
-            return this.restaurants;
-        } catch (error) {
-            console.error('Error fetching restaurant data:', error);
-            return [];
+    class RestaurantDisplay {
+        constructor() {
+            this.restaurants = [];
         }
-    }
-
-    // Filter restaurants by selected neighborhoods
-    filterRestaurants() {
-        if (this.selectedNeighborhoods.size === 0) return [];
-        return this.restaurants.filter(restaurant => 
-            this.selectedNeighborhoods.has(restaurant.neighborhood)
-        );
-    }
-
-    // Create HTML for a single restaurant
-    createRestaurantBox(restaurant) {
-        const box = document.createElement('div');
-        box.className = 'place-box';
-        
-        box.innerHTML = `
-            <strong>${restaurant.place_name}</strong><br>
-            <i>${restaurant.cuisine}, ${restaurant.budget}</i><br><br>
-            
-            <a href="${restaurant.image_url}">
-                <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
-                     onerror="this.src='/api/placeholder/400/300'">
-            </a><br><br>
-            
-            ${restaurant.description}<br><br>
-            
-            <a href="${restaurant.maps_url}" target="_blank">
-                <button class="choice-button">See in Maps</button>
-            </a>
-            ${restaurant.reservation_url ? `
-                <a href="${restaurant.reservation_url}" target="_blank">
-                    <button class="choice-button">Reserve</button>
-                </a>
-            ` : ''}
-        `;
-        
-        return box;
-    }
-
-    // Update the display with filtered restaurants
-    updateDisplay() {
-        const filteredRestaurants = this.filterRestaurants();
-        const container = document.getElementById('restaurant-list');
-        const countDisplay = document.getElementById('restaurant-count');
-        
-        // Update count
-        countDisplay.textContent = `Found ${filteredRestaurants.length} restaurant${filteredRestaurants.length !== 1 ? 's' : ''}`;
-        
-        // Clear current display
-        container.innerHTML = '';
-        
-        // Add filtered restaurants
-        filteredRestaurants.forEach(restaurant => {
-            container.appendChild(this.createRestaurantBox(restaurant));
-        });
-    }
-
-    // Toggle a neighborhood selection
-    toggleNeighborhood(neighborhood) {
-        if (this.selectedNeighborhoods.has(neighborhood)) {
-            this.selectedNeighborhoods.delete(neighborhood);
-        } else {
-            this.selectedNeighborhoods.add(neighborhood);
-        }
-        this.updateDisplay();
-    }
-}
-
-// Usage example:
-const display = new RestaurantDisplay();
-
-// Initialize with CSV data
-async function init(csvUrl) {
-    await display.fetchRestaurants(csvUrl);
     
-    // Example: Select some neighborhoods
-    display.toggleNeighborhood('Williamsburg');
-    display.toggleNeighborhood('NoHo');
-}
-
-// Initialize with your CSV URL
-init('https://github.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/blob/main/food_places.csv');
+        parseCSV(csvText) {
+            const lines = csvText.split('\n');
+            const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+            
+            return lines.slice(1)
+                .filter(line => line.trim())
+                .map(line => {
+                    const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)
+                        .map(val => val.replace(/"/g, '').trim());
+                    
+                    return headers.reduce((obj, header, index) => {
+                        obj[header] = values[index];
+                        return obj;
+                    }, {});
+                });
+        }
+    
+        async fetchRestaurants(csvUrl) {
+            try {
+                const response = await fetch(csvUrl);
+                const csvText = await response.text();
+                this.restaurants = this.parseCSV(csvText);
+                return this.restaurants;
+            } catch (error) {
+                console.error('Error fetching restaurant data:', error);
+                return [];
+            }
+        }
+    
+        getSelectedNeighborhoods() {
+            // Get all checked neighborhood checkboxes from neighborhood-selection.html
+            const selectedNeighborhoods = localStorage.getItem('selectedNeighborhoods');
+            console.log("Selected neighborhoods from localStorage:", selectedNeighborhoods); // Debugging line
+            return selectedNeighborhoods ? JSON.parse(selectedNeighborhoods) : [];
+        }
+    
+        filterRestaurants() {
+            const selectedNeighborhoods = this.getSelectedNeighborhoods();
+            if (selectedNeighborhoods.length === 0) return [];
+            
+            return this.restaurants.filter(restaurant => 
+                selectedNeighborhoods.includes(restaurant.neighborhood)
+            );
+        }
+    
+        createRestaurantBox(restaurant) {
+            const box = document.createElement('div');
+            box.className = 'place-box';
+            
+            box.innerHTML = `
+                <strong>${restaurant.place_name}</strong><br>
+                <i>${restaurant.cuisine}, ${restaurant.budget}</i><br><br>
+                
+                <a href="${restaurant.image_url}">
+                    <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
+                         onerror="this.src='/api/placeholder/400/300'">
+                </a><br><br>
+                
+                ${restaurant.description}<br><br>
+                
+                <a href="${restaurant.maps_url}" target="_blank">
+                    <button class="choice-button">See in Maps</button>
+                </a>
+                ${restaurant.reservation_url ? `
+                    <a href="${restaurant.reservation_url}" target="_blank">
+                        <button class="choice-button">Reserve</button>
+                    </a>
+                ` : ''}
+            `;
+            
+            return box;
+        }
+    
+        updateDisplay() {
+            const selectedNeighborhoods = this.getSelectedNeighborhoods();
+            document.getElementById('selected-neighborhoods').textContent = `Selected Neighborhoods: ${selectedNeighborhoods.join(', ')}`;
+            
+            const filteredRestaurants = this.filterRestaurants();
+            const container = document.getElementById('restaurant-list');
+            const countDisplay = document.getElementById('restaurant-count');
+            
+            countDisplay.textContent = `Found ${filteredRestaurants.length} restaurant${filteredRestaurants.length !== 1 ? 's' : ''}`;
+            container.innerHTML = '';
+            
+            filteredRestaurants.forEach(restaurant => {
+                container.appendChild(this.createRestaurantBox(restaurant));
+            });
+        }
+    }
+    
+    // Initialize display and add event listeners
+    document.addEventListener('DOMContentLoaded', async function() {
+        const display = new RestaurantDisplay();
+        await display.fetchRestaurants('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/food_places.csv');
+    
+        // Initial display update
+        display.updateDisplay();
+    });
 </script>
+</body>
+</html>
