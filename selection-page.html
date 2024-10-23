@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+    <title>Plana - New York City</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/roboto/2.0.0/css/roboto.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: clamp(1rem, 4vw, 2rem);
+            margin-bottom: clamp(0.75rem, 2.25vw, 1.25rem);
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .options-container {
+            display: flex;
+            gap: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+            animation-delay: 0.5s;
+        }
+
+        .option {
+            width: 200px;
+            height: 200px;
+            border: 2px solid white;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: white;
+        }
+
+        .option:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .option:hover:before {
+            opacity: 0.2;
+        }
+
+        .option:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .option-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            z-index: 2;
+        }
+
+        .option-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: white;
+            color: black;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .food-icon:after {
+            content: '🍽️';
+        }
+
+        .drink-icon:after {
+            content: '🍸';
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">← Back</a>
+    <h2 class="title">What are you looking for?</h2>
+    <div class="options-container">
+        <a href="neighborhood-selection.html" class="option">
+            <div class="option-icon food-icon"></div>
+            <div class="option-text">Food</div>
+        </a>
+        <a href="neighborhood-selection.html" class="option">
+            <div class="option-icon drink-icon"></div>
+            <div class="option-text">Drinks</div>
+        </a>
+    </div>
+</body>
+</html>
