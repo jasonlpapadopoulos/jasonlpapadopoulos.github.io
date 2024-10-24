@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>City Guide - Food Places</title>
+    <title>Plana - Food in New York City</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
@@ -152,21 +152,78 @@
             content: "";
             width: 8px;
             height: 8px;
-            background-color: black;
+            background-color: white;
             border-radius: 50%;
             position: absolute;
         }
-        .filter-option input[type="checkbox"]:checked::after {
-            width: 10px;
-            height: 10px;
-            border-radius: 2px;
+        .filter-button.modified {
+            background-color: gray;
+        }
+        
+        .price-slider {
+            width: 100%;
+            padding: 15px;
+        }
+        
+        .price-range {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .price-range span {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .dual-range {
+            position: relative;
+            width: 100%;
+            height: 30px;
+        }
+        
+        .dual-range input[type="range"] {
+            position: absolute;
+            width: 100%;
+            pointer-events: none;
+            appearance: none;
+            height: 2px;
+            background: none;
+            opacity: 0;
+        }
+        
+        .dual-range input[type="range"]::-webkit-slider-thumb {
+            pointer-events: auto;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .slider-track {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #555;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .slider-range {
+            position: absolute;
+            height: 2px;
+            background: white;
+            top: 50%;
+            transform: translateY(-50%);
         }
     </style>
 </head>
 <body>
 <div class="results-container">
     <div class="filters-container">
-        <div class="filter-group">
+        <!-- <div class="filter-group">
             <button class="filter-button" data-filter="meal">Meal</button>
             <div class="filter-options">
                 <label class="filter-option">
@@ -176,12 +233,26 @@
                     <input type="radio" name="meal" value="brunch"> Brunch
                 </label>
                 <label class="filter-option">
-                    <input type="radio" name="meal" value="dinner"> Dinner
+                    <input type="radio" name="meal" value="dinner" checked> Dinner
+                </label>
+            </div>
+        </div> -->
+        <div class="filter-group">
+            <button class="filter-button" data-filter="meal">Meal</button>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="checkbox" name="meal" value="lunch"> Lunch
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="meal" value="brunch"> Brunch
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="meal" value="dinner"> Dinner
                 </label>
             </div>
         </div>
         <div class="filter-group">
-            <button class="filter-button" data-filter="price">Price</button>
+            <button class="filter-button" data-filter="price">Price Range</button>
             <div class="filter-options">
                 <label class="filter-option">
                     <input type="checkbox" name="price" value="$"> $
@@ -282,14 +353,21 @@
         }
     
         updateDisplay() {
-            const filteredRestaurants = this.filterRestaurants();
-            const container = document.getElementById('restaurant-list');
-            container.innerHTML = '';
-            
-            filteredRestaurants.forEach(restaurant => {
-                container.appendChild(this.createRestaurantBox(restaurant));
-            });
-        }
+    const filteredRestaurants = this.filterRestaurants();
+    const container = document.getElementById('restaurant-list');
+    container.innerHTML = '';
+
+    if (filteredRestaurants.length === 0) {
+        const noResultsMessage = document.createElement('p');
+        noResultsMessage.textContent = 'No restaurants found. Please adjust your search settings.';
+        container.appendChild(noResultsMessage);
+    } else {
+        filteredRestaurants.forEach(restaurant => {
+            container.appendChild(this.createRestaurantBox(restaurant));
+        });
+    }
+}
+
 
         setupEventListeners() {
             // Price filter listeners
