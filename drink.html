@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.7">
-    <title>Plana - Food in New York City</title>
+    <title>Plana - Drink in New York City</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
@@ -226,9 +226,9 @@
     transform: rotate(180deg);
 }
 
-.cuisine-list {
+/* .cuisine-list {
     margin-top: 10px;
-}
+} */
 
 .select-all-section {
     margin-bottom: 10px;
@@ -309,13 +309,14 @@ class RestaurantDisplay {
         return this.bars.filter(bar => {
             const neighborhoodMatch = selectedNeighborhoods.includes(bar.neighborhood);
             const priceMatch = this.selectedPrices.size === 0 || this.selectedPrices.has(bar.budget);
-            const mealMatch = this.selectedMeals.size === 0 || [...this.selectedMeals].some(meal => 
-                bar[meal.toLowerCase()] === "1"
-            );
-            const cuisineMatch = this.selectedCuisines.size === 0 || 
-                               this.selectedCuisines.has(bar.cuisine.toLowerCase());
+            // const mealMatch = this.selectedMeals.size === 0 || [...this.selectedMeals].some(meal => 
+            //     bar[meal.toLowerCase()] === "1"
+            // );
+            // const cuisineMatch = this.selectedCuisines.size === 0 || 
+            //                    this.selectedCuisines.has(bar.cuisine.toLowerCase());
 
-            return neighborhoodMatch && priceMatch && mealMatch && cuisineMatch;
+            return neighborhoodMatch && priceMatch;
+            //  && mealMatch && cuisineMatch;
         });
     }
 
@@ -378,30 +379,30 @@ class RestaurantDisplay {
         });
 
         // Meal filter listeners
-        const mealCheckboxes = document.querySelectorAll('input[name="meal"]');
-        mealCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', () => {
-                if (checkbox.checked) {
-                    this.selectedMeals.add(checkbox.value);
-                } else {
-                    this.selectedMeals.delete(checkbox.value);
-                }
-                this.updateDisplay();
-            });
-        });
+        // const mealCheckboxes = document.querySelectorAll('input[name="meal"]');
+        // mealCheckboxes.forEach(checkbox => {
+        //     checkbox.addEventListener('change', () => {
+        //         if (checkbox.checked) {
+        //             this.selectedMeals.add(checkbox.value);
+        //         } else {
+        //             this.selectedMeals.delete(checkbox.value);
+        //         }
+        //         this.updateDisplay();
+        //     });
+        // });
 
         // Cuisine filter listeners
-        const cuisineCheckboxes = document.querySelectorAll('input[name="cuisine"]');
-        cuisineCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', () => {
-                if (checkbox.checked) {
-                    this.selectedCuisines.add(checkbox.value.toLowerCase());
-                } else {
-                    this.selectedCuisines.delete(checkbox.value.toLowerCase());
-                }
-                this.updateDisplay();
-            });
-        });
+        // const cuisineCheckboxes = document.querySelectorAll('input[name="cuisine"]');
+        // cuisineCheckboxes.forEach(checkbox => {
+        //     checkbox.addEventListener('change', () => {
+        //         if (checkbox.checked) {
+        //             this.selectedCuisines.add(checkbox.value.toLowerCase());
+        //         } else {
+        //             this.selectedCuisines.delete(checkbox.value.toLowerCase());
+        //         }
+        //         this.updateDisplay();
+        //     });
+        // });
 
         // Filter button listeners
         const filterButtons = document.querySelectorAll('.filter-button');
