@@ -768,15 +768,20 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            const userChoice = localStorage.getItem('userChoice');
-            const submitButton = document.querySelector('.submit-button');
-            
-            if (userChoice === 'food') {
-                submitButton.textContent = "Let's eat!";
-            } else if (userChoice === 'drinks') {
-                submitButton.textContent = "Let's drink!";
-            }
-        });
+    try {
+        const userChoice = JSON.parse(localStorage.getItem('userChoice')); // Parse it the same way as neighborhoods
+        const submitButton = document.querySelector('.submit-button');
+        console.log('Retrieved choice:', userChoice); // Debug log
+        
+        if (userChoice === 'food') {
+            submitButton.textContent = "Let's eat!";
+        } else if (userChoice === 'drinks') {
+            submitButton.textContent = "Let's drink!";
+        }
+    } catch (e) {
+        console.error('Error updating button:', e);
+    }
+});
 
         function updateSubmitButton() {
             const allCheckboxes = document.querySelectorAll('input[name="neighborhood"]');
@@ -787,19 +792,19 @@
 
         // Add event listener to button for navigation
         document.querySelector('.submit-button').addEventListener('click', function() {
-            if (!this.disabled) {
-                const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
-                    .filter(checkbox => checkbox.checked)
-                    .map(checkbox => checkbox.value);
-                
-                localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
-                
-                // Navigate based on the user's previous choice
-                const userChoice = localStorage.getItem('userChoice');
-                const nextPage = userChoice === 'food' ? 'food_places.html' : 'drinks_places.html';
-                window.location.href = nextPage;
-            }
-        });
+    if (!this.disabled) {
+        const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+        
+        localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
+        
+        // Use the same parsing approach here
+        const userChoice = JSON.parse(localStorage.getItem('userChoice'));
+        const nextPage = userChoice === 'food' ? 'food_places.html' : 'drinks_places.html';
+        window.location.href = nextPage;
+    }
+});
     </script>
 </body>
 </html>
