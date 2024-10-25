@@ -353,20 +353,20 @@
         }
     
         updateDisplay() {
-    const filteredRestaurants = this.filterRestaurants();
-    const container = document.getElementById('restaurant-list');
-    container.innerHTML = '';
+            const filteredRestaurants = this.filterRestaurants();
+            const container = document.getElementById('restaurant-list');
+            container.innerHTML = '';
 
-    if (filteredRestaurants.length === 0) {
-        const noResultsMessage = document.createElement('p');
-        noResultsMessage.textContent = 'No restaurants found. Please adjust your search settings.';
-        container.appendChild(noResultsMessage);
-    } else {
-        filteredRestaurants.forEach(restaurant => {
-            container.appendChild(this.createRestaurantBox(restaurant));
-        });
-    }
-}
+            if (filteredRestaurants.length === 0) {
+                const noResultsMessage = document.createElement('p');
+                noResultsMessage.textContent = 'No restaurants found. Please adjust your search settings.';
+                container.appendChild(noResultsMessage);
+            } else {
+                filteredRestaurants.forEach(restaurant => {
+                    container.appendChild(this.createRestaurantBox(restaurant));
+                });
+            }
+        }
 
 
         setupEventListeners() {
