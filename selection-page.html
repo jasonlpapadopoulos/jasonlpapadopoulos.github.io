@@ -136,14 +136,19 @@
     <!-- <a href="index.html" class="back-button">← Back</a> -->
     <h2 class="title">What are you looking for?</h2>
     <div class="options-container">
-        <a href="neighborhood-selection.html" class="option">
+        <a href="neighborhood-selection.html" class="option" onclick="setChoice('food')">
             <div class="option-icon food-icon"></div>
             <div class="option-text">Food</div>
         </a>
-        <a href="neighborhood-selection.html" class="option">
+        <a href="neighborhood-selection.html" class="option" onclick="setChoice('drinks')">
             <div class="option-icon drink-icon"></div>
             <div class="option-text">Drinks</div>
         </a>
     </div>
 </body>
+<script>
+    function setChoice(choice) {
+        localStorage.setItem('userChoice', choice);
+    }
+    </script>
 </html>

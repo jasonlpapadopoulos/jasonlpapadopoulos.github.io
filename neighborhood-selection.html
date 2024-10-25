@@ -686,7 +686,7 @@
         </div>
     </div>
     <!-- <div id="selected-neighborhoods" style="color: yellow; margin-top: 20px;">Selected Neighborhoods: None</div> -->
-    <button class="submit-button" disabled>Show Me Around</button>
+    <button class="submit-button" disabled>Let's go!</button>
 
     <script>
         // Handle collapsible sections
@@ -765,6 +765,40 @@
         // Initial update of the displayed neighborhoods
         document.addEventListener('DOMContentLoaded', function() {
             updateSelectedNeighborhoods();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const userChoice = localStorage.getItem('userChoice');
+            const submitButton = document.querySelector('.submit-button');
+            
+            if (userChoice === 'food') {
+                submitButton.textContent = "Let's eat!";
+            } else if (userChoice === 'drinks') {
+                submitButton.textContent = "Let's drink!";
+            }
+        });
+
+        function updateSubmitButton() {
+            const allCheckboxes = document.querySelectorAll('input[name="neighborhood"]');
+            const submitButton = document.querySelector('.submit-button');
+            const isAnyChecked = Array.from(allCheckboxes).some(checkbox => checkbox.checked);
+            submitButton.disabled = !isAnyChecked;
+        }
+
+        // Add event listener to button for navigation
+        document.querySelector('.submit-button').addEventListener('click', function() {
+            if (!this.disabled) {
+                const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+                
+                localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
+                
+                // Navigate based on the user's previous choice
+                const userChoice = localStorage.getItem('userChoice');
+                const nextPage = userChoice === 'food' ? 'food_places.html' : 'drinks_places.html';
+                window.location.href = nextPage;
+            }
         });
     </script>
 </body>
