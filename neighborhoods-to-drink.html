@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+    <title>Plana</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/roboto/2.0.0/css/roboto.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: clamp(1rem, 4vw, 2rem);
+            margin-bottom: clamp(0.75rem, 2.25vw, 1.25rem);
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .sections-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+            animation-delay: 0.3s;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            background: black;
+            border: 2px solid white;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .section.area > .section-header {
+            background-color: black;
+            border: 1px solid white;
+            padding: 0.5rem;  /* Slightly smaller padding */
+            margin: 5px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            background: black;
+            border: 2px solid white;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .section-content.open {
+            max-height: 5000px;
+        }
+
+        .neighborhood-list {
+            padding: 1rem 1.5rem;
+        }
+
+        /* New styles for select all section */
+        .select-all-section {
+            padding: 0.8rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin: 0.8rem 0;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s ease;
+        }
+
+        .checkbox-container:hover {
+            transform: translateX(5px);
+        }
+
+        .select-all-container {
+            font-weight: 500;
+            color: white;
+        }
+
+        .select-all-container:hover {
+            transform: translateX(5px);
+        }
+
+        .custom-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid white;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox:after {
+            content: '✓';
+            display: none;
+            color: black;
+            font-size: 16px;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked + .custom-checkbox {
+            background-color: white;
+        }
+
+        input[type="checkbox"]:checked + .custom-checkbox:after {
+            display: block;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .submit-button {
+            margin-top: 2rem;
+            padding: 12px 30px;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+            animation-delay: 0.6s;
+        }
+
+        .submit-button:hover:not(:disabled) {
+            background-color: white;
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .arrow {
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- <a href="selection-page.html" class="back-button">← Back</a> -->
+    <h4 class="title">Neighborhood</h4>
+    
+    <div class="sections-container">
+        <div class="section borough">
+            <div class="section-header">
+                <span>Manhattan</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <!-- Uptown Manhattan Area -->
+                <div class="section area">
+                    <div class="section-header">
+                        <span>Uptown</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="select-all-section">
+                            <label class="checkbox-container select-all-container">
+                                <input type="checkbox" class="select-all">
+                                <div class="custom-checkbox"></div>
+                                All Uptown
+                            </label>
+                        </div>
+                        <div class="neighborhood-list">
+                          
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="east-harlem">
+                                <div class="custom-checkbox"></div>
+                                East Harlem
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="harlem">
+                                <div class="custom-checkbox"></div>
+                                Harlem
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="morningside-heights">
+                                <div class="custom-checkbox"></div>
+                                Morningside Heights
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="upper-east-side">
+                                <div class="custom-checkbox"></div>
+                                Upper East Side
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="upper-west-side">
+                                <div class="custom-checkbox"></div>
+                                Upper West Side
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="washington-heights">
+                                <div class="custom-checkbox"></div>
+                                Washington Heights
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="west-harlem">
+                                <div class="custom-checkbox"></div>
+                                West Harlem
+                            </label>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Midtown Manhattan Area -->
+                <div class="section area">
+                    <div class="section-header">
+                        <span>Midtown</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="select-all-section">
+                            <label class="checkbox-container select-all-container">
+                                <input type="checkbox" class="select-all">
+                                <div class="custom-checkbox"></div>
+                                All Midtown
+                            </label>
+                        </div>
+                        <div class="neighborhood-list">
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="gramercy-park">
+                                <div class="custom-checkbox"></div>
+                                Gramercy Park
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="hell's-kitchen">
+                                <div class="custom-checkbox"></div>
+                                Hell's Kitchen
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="hudson-yards">
+                                <div class="custom-checkbox"></div>
+                                Hudson Yards
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="kips-bay">
+                                <div class="custom-checkbox"></div>
+                                Kips Bay
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="korea-town">
+                                <div class="custom-checkbox"></div>
+                                Korea Town
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="midtown">
+                                <div class="custom-checkbox"></div>
+                                Midtown
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="midtown-east">
+                                <div class="custom-checkbox"></div>
+                                Midtown East
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="midtown-west">
+                                <div class="custom-checkbox"></div>
+                                Midtown West
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="murray-hill">
+                                <div class="custom-checkbox"></div>
+                                Murray Hill
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="theater-district/times-square">
+                                <div class="custom-checkbox"></div>
+                                Theater District/Times Square
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="turtle-bay">
+                                <div class="custom-checkbox"></div>
+                                Turtle Bay
+                            </label>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Downtown Manhattan Area -->
+                <div class="section area">
+                    <div class="section-header">
+                        <span>Downtown</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="select-all-section">
+                            <label class="checkbox-container select-all-container">
+                                <input type="checkbox" class="select-all">
+                                <div class="custom-checkbox"></div>
+                                All Downtown
+                            </label>
+                        </div>
+                        <div class="neighborhood-list">
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="alphabet-city">
+                                <div class="custom-checkbox"></div>
+                                Alphabet City
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="astor-place">
+                                <div class="custom-checkbox"></div>
+                                Astor Place
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="battery-park-city">
+                                <div class="custom-checkbox"></div>
+                                Battery Park City
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="bowery">
+                                <div class="custom-checkbox"></div>
+                                Bowery
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="chelsea">
+                                <div class="custom-checkbox"></div>
+                                Chelsea
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="chinatown">
+                                <div class="custom-checkbox"></div>
+                                Chinatown
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="east-village">
+                                <div class="custom-checkbox"></div>
+                                East Village
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="fidi">
+                                <div class="custom-checkbox"></div>
+                                FiDi
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="flatiron">
+                                <div class="custom-checkbox"></div>
+                                Flatiron
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="greenwich-village">
+                                <div class="custom-checkbox"></div>
+                                Greenwich Village
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="little-italy">
+                                <div class="custom-checkbox"></div>
+                                Little Italy
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="lower-east-side">
+                                <div class="custom-checkbox"></div>
+                                Lower East Side
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="meatpacking">
+                                <div class="custom-checkbox"></div>
+                                Meatpacking
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="noho">
+                                <div class="custom-checkbox"></div>
+                                NoHo
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="nolita">
+                                <div class="custom-checkbox"></div>
+                                NoLiTa
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="nomad">
+                                <div class="custom-checkbox"></div>
+                                NoMad
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="seaport">
+                                <div class="custom-checkbox"></div>
+                                Seaport
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="soho">
+                                <div class="custom-checkbox"></div>
+                                SoHo
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="tribeca">
+                                <div class="custom-checkbox"></div>
+                                Tribeca
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="union-square">
+                                <div class="custom-checkbox"></div>
+                                Union Square
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="neighborhood" value="west-village">
+                                <div class="custom-checkbox"></div>
+                                West Village
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">
+                <span>Brooklyn</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="select-all-section">
+                    <label class="checkbox-container select-all-container">
+                        <input type="checkbox" class="select-all">
+                        <div class="custom-checkbox"></div>
+                        All Brooklyn
+                    </label>
+                </div>
+                <div class="neighborhood-list">
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="bedstuy">
+                        <div class="custom-checkbox"></div>
+                        BedStuy
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="boerum-hill">
+                        <div class="custom-checkbox"></div>
+                        Boerum Hill
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="brooklyn-heights">
+                        <div class="custom-checkbox"></div>
+                        Brooklyn Heights
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="bushwick">
+                        <div class="custom-checkbox"></div>
+                        Bushwick
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="caroll-gardens">
+                        <div class="custom-checkbox"></div>
+                        Caroll Gardens
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="clinton-hill">
+                        <div class="custom-checkbox"></div>
+                        Clinton Hill
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="cobble-hill">
+                        <div class="custom-checkbox"></div>
+                        Cobble Hill
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="crown-heights">
+                        <div class="custom-checkbox"></div>
+                        Crown Heights
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="downtown-brooklyn">
+                        <div class="custom-checkbox"></div>
+                        Downtown Brooklyn
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="dumbo">
+                        <div class="custom-checkbox"></div>
+                        DUMBO
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="flatbush">
+                        <div class="custom-checkbox"></div>
+                        Flatbush
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="fort-greene">
+                        <div class="custom-checkbox"></div>
+                        Fort Greene
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="gowanus">
+                        <div class="custom-checkbox"></div>
+                        Gowanus
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="greenpoint">
+                        <div class="custom-checkbox"></div>
+                        Greenpoint
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="midwood">
+                        <div class="custom-checkbox"></div>
+                        Midwood
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="navy-yard">
+                        <div class="custom-checkbox"></div>
+                        Navy Yard
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="park-slope">
+                        <div class="custom-checkbox"></div>
+                        Park Slope
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="prospect-heights">
+                        <div class="custom-checkbox"></div>
+                        Prospect Heights
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="red-hook">
+                        <div class="custom-checkbox"></div>
+                        Red Hook
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="south-slope">
+                        <div class="custom-checkbox"></div>
+                        South Slope
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="sunset-park">
+                        <div class="custom-checkbox"></div>
+                        Sunset Park
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="williamsburg">
+                        <div class="custom-checkbox"></div>
+                        Williamsburg
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <span>Queens</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="select-all-section">
+                    <label class="checkbox-container select-all-container">
+                        <input type="checkbox" class="select-all">
+                        <div class="custom-checkbox"></div>
+                        All Queens
+                    </label>
+                </div>
+                <div class="neighborhood-list">
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="astoria">
+                        <div class="custom-checkbox"></div>
+                        Astoria
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="bayside">
+                        <div class="custom-checkbox"></div>
+                        Bayside
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="flushing">
+                        <div class="custom-checkbox"></div>
+                        Flushing
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="forest-hills">
+                        <div class="custom-checkbox"></div>
+                        Forest Hills
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="fresh-meadows">
+                        <div class="custom-checkbox"></div>
+                        Fresh Meadows
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="jackson-heights">
+                        <div class="custom-checkbox"></div>
+                        Jackson Heights
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="long-island-city">
+                        <div class="custom-checkbox"></div>
+                        Long Island City
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="ridgewood">
+                        <div class="custom-checkbox"></div>
+                        Ridgewood
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="neighborhood" value="whitestone">
+                        <div class="custom-checkbox"></div>
+                        Whitestone
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="selected-neighborhoods" style="color: yellow; margin-top: 20px;">Selected Neighborhoods: None</div> -->
+    <button class="submit-button" disabled>Let's Drink!</button>
+
+    <script>
+        // Handle collapsible sections
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const isOpen = content.classList.contains('open');
+                
+                header.classList.toggle('active');
+                content.classList.toggle('open');
+            });
+        });
+
+        // Handle select all functionality
+        document.querySelectorAll('.select-all').forEach(selectAll => {
+            selectAll.addEventListener('change', (e) => {
+                const section = e.target.closest('.section-content');
+                const checkboxes = section.querySelectorAll('input[name="neighborhood"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = e.target.checked;
+                });
+                updateSubmitButton();
+                updateSelectedNeighborhoods();
+            });
+        });
+
+        // Handle individual checkbox changes affecting select all
+        document.querySelectorAll('.neighborhood-list').forEach(list => {
+            list.addEventListener('change', (e) => {
+                if (e.target.name === 'neighborhood') {
+                    const section = e.target.closest('.section-content');
+                    const selectAll = section.querySelector('.select-all');
+                    const checkboxes = section.querySelectorAll('input[name="neighborhood"]');
+                    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                    const someChecked = Array.from(checkboxes).some(cb => cb.checked);
+                    
+                    selectAll.checked = allChecked;
+                    selectAll.indeterminate = someChecked && !allChecked;
+                    
+                    updateSubmitButton();
+                    updateSelectedNeighborhoods();
+                }
+            });
+        });
+
+        // Handle submit button state
+        function updateSubmitButton() {
+            const allCheckboxes = document.querySelectorAll('input[name="neighborhood"]');
+            const submitButton = document.querySelector('.submit-button');
+            const isAnyChecked = Array.from(allCheckboxes).some(checkbox => checkbox.checked);
+            submitButton.disabled = !isAnyChecked;
+        }
+
+        // Add event listener to button for navigation
+        document.querySelector('.submit-button').addEventListener('click', function() {
+            if (!this.disabled) {
+                const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+                
+                localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
+                
+                window.location.href = 'food_places.html';
+            }
+        });
+
+        // Update selected neighborhoods display
+        function updateSelectedNeighborhoods() {
+            const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+            
+            document.getElementById('selected-neighborhoods').textContent = `Selected Neighborhoods: ${selectedNeighborhoods.length > 0 ? selectedNeighborhoods.join(', ') : 'None'}`;
+        }
+
+        // Initial update of the displayed neighborhoods
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSelectedNeighborhoods();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    try {
+        const userChoice = JSON.parse(localStorage.getItem('userChoice')); // Parse it the same way as neighborhoods
+        const submitButton = document.querySelector('.submit-button');
+        console.log('Retrieved choice:', userChoice); // Debug log
+        
+        if (userChoice === 'food') {
+            submitButton.textContent = "Let's eat!";
+        } else if (userChoice === 'drinks') {
+            submitButton.textContent = "Let's drink!";
+        }
+    } catch (e) {
+        console.error('Error updating button:', e);
+    }
+});
+
+        function updateSubmitButton() {
+            const allCheckboxes = document.querySelectorAll('input[name="neighborhood"]');
+            const submitButton = document.querySelector('.submit-button');
+            const isAnyChecked = Array.from(allCheckboxes).some(checkbox => checkbox.checked);
+            submitButton.disabled = !isAnyChecked;
+        }
+
+        // Add event listener to button for navigation
+        document.querySelector('.submit-button').addEventListener('click', function() {
+    if (!this.disabled) {
+        const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+        
+        localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
+        
+        // Use the same parsing approach here
+        const userChoice = JSON.parse(localStorage.getItem('userChoice'));
+        const nextPage = userChoice === 'food' ? 'food.html' : 'drink.html';
+        window.location.href = nextPage;
+    }
+});
+    </script>
+</body>
+</html>

@@ -686,7 +686,7 @@
         </div>
     </div>
     <!-- <div id="selected-neighborhoods" style="color: yellow; margin-top: 20px;">Selected Neighborhoods: None</div> -->
-    <button class="submit-button" disabled>Let's go!</button>
+    <button class="submit-button" disabled>Let's Eat!</button>
 
     <script>
         // Handle collapsible sections
@@ -801,7 +801,7 @@
         
         // Use the same parsing approach here
         const userChoice = JSON.parse(localStorage.getItem('userChoice'));
-        const nextPage = userChoice === 'food' ? 'food_places.html' : 'drinks_places.html';
+        const nextPage = userChoice === 'food' ? 'food.html' : 'food.html';
         window.location.href = nextPage;
     }
 });

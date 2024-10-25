@@ -239,20 +239,6 @@
 <div class="results-container">
     <div class="filters-container">
         <div class="filter-group">
-            <button class="filter-button" data-filter="meal">Meald</button>
-            <div class="filter-options">
-                <label class="filter-option">
-                    <input type="checkbox" name="meal" value="lunch"> Lunch
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="meal" value="brunch"> Brunch
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="meal" value="dinner"> Dinner
-                </label>
-            </div>
-        </div>
-        <div class="filter-group">
             <button class="filter-button" data-filter="price">Price Range</button>
             <div class="filter-options">
                 <label class="filter-option">
@@ -269,67 +255,14 @@
                 </label>
             </div>
         </div>
-        <div class="filter-group">
-            <button class="filter-button" data-filter="cuisine">Cuisine</button>
-            <div class="filter-options">
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="american"> American
-                </label>
-                <!-- <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="asian"> Asian
-                </label> -->
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="chinese"> Chinese
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="deli--bagel"> Deli & Bagel
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="french"> French
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="fusion"> Fusion
-                </label>
-                <!-- <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="indian"> Indian
-                </label> -->
-                <!-- <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="irish"> Irish
-                </label> -->
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="italian"> Italian
-                </label>
-                <!-- <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="latin-american"> Latin American
-                </label> -->
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="mediterranean"> Mediterranean
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="mexican"> Mexican
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="pizza"> Pizza
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="ramen"> Ramen
-                </label>
-                <!-- <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="steakhouse"> Steakhouse
-                </label> -->
-                <label class="filter-option">
-                    <input type="checkbox" name="cuisine" value="sushi"> Sushi
-                </label>
-            </div>
-        </div>
     </div>
-    <div id="restaurant-list"></div>
+    <div id="bar-list"></div>
 </div>
 
 <script>
 class RestaurantDisplay {
     constructor() {
-        this.restaurants = [];
+        this.bars = [];
         this.selectedPrices = new Set();
         this.selectedMeals = new Set();
         this.selectedCuisines = new Set();
@@ -356,10 +289,10 @@ class RestaurantDisplay {
         try {
             const response = await fetch(csvUrl);
             const csvText = await response.text();
-            this.restaurants = this.parseCSV(csvText);
-            return this.restaurants;
+            this.bars = this.parseCSV(csvText);
+            return this.bars;
         } catch (error) {
-            console.error('Error fetching restaurant data:', error);
+            console.error('Error fetching bar data:', error);
             return [];
         }
     }
@@ -373,39 +306,39 @@ class RestaurantDisplay {
         const selectedNeighborhoods = this.getSelectedNeighborhoods();
         if (selectedNeighborhoods.length === 0) return [];
         
-        return this.restaurants.filter(restaurant => {
-            const neighborhoodMatch = selectedNeighborhoods.includes(restaurant.neighborhood);
-            const priceMatch = this.selectedPrices.size === 0 || this.selectedPrices.has(restaurant.budget);
+        return this.bars.filter(bar => {
+            const neighborhoodMatch = selectedNeighborhoods.includes(bar.neighborhood);
+            const priceMatch = this.selectedPrices.size === 0 || this.selectedPrices.has(bar.budget);
             const mealMatch = this.selectedMeals.size === 0 || [...this.selectedMeals].some(meal => 
-                restaurant[meal.toLowerCase()] === "1"
+                bar[meal.toLowerCase()] === "1"
             );
             const cuisineMatch = this.selectedCuisines.size === 0 || 
-                               this.selectedCuisines.has(restaurant.cuisine.toLowerCase());
+                               this.selectedCuisines.has(bar.cuisine.toLowerCase());
 
             return neighborhoodMatch && priceMatch && mealMatch && cuisineMatch;
         });
     }
 
-    createRestaurantBox(restaurant) {
+    createRestaurantBox(bar) {
         const box = document.createElement('div');
         box.className = 'place-box';
         
         box.innerHTML = `
-            <strong>${restaurant.place_name}</strong><br>
-            <i>${restaurant.cuisine}, ${restaurant.budget}</i><br><br>
+            <strong>${bar.place_name}</strong><br>
+            <i>${bar.budget}</i><br><br>
             
-            <a href="${restaurant.image_url}">
-                <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
+            <a href="${bar.image_url}">
+                <img src="${bar.image_url}" alt="${bar.place_name}" 
                      onerror="this.src='/api/placeholder/400/300'">
             </a><br><br>
             
-            ${restaurant.description}<br><br>
+            ${bar.description}<br><br>
             
-            <a href="${restaurant.maps_url}" target="_blank">
+            <a href="${bar.maps_url}" target="_blank">
                 <button class="choice-button">See in Maps</button>
             </a>
-            ${restaurant.reservation_url ? `
-                <a href="${restaurant.reservation_url}" target="_blank">
+            ${bar.reservation_url ? `
+                <a href="${bar.reservation_url}" target="_blank">
                     <button class="choice-button">Reserve</button>
                 </a>
             ` : ''}
@@ -416,16 +349,16 @@ class RestaurantDisplay {
 
     updateDisplay() {
         const filteredRestaurants = this.filterRestaurants();
-        const container = document.getElementById('restaurant-list');
+        const container = document.getElementById('bar-list');
         container.innerHTML = '';
 
         if (filteredRestaurants.length === 0) {
             const noResultsMessage = document.createElement('p');
-            noResultsMessage.textContent = 'No restaurants found. Please adjust your search settings.';
+            noResultsMessage.textContent = 'No bars found. Please adjust your search settings.';
             container.appendChild(noResultsMessage);
         } else {
-            filteredRestaurants.forEach(restaurant => {
-                container.appendChild(this.createRestaurantBox(restaurant));
+            filteredRestaurants.forEach(bar => {
+                container.appendChild(this.createRestaurantBox(bar));
             });
         }
     }
