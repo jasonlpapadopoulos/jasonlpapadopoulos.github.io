@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75">
     <title>Plana - Drink in New York City</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -58,13 +58,25 @@
             background-color: white;
             color: black;
         }
-        .filters-container {
+        /* .filters-container {
             margin-bottom: 30px;
             width: 100%;
             max-width: 800px;
             display: flex;
             gap: 15px;
             justify-content: center;
+        } */
+        .filters-container {
+            margin-bottom: 30px;
+            justify-content: center;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            display: flex;
+            background-color: black; /* Ensure background covers content when scrolling */
+            z-index: 10; /* Keep filters above scrolling content */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow */
+            padding-bottom: 10px;
         }
         .filter-group {
             position: relative;
@@ -94,7 +106,7 @@
             position: absolute;
             top: calc(100% + 10px);
             left: 0;
-            width: 100%;
+            width: 120%;
             background-color: rgb(20, 20, 20);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
@@ -233,11 +245,38 @@
 .select-all-section {
     margin-bottom: 10px;
 }
+.fixed-line {
+            position: absolute; /* Changed from fixed to absolute */
+            left: 0; /* Spans full width from left edge */
+            width: 100%; /* Full width */
+            height: 2px; /* Thin line, adjust as needed */
+            background-color: white; /* White color */
+            bottom: 0; /* Position at the bottom of the container */
+            /* margin-top: 10px; */
+            /* margin-bottom: 10px; */
+        }
     </style>
 </head>
 <body>
 <div class="results-container">
     <div class="filters-container">
+        <div class="filter-group">
+            <button class="filter-button" data-filter="setting">Setting</button>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="cocktaiBar"> Cocktail Bar
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="diveBar"> Dive Bar
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="liveJazz"> Live Jazz
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="wineBar"> Wine Bar
+                </label>
+            </div>
+        </div>
         <div class="filter-group">
             <button class="filter-button" data-filter="price">Price Range</button>
             <div class="filter-options">
@@ -255,6 +294,15 @@
                 </label>
             </div>
         </div>
+        <div class="filter-group">
+            <button class="filter-button" data-filter="servesFood">Serves Food?</button>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="checkbox" name="servesFood" value="yes"> Yes
+                </label>
+            </div>
+        </div>
+        <div class="fixed-line"></div>
     </div>
     <div id="bar-list"></div>
 </div>
@@ -330,7 +378,7 @@ class RestaurantDisplay {
             
             <a href="${bar.image_url}">
                 <img src="${bar.image_url}" alt="${bar.place_name}" 
-                     onerror="this.src='/api/placeholder/400/300'">
+                     onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068''">
             </a><br><br>
             
             ${bar.description}<br><br>
