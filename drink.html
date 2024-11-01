@@ -321,7 +321,7 @@ class RestaurantDisplay {
     constructor() {
         this.bars = [];
         this.selectedPrices = new Set();
-        // this.selectedMeals = new Set();
+        this.selectedSettings = new Set();
         // this.selectedCuisines = new Set();
     }
 
@@ -359,21 +359,21 @@ class RestaurantDisplay {
         return selectedNeighborhoods ? JSON.parse(selectedNeighborhoods) : [];
     }
 
-    filterRestaurants() {
+    filterBars() {
         const selectedNeighborhoods = this.getSelectedNeighborhoods();
         if (selectedNeighborhoods.length === 0) return [];
         
         return this.bars.filter(bar => {
             const neighborhoodMatch = selectedNeighborhoods.includes(bar.neighborhood);
             const priceMatch = this.selectedPrices.size === 0 || this.selectedPrices.has(bar.budget);
-            // const mealMatch = this.selectedMeals.size === 0 || [...this.selectedMeals].some(meal => 
-            //     bar[meal.toLowerCase()] === "1"
-            // );
+            const settingMatch = this.selectedSettings.size === 0 || [...this.selectedSettings].some(setting => 
+                bar[setting.toLowerCase()] === "1"
+            );
             // const cuisineMatch = this.selectedCuisines.size === 0 || 
             //                    this.selectedCuisines.has(bar.cuisine.toLowerCase());
 
-            return neighborhoodMatch && priceMatch;
-            //  && mealMatch && cuisineMatch;
+            return neighborhoodMatch && priceMatch && settingMatch;
+            //  && cuisineMatch;
         });
     }
 
@@ -406,7 +406,7 @@ class RestaurantDisplay {
     }
 
     updateDisplay() {
-        const filteredRestaurants = this.filterRestaurants();
+        const filteredRestaurants = this.filterBars();
         const container = document.getElementById('bar-list');
         container.innerHTML = '';
 
@@ -435,18 +435,18 @@ class RestaurantDisplay {
             });
         });
 
-        // Meal filter listeners
-        // const mealCheckboxes = document.querySelectorAll('input[name="meal"]');
-        // mealCheckboxes.forEach(checkbox => {
-        //     checkbox.addEventListener('change', () => {
-        //         if (checkbox.checked) {
-        //             this.selectedMeals.add(checkbox.value);
-        //         } else {
-        //             this.selectedMeals.delete(checkbox.value);
-        //         }
-        //         this.updateDisplay();
-        //     });
-        // });
+        // Setting filter listeners
+        const settingCheckboxes = document.querySelectorAll('input[name="setting"]');
+        settingCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    this.selectedSettings.add(checkbox.value);
+                } else {
+                    this.selectedSettings.delete(checkbox.value);
+                }
+                this.updateDisplay();
+            });
+        });
 
         // Cuisine filter listeners
         // const cuisineCheckboxes = document.querySelectorAll('input[name="cuisine"]');
