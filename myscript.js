@@ -49,18 +49,31 @@
             submitButton.disabled = !isAnyChecked;
         }
 
-        // Add event listener to button for navigation
-        document.querySelector('.submit-button').addEventListener('click', function() {
-            if (!this.disabled) {
-                const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
-                    .filter(checkbox => checkbox.checked)
-                    .map(checkbox => checkbox.value);
-                
-                localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
-                
-                window.location.href = 'food.html';
-            }
-        });
+// Add event listener to button for navigation
+document.querySelector('.submit-button').addEventListener('click', function() {
+    if (!this.disabled) {
+        const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+        
+        localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
+
+        // Retrieve the user's choice from localStorage
+        const userChoice = localStorage.getItem('userChoice');
+        
+        // Navigate to the appropriate page based on the user's choice
+        if (userChoice === 'food') {
+            window.location.href = 'food.html';
+        } else if (userChoice === 'drink') {
+            window.location.href = 'drink.html';
+        } else {
+            // Default behavior if no choice is stored (optional)
+            console.warn('User choice not found. Redirecting to default page.');
+            window.location.href = 'default.html';
+        }
+    }
+});
+
 
         // Update selected neighborhoods display
         function updateSelectedNeighborhoods() {
@@ -74,4 +87,18 @@
         // Initial update of the displayed neighborhoods
         document.addEventListener('DOMContentLoaded', function() {
             updateSelectedNeighborhoods();
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve the user's choice from localStorage
+            const userChoice = localStorage.getItem('userChoice');
+            const submitButton = document.querySelector('.submit-button');
+            
+            // Update the button text based on the user's choice
+            if (userChoice === 'food') {
+                submitButton.textContent = "Let's Eat!";
+            } else if (userChoice === 'drink') {
+                submitButton.textContent = "Let's Drink!";
+            }
         });

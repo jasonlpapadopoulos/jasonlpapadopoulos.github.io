@@ -11,11 +11,11 @@
     <!-- <a href="index.html" class="back-button">← Back</a> -->
     <h2 class="title">What are you looking for?</h2>
     <div class="options-container">
-        <a href="neighborhoods-to-eat.html" class="option">
+        <a href="neighborhoods-to-eat.html" class="option" onclick="setChoice('food')">
             <div class="option-icon food-icon"></div>
             <div class="option-text">Food</div>
         </a>
-        <a href="neighborhoods-to-drink.html" class="option">
+        <a href="neighborhoods-to-eat.html" class="option" onclick="setChoice('drink')">
             <div class="option-icon drink-icon"></div>
             <div class="option-text">Drinks</div>
         </a>
@@ -45,9 +45,9 @@
     </a> -->
     </div>
 </body>
-<!-- <script>
+<script>
     function setChoice(choice) {
-        localStorage.setItem('userChoice', JSON.stringify(choice));
+        localStorage.setItem('userChoice', choice);
     }
-    </script> -->
+</script>
 </html>
