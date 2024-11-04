@@ -50,7 +50,7 @@
     word-wrap: break-word;
     max-width: 100%;
   }
-  
+
   .fixed-line {
     position: absolute; /* Changed from fixed to absolute */
       left: 0; /* Spans full width from left edge */
@@ -441,12 +441,13 @@
   /* Options */
   
   .options-container {
-      display: flex;
-      gap: 2rem;
-      opacity: 0;
-      animation: fadeIn 1s ease-in forwards;
-      animation-delay: 0.5s;
-    }
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 2rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+    animation-delay: 0.5s;
+}
   
   .option {
     width: 200px;
@@ -525,18 +526,38 @@
   
   /* Icons */
   
-    .food-icon:after {
-      content: '🍽️';
-    }
+  .food-icon:after {
+    content: '🍽️';
+  }
   
   .drink-icon:after {
     content: '🍸';
   }
   
-  /* .coffee-icon:after {
+  .coffee-icon:after {
     content: '☕';
-  } */
-    
+  }
+
+  .sweets-icon:after {
+    content: '🍰';
+  }
+
+  .party-icon:after {
+    content: '🪩';
+  }
+
+  .art-icon:after {
+    content: '🖼️';
+  }
+
+  .shop-icon:after {
+    content: '🛍️';
+  }
+
+  .produce-icon:after {
+    content: '🔪';
+  }
+  
   /* Animations */
   
     .arrow {
