@@ -540,49 +540,6 @@
             document.getElementById('selected-neighborhoods').textContent = `Selected Neighborhoods: ${selectedNeighborhoods.length > 0 ? selectedNeighborhoods.join(', ') : 'None'}`;
         }
 
-//         // Initial update of the displayed neighborhoods
-//         document.addEventListener('DOMContentLoaded', function() {
-//             updateSelectedNeighborhoods();
-//                 });
-
-//                 document.addEventListener('DOMContentLoaded', function() {
-//             try {
-//                 const userChoice = JSON.parse(localStorage.getItem('userChoice')); // Parse it the same way as neighborhoods
-//                 const submitButton = document.querySelector('.submit-button');
-//                 console.log('Retrieved choice:', userChoice); // Debug log
-                
-//                 if (userChoice === 'food') {
-//                     submitButton.textContent = "Let's eat!";
-//                 } else if (userChoice === 'drinks') {
-//                     submitButton.textContent = "Let's drink!";
-//                 }
-//             } catch (e) {
-//                 console.error('Error updating button:', e);
-//             }
-//         });
-
-//         function updateSubmitButton() {
-//             const allCheckboxes = document.querySelectorAll('input[name="neighborhood"]');
-//             const submitButton = document.querySelector('.submit-button');
-//             const isAnyChecked = Array.from(allCheckboxes).some(checkbox => checkbox.checked);
-//             submitButton.disabled = !isAnyChecked;
-//         }
-
-//         // Add event listener to button for navigation
-//         document.querySelector('.submit-button').addEventListener('click', function() {
-//     if (!this.disabled) {
-//         const selectedNeighborhoods = Array.from(document.querySelectorAll('input[name="neighborhood"]'))
-//             .filter(checkbox => checkbox.checked)
-//             .map(checkbox => checkbox.value);
-        
-//         localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
-        
-//         // Use the same parsing approach here
-//         const userChoice = JSON.parse(localStorage.getItem('userChoice'));
-//         const nextPage = userChoice === 'food' ? 'food.html' : 'drink.html';
-//         window.location.href = nextPage;
-//     }
-// });
     </script>
 </body>
 </html>
