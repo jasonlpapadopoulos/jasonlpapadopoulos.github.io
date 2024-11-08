@@ -11,11 +11,11 @@
     <!-- <a href="index.html" class="back-button">← Back</a> -->
     <h2 class="title">What are you looking for?</h2>
     <div class="options-container">
-        <a href="neighborhoods.html" class="option" onclick="setCategory('food')">
+        <a href="javascript:void(0)" class="option" onclick="setCategory('food')">
             <div class="option-icon food-icon"></div>
             <div class="option-text">Food</div>
         </a>
-        <a href="neighborhoods.html" class="option" onclick="setCategory('drink')">
+        <a href="javascript:void(0)" class="option" onclick="setCategory('drinks')">
             <div class="option-icon drink-icon"></div>
             <div class="option-text">Drinks</div>
         </a>
@@ -46,8 +46,21 @@
     </div>
 </body>
 <script>
+        const isProd = window.location.hostname === 'makeplana.com';
+        const BASE_URL = isProd ? '' : '.';
+        
+        const config = {
+            urls: {
+                home: `${BASE_URL}/what-are-you-looking-for2.html`,
+                neighborhoods: `${BASE_URL}/neighborhoods.html`,
+                food: `${BASE_URL}/food.html`,
+                drinks: `${BASE_URL}/drink.html`
+            }
+        };
+
         function setCategory(category) {
             localStorage.setItem('selectedCategory', category);
+            window.location.href = config.urls.neighborhoods;
         }
 </script>
 </html>

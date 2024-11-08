@@ -465,6 +465,18 @@
     <button class="submit-button" disabled>Go!</button>
 
     <script>
+        const isProd = window.location.hostname === 'makeplana.com';
+        const BASE_URL = isProd ? '' : '.';
+        
+        const config = {
+            urls: {
+                home: `${BASE_URL}/what-are-you-looking-for2.html`,
+                neighborhoods: `${BASE_URL}/neighborhoods.html`,
+                food: `${BASE_URL}/food.html`,
+                drinks: `${BASE_URL}/drink.html`
+            }
+        };
+
         // Get the selected category from localStorage
         const selectedCategory = localStorage.getItem('selectedCategory');
 
@@ -472,8 +484,9 @@
         window.addEventListener('DOMContentLoaded', () => {
             if (selectedCategory) {
                 document.title = `Plana - ${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} in NYC`;
+                // Set button text
                 document.querySelector('.submit-button').textContent = 
-                selectedCategory === 'drink' ? "Let's Drink!" : "Let's Eat!";
+                    selectedCategory === 'drinks' ? "Let's Drink!" : "Let's Eat!";
             }
         });
 
@@ -537,14 +550,8 @@
                 
                 localStorage.setItem('selectedNeighborhoods', JSON.stringify(selectedNeighborhoods));
                 
-                // Use the selected category to determine the destination page
-                if (selectedCategory) {
-                    window.location.href = `${selectedCategory}.html`;
-                } else {
-                    // Fallback in case category is not set
-                    console.error('No category selected');
-                    window.location.href = 'index.html';
-                }
+                // Use the config object for navigation
+                window.location.href = config.urls[selectedCategory];
             }
         });
 
