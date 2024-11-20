@@ -7,6 +7,38 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/roboto/2.0.0/css/roboto.min.css" rel="stylesheet">
     <link rel="stylesheet" href="mystyles.css">
 </head>
+<style>
+    .banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: black;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        z-index: 1000;
+        padding: 15px 0;
+        text-align: center;
+    }
+
+    .banner a {
+        text-decoration: none;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        font-family: 'Playfair Display', serif;
+    }
+
+    /* Add padding to body to prevent content from hiding behind the banner */
+    body {
+        padding-top: 60px;
+        margin: 0;
+    }
+
+    /* Your existing styles here */
+    .options-container {
+        margin-top: 20px;
+    }
+</style>
 <body>
     <!-- <a href="selection-page.html" class="back-button">← Back</a> -->
     <h4 class="title">Neighborhood</h4>

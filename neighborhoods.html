@@ -8,8 +8,19 @@
     <link rel="stylesheet" href="mystyles.css">
 </head>
 <body>
+    <div class="banner">
+        <a href="https://makeplana.com">Plana</a>
+    </div>
     <h4 class="title">Neighborhood</h4>
     <div class="sections-container">
+        <!-- <div class="section borough" id="manhattan-section">
+            <div class="section-header">
+                <span>Manhattan2</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content" id="manhattan-content">
+            </div>
+        </div> -->
         <div class="section borough">
             <div class="section-header">
                 <span>Manhattan</span>
@@ -30,23 +41,22 @@
                                 All Uptown
                             </label>
                         </div>
-                        <div class="neighborhood-list">
-                          
-                            <label class="checkbox-container">
+                        <div class="neighborhood-list">                          
+                            <!-- <label class="checkbox-container">
                                 <input type="checkbox" name="neighborhood" value="east-harlem">
                                 <div class="custom-checkbox"></div>
                                 East Harlem
-                            </label>
+                            </label> -->
                             <label class="checkbox-container">
                                 <input type="checkbox" name="neighborhood" value="harlem">
                                 <div class="custom-checkbox"></div>
                                 Harlem
                             </label>
-                            <label class="checkbox-container">
+                            <!-- <label class="checkbox-container">
                                 <input type="checkbox" name="neighborhood" value="morningside-heights">
                                 <div class="custom-checkbox"></div>
                                 Morningside Heights
-                            </label>
+                            </label> -->
                             <label class="checkbox-container">
                                 <input type="checkbox" name="neighborhood" value="upper-east-side">
                                 <div class="custom-checkbox"></div>
@@ -57,7 +67,7 @@
                                 <div class="custom-checkbox"></div>
                                 Upper West Side
                             </label>
-                            <label class="checkbox-container">
+                            <!-- <label class="checkbox-container">
                                 <input type="checkbox" name="neighborhood" value="washington-heights">
                                 <div class="custom-checkbox"></div>
                                 Washington Heights
@@ -66,7 +76,7 @@
                                 <input type="checkbox" name="neighborhood" value="west-harlem">
                                 <div class="custom-checkbox"></div>
                                 West Harlem
-                            </label>
+                            </label> -->
                         </div>
                     </div>
                 </div>
@@ -417,31 +427,31 @@
                         <div class="custom-checkbox"></div>
                         Astoria
                     </label>
-                    <label class="checkbox-container">
+                    <!-- <label class="checkbox-container">
                         <input type="checkbox" name="neighborhood" value="bayside">
                         <div class="custom-checkbox"></div>
                         Bayside
-                    </label>
+                    </label> -->
                     <label class="checkbox-container">
                         <input type="checkbox" name="neighborhood" value="flushing">
                         <div class="custom-checkbox"></div>
                         Flushing
                     </label>
-                    <label class="checkbox-container">
+                    <!-- <label class="checkbox-container">
                         <input type="checkbox" name="neighborhood" value="forest-hills">
                         <div class="custom-checkbox"></div>
                         Forest Hills
-                    </label>
-                    <label class="checkbox-container">
+                    </label> -->
+                    <!-- <label class="checkbox-container">
                         <input type="checkbox" name="neighborhood" value="fresh-meadows">
                         <div class="custom-checkbox"></div>
                         Fresh Meadows
-                    </label>
-                    <label class="checkbox-container">
+                    </label> -->
+                    <!-- <label class="checkbox-container">
                         <input type="checkbox" name="neighborhood" value="jackson-heights">
                         <div class="custom-checkbox"></div>
                         Jackson Heights
-                    </label>
+                    </label> -->
                     <label class="checkbox-container">
                         <input type="checkbox" name="neighborhood" value="long-island-city">
                         <div class="custom-checkbox"></div>
@@ -452,11 +462,11 @@
                         <div class="custom-checkbox"></div>
                         Ridgewood
                     </label>
-                    <label class="checkbox-container">
+                    <!-- <label class="checkbox-container">
                         <input type="checkbox" name="neighborhood" value="whitestone">
                         <div class="custom-checkbox"></div>
                         Whitestone
-                    </label>
+                    </label> -->
                 </div>
             </div>
         </div>
@@ -564,6 +574,90 @@
             document.getElementById('selected-neighborhoods').textContent = 
                 `Selected Neighborhoods: ${selectedNeighborhoods.length > 0 ? selectedNeighborhoods.join(', ') : 'None'}`;
         }
+
+        async function loadNeighborhoodsFromCSV(repoUrl) {
+            try {
+                const response = await fetch(repoUrl);
+                const csvText = await response.text();
+                return parseCSV(csvText);
+            } catch (error) {
+                console.error('Error loading CSV:', error);
+                return [];
+            }
+        }
+
+        // Parse CSV text into an array of objects
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            const headers = lines[0].split(',');
+            return lines.slice(1).map(line => {
+                const values = line.split(',');
+                return headers.reduce((obj, header, index) => {
+                    obj[header.trim()] = values[index].trim();
+                    return obj;
+                }, {});
+            });
+        }
+
+        // Create neighborhood checkbox HTML
+        function createNeighborhoodCheckbox(neighborhood) {
+            return `
+                <label class="checkbox-container">
+                    <input type="checkbox" name="neighborhood" value="${neighborhood.value}">
+                    <div class="custom-checkbox"></div>
+                    ${neighborhood.name}
+                </label>
+            `;
+        }
+
+        // Render neighborhoods for a specific area
+        function renderArea(areaName, neighborhoods) {
+            return `
+                <div class="section area">
+                    <div class="section-header">
+                        <span>${areaName}</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="select-all-section">
+                            <label class="checkbox-container select-all-container">
+                                <input type="checkbox" class="select-all">
+                                <div class="custom-checkbox"></div>
+                                All ${areaName}
+                            </label>
+                        </div>
+                        <div class="neighborhood-list">
+                            ${neighborhoods.map(createNeighborhoodCheckbox).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        // Main initialization function new neighborhoods
+        async function initializeNeighborhoods() {
+            // Replace with the raw URL of your CSV file on GitHub
+            const csvUrl = 'https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/food_neighborhoods.csv';
+            
+            const neighborhoods = await loadNeighborhoodsFromCSV(csvUrl);
+            
+            // Group neighborhoods by area
+            const areasMap = neighborhoods.reduce((areas, neighborhood) => {
+                const { area } = neighborhood;
+                if (!areas[area]) areas[area] = [];
+                areas[area].push(neighborhood);
+                return areas;
+            }, {});
+
+            // Render areas and their neighborhoods
+            const manhattanContent = document.getElementById('manhattan-content');
+            manhattanContent.innerHTML = Object.entries(areasMap)
+                .map(([areaName, areaNeighborhoods]) => 
+                    renderArea(areaName, areaNeighborhoods)
+                ).join('');
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', initializeNeighborhoods);
         
     </script>
 </body>

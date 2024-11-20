@@ -103,11 +103,11 @@
     </div>
 </div>
 <div class="results-container">
-    <!-- <div class="view-toggle-container">
+    <div class="view-toggle-container">
         <button id="toggle-view" class="bottom-toggle-button">Map View</button>
-    </div> -->
+    </div>
     <div id="restaurant-list"></div>
-    <!-- <div id="map-view" class="view-container" style="display:none; width: 500px; height: 500px;"></div> -->
+    <div id="map-view" class="view-container" style="display:none; width: 500px; height: 500px;"></div>
 </div>
 
 
@@ -305,59 +305,59 @@ class RestaurantDisplay {
             }
         });
 
-        // // Toggle between list and map view
-        // const toggleButton = document.getElementById('toggle-view');
-        // toggleButton.addEventListener('click', () => {
-        //     const listView = document.getElementById('restaurant-list');
-        //     const mapView = document.getElementById('map-view');
-        //     if (listView.style.display === 'none') {
-        //         listView.style.display = 'block';
-        //         mapView.style.display = 'none';
-        //         toggleButton.textContent = 'Map View';
-        //     } else {
-        //         listView.style.display = 'none';
-        //         mapView.style.display = 'block';
-        //         toggleButton.textContent = 'List View';
-        //         this.updateMap(this.filterRestaurants());
-        //         if (this.map) {
-        //             this.map.invalidateSize();
-        //         }
-        //     }
-        // });
+        // Toggle between list and map view
+        const toggleButton = document.getElementById('toggle-view');
+        toggleButton.addEventListener('click', () => {
+            const listView = document.getElementById('restaurant-list');
+            const mapView = document.getElementById('map-view');
+            if (listView.style.display === 'none') {
+                listView.style.display = 'block';
+                mapView.style.display = 'none';
+                toggleButton.textContent = 'Map View';
+            } else {
+                listView.style.display = 'none';
+                mapView.style.display = 'block';
+                toggleButton.textContent = 'List View';
+                this.updateMap(this.filterRestaurants());
+                if (this.map) {
+                    this.map.invalidateSize();
+                }
+            }
+        });
     }
 
-    // updateMap(filteredRestaurants) {
-    //     if (!this.map) {
-    //         // Initialize the map
-    //         this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
+    updateMap(filteredRestaurants) {
+        if (!this.map) {
+            // Initialize the map
+            this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
 
-    //         // Use a minimalistic dark tile layer
-    //         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    //             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-    //             subdomains: 'abcd',
-    //             maxZoom: 19,
-    //             className: 'leaflet-dark'
-    //         }).addTo(this.map);
-    //     } else {
-    //         // Clear existing markers
-    //         this.map.eachLayer((layer) => {
-    //             if (layer instanceof L.Marker) {
-    //                 this.map.removeLayer(layer);
-    //             }
-    //         });
-    //     }
+            // Use a minimalistic dark tile layer
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                className: 'leaflet-dark'
+            }).addTo(this.map);
+        } else {
+            // Clear existing markers
+            this.map.eachLayer((layer) => {
+                if (layer instanceof L.Marker) {
+                    this.map.removeLayer(layer);
+                }
+            });
+        }
 
-    //     // Add markers for filtered restaurants
-    //     filteredRestaurants.forEach(restaurant => {
-    //         if (restaurant.lat && restaurant.lng) {
-    //             L.marker([parseFloat(restaurant.lat), parseFloat(restaurant.lng)])
-    //                 .addTo(this.map)
-    //                 .bindPopup(
-    //                     `<strong>${restaurant.place_name}</strong><br>${restaurant.cuisine_pretty}, ${restaurant.budget}`
-    //                 );
-    //         }
-    //     });
-    // }
+        // Add markers for filtered restaurants
+        filteredRestaurants.forEach(restaurant => {
+            if (restaurant.lat && restaurant.lng) {
+                L.marker([parseFloat(restaurant.lat), parseFloat(restaurant.lng)])
+                    .addTo(this.map)
+                    .bindPopup(
+                        `<strong>${restaurant.place_name}</strong><br>${restaurant.cuisine_pretty}, ${restaurant.budget}`
+                    );
+            }
+        });
+    }
 
 }
 

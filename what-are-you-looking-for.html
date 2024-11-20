@@ -9,6 +9,79 @@
 </head>
 <body>
     <!-- <a href="index.html" class="back-button">← Back</a> -->
+    <div class="banner">
+        <a href="https://makeplana.com">Plana</a>
+    </div>
+    <h2 class="title">What are you looking for?</h2>
+    <div class="options-container">
+        <a href="javascript:void(0)" class="option" onclick="setCategory('food')">
+            <div class="option-icon food-icon"></div>
+            <div class="option-text">Food</div>
+        </a>
+        <a href="javascript:void(0)" class="option" onclick="setCategory('drinks')">
+            <div class="option-icon drink-icon"></div>
+            <div class="option-text">Drinks</div>
+        </a>
+        <!-- <a href="javascript:void(0)" class="option" onclick="setCategory('coffee')">
+            <div class="option-icon coffee-icon"></div>
+            <div class="option-text">Coffee</div>
+        </a>
+        <a href="javascript:void(0)" class="option" onclick="setCategory('sweets')">
+            <div class="option-icon sweets-icon"></div>
+            <div class="option-text">Sweet Treats</div>
+        </a> -->
+        <!-- <a href="neighborhoods-to-drink.html" class="option">
+            <div class="option-icon party-icon"></div>
+            <div class="option-text">Party</div>
+        </a>
+        <a href="neighborhoods-to-drink.html" class="option">
+            <div class="option-icon art-icon"></div>
+            <div class="option-text">Art</div>
+        </a>
+        <a href="neighborhoods-to-drink.html" class="option">
+            <div class="option-icon shop-icon"></div>
+            <div class="option-text">Shop</div>
+        </a>
+        <a href="neighborhoods-to-drink.html" class="option">
+            <div class="option-icon produce-icon"></div>
+            <div class="option-text">Produce</div>
+        </a> -->
+    </div>
+</body>
+<script>
+        const isProd = window.location.hostname === 'makeplana.com';
+        const BASE_URL = isProd ? '' : '.';
+        
+        const config = {
+            urls: {
+                home: `${BASE_URL}/what-are-you-looking-for2.html`,
+                neighborhoods: `${BASE_URL}/neighborhoods.html`,
+                food: `${BASE_URL}/food.html`,
+                drinks: `${BASE_URL}/drink.html`
+            }
+        };
+
+        function setCategory(category) {
+            localStorage.setItem('selectedCategory', category);
+            window.location.href = config.urls.neighborhoods;
+        }
+</script>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+    <title>Plana - New York City</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/roboto/2.0.0/css/roboto.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="mystyles.css">
+</head>
+<body>
+    <div class="banner">
+        <a href="https://makeplana.com">Plana</a>
+    </div>
     <h2 class="title">What are you looking for?</h2>
     <div class="options-container">
         <a href="neighborhoods-to-eat.html" class="option">

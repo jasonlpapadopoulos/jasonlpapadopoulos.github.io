@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="mystyles.css">
 </head>
 <body>
-<div class="results-container">
+<div class="header">
     <div class="filters-container">
+        <div class="banner">
+            <a href="https://makeplana.com">Plana</a>
+        </div>
         <div class="filter-group">
             <button class="filter-button" data-filter="setting">Setting</button>
             <div class="filter-options">
@@ -54,21 +57,27 @@
                 </label>
             </div>
         </div>
-        <div class="filter-group">
+        <!-- <div class="filter-group">
             <button class="filter-button" data-filter="servesFood">Serves Food?</button>
             <div class="filter-options">
                 <label class="filter-option">
                     <input type="checkbox" name="servesFood" value="yes"> Yes
                 </label>
             </div>
-        </div>
+        </div> -->
         <div class="fixed-line"></div>
     </div>
+</div>
+<div class="results-container">
+    <!-- <div class="view-toggle-container">
+        <button id="toggle-view" class="bottom-toggle-button">Map View</button>
+    </div> -->
     <div id="bar-list"></div>
+    <!-- <div id="map-view" class="view-container" style="display:none; width: 500px; height: 500px;"></div> -->
 </div>
 
 <script>
-class RestaurantDisplay {
+class BarDisplay {
     constructor() {
         this.bars = [];
         this.selectedPrices = new Set();
@@ -93,7 +102,7 @@ class RestaurantDisplay {
             });
     }
 
-    async fetchRestaurants(csvUrl) {
+    async fetchBars(csvUrl) {
         try {
             const response = await fetch(csvUrl);
             const csvText = await response.text();
@@ -159,20 +168,29 @@ class RestaurantDisplay {
     return box;
 }
 
-    updateDisplay() {
-        const filteredRestaurants = this.filterBars();
+    async updateDisplay() {
+        const filteredBars = this.filterBars();
         const container = document.getElementById('bar-list');
+
+        // Show loading message
+        container.innerHTML = '<p>Loading...</p>';
+        
+        // Wait for 2 seconds
+        await new Promise(resolve => setTimeout(resolve, 667));
+
         container.innerHTML = '';
 
-        if (filteredRestaurants.length === 0) {
+        if (filteredBars.length === 0) {
             const noResultsMessage = document.createElement('p');
-            noResultsMessage.textContent = 'No bars found. Please adjust your search settings.';
+            noResultsMessage.textContent = 'No bars found. Please broaden your search settings.';
             container.appendChild(noResultsMessage);
         } else {
-            filteredRestaurants.forEach(bar => {
+            filteredBars.forEach(bar => {
                 container.appendChild(this.createBarBox(bar));
             });
         }
+        
+        this.updateMap(filteredBars);
     }
 
     setupEventListeners() {
@@ -202,7 +220,7 @@ class RestaurantDisplay {
             });
         });
 
-        // Cuisine filter listeners
+        // Serves Food filter listener
         // const cuisineCheckboxes = document.querySelectorAll('input[name="cuisine"]');
         // cuisineCheckboxes.forEach(checkbox => {
         //     checkbox.addEventListener('change', () => {
@@ -250,13 +268,67 @@ class RestaurantDisplay {
                 });
             }
         });
+
+        // // Toggle between list and map view
+        // const toggleButton = document.getElementById('toggle-view');
+        // toggleButton.addEventListener('click', () => {
+        //     const listView = document.getElementById('bar-list');
+        //     const mapView = document.getElementById('map-view');
+        //     if (listView.style.display === 'none') {
+        //         listView.style.display = 'block';
+        //         mapView.style.display = 'none';
+        //         toggleButton.textContent = 'Map View';
+        //     } else {
+        //         listView.style.display = 'none';
+        //         mapView.style.display = 'block';
+        //         toggleButton.textContent = 'List View';
+        //         this.updateMap(this.filterBars());
+        //         if (this.map) {
+        //             this.map.invalidateSize();
+        //         }
+        //     }
+        // });
     }
+
+    // updateMap(filteredBars) {
+    //     if (!this.map) {
+    //         // Initialize the map
+    //         this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
+
+    //         // Use a minimalistic dark tile layer
+    //         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    //             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+    //             subdomains: 'abcd',
+    //             maxZoom: 19,
+    //             className: 'leaflet-dark'
+    //         }).addTo(this.map);
+    //     } else {
+    //         // Clear existing markers
+    //         this.map.eachLayer((layer) => {
+    //             if (layer instanceof L.Marker) {
+    //                 this.map.removeLayer(layer);
+    //             }
+    //         });
+    //     }
+
+    //     // Add markers for filtered bars
+    //     filteredBars.forEach(bar => {
+    //         if (bar.lat && bar.lng) {
+    //             L.marker([parseFloat(bar.lat), parseFloat(bar.lng)])
+    //                 .addTo(this.map)
+    //                 .bindPopup(
+    //                     `<strong>${bar.place_name}</strong><br>${bar.budget}`
+    //                 );
+    //         }
+    //     });
+    // }
+
 }
 
 // Initialize display and add event listeners
 document.addEventListener('DOMContentLoaded', async function() {
-    const display = new RestaurantDisplay();
-    await display.fetchRestaurants('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/drink_places.csv');
+    const display = new BarDisplay();
+    await display.fetchBars('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/drink_places.csv');
     display.setupEventListeners();
     display.updateDisplay();
 });
