@@ -679,3 +679,37 @@
   .leaflet-popup-content {
       color: white;
   } */
+
+  .view-toggle {
+  width: 100%;
+  display: flex;
+  background: linear-gradient(45deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2));
+  border: 2px solid white;
+  border-radius: 25px;
+  overflow: hidden;
+  max-width: 300px;
+  margin: 10px auto;
+}
+
+.view-toggle-option {
+  flex: 1;
+  padding: 12px 20px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 50%; /* Explicitly set width for each option */
+}
+
+.view-toggle-option:hover {
+  /* background-color: rgba(255, 255, 255, 0.1); */
+  background: linear-gradient(45deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2))
+}
+
+.view-toggle-option.active {
+  /* background-color: white;
+  color: black; */
+  background: linear-gradient(45deg, rgba(255, 107, 107, 0.5), rgba(78, 205, 196, 0.5));
+  color: white;
+}
