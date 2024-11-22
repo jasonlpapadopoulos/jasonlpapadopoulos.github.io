@@ -563,12 +563,18 @@
   }
   
   /* List Results */
-  
+  #map-view {
+    width: 100%;
+    height: 100%;
+    min-height: 500px; /* Fallback minimum height */
+    max-height: 800px;
+  }
   .results-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    margin-top: 120px;
+    margin-top: 100px;
+    height: 100vh; /* Full viewport height */
   }
    
   .place-box {
