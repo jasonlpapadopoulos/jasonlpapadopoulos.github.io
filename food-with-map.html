@@ -211,6 +211,22 @@ class RestaurantDisplay {
         return box;
     }
 
+    createRestaurantBoxMap(restaurant) {
+    const box = document.createElement('div');
+    box.className = 'place-box';
+    box.innerHTML = `
+        <strong>${restaurant.place_name}</strong><br>
+        <i>${restaurant.cuisine_pretty}, ${restaurant.budget}</i><br><br>
+        <a href="${restaurant.image_url}">
+            <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
+                 onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'"
+                 style="max-width: 100%; height: auto;">
+        </a><br><br>
+        ${restaurant.description || ''}<br><br>
+    `;
+    return box;
+}
+
     async updateDisplay() {
         const filteredRestaurants = this.filterRestaurants();
         const container = document.getElementById('restaurant-list');
@@ -346,37 +362,41 @@ toggleView.addEventListener('click', (e) => {
     }
 
     updateMap(filteredRestaurants) {
-        if (!this.map) {
-            // Initialize the map
-            this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
+    if (!this.map) {
+        // Initialize the map
+        this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
 
-            // Use a minimalistic dark tile layer
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-                subdomains: 'abcd',
-                maxZoom: 19,
-                className: 'leaflet-dark'
-            }).addTo(this.map);
-        } else {
-            // Clear existing markers
-            this.map.eachLayer((layer) => {
-                if (layer instanceof L.Marker) {
-                    this.map.removeLayer(layer);
-                }
-            });
-        }
-
-        // Add markers for filtered restaurants
-        filteredRestaurants.forEach(restaurant => {
-            if (restaurant.lat && restaurant.lng) {
-                L.marker([parseFloat(restaurant.lat), parseFloat(restaurant.lng)])
-                    .addTo(this.map)
-                    .bindPopup(
-                        `<strong>${restaurant.place_name}</strong><br>${restaurant.cuisine_pretty}, ${restaurant.budget}`
-                    );
+        // Use a minimalistic dark tile layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19,
+            className: 'leaflet-dark'
+        }).addTo(this.map);
+    } else {
+        // Clear existing markers
+        this.map.eachLayer((layer) => {
+            if (layer instanceof L.Marker) {
+                this.map.removeLayer(layer);
             }
         });
     }
+
+    // Add markers for filtered restaurants
+    filteredRestaurants.forEach(restaurant => {
+        if (restaurant.lat && restaurant.lng) {
+            const marker = L.marker([parseFloat(restaurant.lat), parseFloat(restaurant.lng)])
+                .addTo(this.map)
+                .bindPopup(() => {
+                    const popupContent = this.createRestaurantBoxMap(restaurant);
+                    return popupContent;
+                }, {
+                    maxWidth: 300,
+                    className: 'custom-popup'
+                });
+        }
+    });
+}
 
 }
 

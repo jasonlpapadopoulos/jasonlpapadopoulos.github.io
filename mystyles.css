@@ -564,7 +564,7 @@
   
   /* List Results */
   #map-view {
-    width: 100%;
+    width: 90%;
     height: 100%;
     min-height: 500px; /* Fallback minimum height */
     max-height: 800px;
@@ -687,35 +687,51 @@
   } */
 
   .view-toggle {
-  width: 100%;
-  display: flex;
-  background: linear-gradient(45deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2));
-  border: 2px solid white;
-  border-radius: 25px;
-  overflow: hidden;
-  max-width: 300px;
-  margin: 10px auto;
+    width: 100%;
+    display: flex;
+    background: linear-gradient(45deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2));
+    border: 2px solid white;
+    border-radius: 25px;
+    overflow: hidden;
+    max-width: 300px;
+    margin: 10px auto;
+  }
+  
+  .view-toggle-option {
+    flex: 1;
+    padding: 12px 20px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    width: 50%;
+    border-radius: 23px; /* Slightly smaller than container to create inner border effect */
+  }
+  
+  .view-toggle-option:hover {
+    background: linear-gradient(45deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2))
+  }
+  
+  .view-toggle-option.active {
+    background: linear-gradient(45deg, rgba(255, 107, 107, 0.5), rgba(78, 205, 196, 0.5));
+    color: white;
+    border: 2px solid white; /* White border for active option */
+    margin: -2px; /* Compensate for border to maintain layout */
+  }
+
+  .custom-popup .leaflet-popup-content-wrapper {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 10px;
 }
 
-.view-toggle-option {
-  flex: 1;
-  padding: 12px 20px;
-  color: white;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  width: 50%; /* Explicitly set width for each option */
+.custom-popup .leaflet-popup-content {
+    margin: 15px;
 }
 
-.view-toggle-option:hover {
-  /* background-color: rgba(255, 255, 255, 0.1); */
-  background: linear-gradient(45deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2))
-}
-
-.view-toggle-option.active {
-  /* background-color: white;
-  color: black; */
-  background: linear-gradient(45deg, rgba(255, 107, 107, 0.5), rgba(78, 205, 196, 0.5));
-  color: white;
+.place-box img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
