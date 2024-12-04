@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75">
+    <title>Plana - Drink in New York City</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mystyles.css">
+</head>
+<body>
+<div class="header">
+    <div class="filters-container">
+        <div class="banner">
+            <a href="https://makeplana.com">Plana</a>
+        </div>
+        <div class="filter-group">
+            <button class="filter-button" data-filter="setting">Setting</button>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="cocktail"> Cocktail Bar
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="dive"> Dive Bar
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="jazz"> Live Jazz
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="rooftop"> Rooftop
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="speakeasy"> Speakeasy
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="beer"> Beer Hall
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="setting" value="pub"> Pub
+                </label>
+            </div>
+        </div>
+        <div class="filter-group">
+            <button class="filter-button" data-filter="price">Price Range</button>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="checkbox" name="price" value="$"> $
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="price" value="$$"> $$
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="price" value="$$$"> $$$
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="price" value="$$$$"> $$$$
+                </label>
+            </div>
+        </div>
+        <!-- <div class="filter-group">
+            <button class="filter-button" data-filter="servesFood">Serves Food?</button>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="checkbox" name="servesFood" value="yes"> Yes
+                </label>
+            </div>
+        </div> -->
+        <div class="fixed-line"></div>
+    </div>
+</div>
+<div class="results-container">
+    <!-- <div class="view-toggle-container">
+        <button id="toggle-view" class="bottom-toggle-button">Map View</button>
+    </div> -->
+    <div id="bar-list"></div>
+    <!-- <div id="map-view" class="view-container" style="display:none; width: 500px; height: 500px;"></div> -->
+</div>
+
+<script>
+class BarDisplay {
+    constructor() {
+        this.bars = [];
+        this.selectedPrices = new Set();
+        this.selectedSettings = new Set();
+        // this.selectedCuisines = new Set();
+    }
+
+    parseCSV(csvText) {
+        const lines = csvText.split('\n');
+        const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+        
+        return lines.slice(1)
+            .filter(line => line.trim())
+            .map(line => {
+                const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)
+                    .map(val => val.replace(/"/g, '').trim());
+                
+                return headers.reduce((obj, header, index) => {
+                    obj[header] = values[index];
+                    return obj;
+                }, {});
+            });
+    }
+
+    async fetchBars(csvUrl) {
+        try {
+            const response = await fetch(csvUrl);
+            const csvText = await response.text();
+            this.bars = this.parseCSV(csvText);
+            return this.bars;
+        } catch (error) {
+            console.error('Error fetching bar data:', error);
+            return [];
+        }
+    }
+
+    getSelectedNeighborhoods() {
+        const selectedNeighborhoods = localStorage.getItem('selectedNeighborhoods');
+        return selectedNeighborhoods ? JSON.parse(selectedNeighborhoods) : [];
+    }
+
+    filterBars() {
+        const selectedNeighborhoods = this.getSelectedNeighborhoods();
+        if (selectedNeighborhoods.length === 0) return [];
+        
+        return this.bars.filter(bar => {
+            const neighborhoodMatch = selectedNeighborhoods.includes(bar.neighborhood);
+            const priceMatch = this.selectedPrices.size === 0 || this.selectedPrices.has(bar.budget);
+            const settingMatch = this.selectedSettings.size === 0 || [...this.selectedSettings].some(setting => 
+                bar[setting.toLowerCase()] === "1"
+            );
+            // const cuisineMatch = this.selectedCuisines.size === 0 || 
+            //                    this.selectedCuisines.has(bar.cuisine.toLowerCase());
+
+            return neighborhoodMatch && priceMatch && settingMatch;
+            //  && cuisineMatch;
+        });
+    }
+
+    createBarBox(bar) {
+    const box = document.createElement('div');
+    box.className = 'place-box';
+
+    box.innerHTML = `
+        <strong>${bar.place_name}</strong><br>
+        <i>${bar.budget}</i><br><br>
+        
+        <a href="${bar.image_url}">
+            <img src="${bar.image_url}" alt="${bar.place_name}" 
+                 onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068''">
+        </a><br><br>
+        
+        ${bar.description}<br><br>
+        
+        ${bar.maps_url && bar.maps_url.startsWith('http') ? `
+            <a href="${bar.maps_url}" target="_blank">
+                <button class="choice-button">See in Maps</button>
+            </a>
+        ` : ''}
+        
+        ${bar.reservation_url && bar.reservation_url.startsWith('http') ? `
+            <a href="${bar.reservation_url}" target="_blank">
+                <button class="choice-button">Reserve</button>
+            </a>
+        ` : ''}
+    `;
+
+    return box;
+}
+
+    async updateDisplay() {
+        const filteredBars = this.filterBars();
+        const container = document.getElementById('bar-list');
+
+        // Show loading message
+        container.innerHTML = '<p>Loading...</p>';
+        
+        // Wait for 2 seconds
+        await new Promise(resolve => setTimeout(resolve, 667));
+
+        container.innerHTML = '';
+
+        if (filteredBars.length === 0) {
+            const noResultsMessage = document.createElement('p');
+            noResultsMessage.textContent = 'No bars found. Please broaden your search settings.';
+            container.appendChild(noResultsMessage);
+        } else {
+            filteredBars.forEach(bar => {
+                container.appendChild(this.createBarBox(bar));
+            });
+        }
+        
+        this.updateMap(filteredBars);
+    }
+
+    setupEventListeners() {
+        // Price filter listeners
+        const priceCheckboxes = document.querySelectorAll('input[name="price"]');
+        priceCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    this.selectedPrices.add(checkbox.value);
+                } else {
+                    this.selectedPrices.delete(checkbox.value);
+                }
+                this.updateDisplay();
+            });
+        });
+
+        // Setting filter listeners
+        const settingCheckboxes = document.querySelectorAll('input[name="setting"]');
+        settingCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    this.selectedSettings.add(checkbox.value);
+                } else {
+                    this.selectedSettings.delete(checkbox.value);
+                }
+                this.updateDisplay();
+            });
+        });
+
+        // Serves Food filter listener
+        // const cuisineCheckboxes = document.querySelectorAll('input[name="cuisine"]');
+        // cuisineCheckboxes.forEach(checkbox => {
+        //     checkbox.addEventListener('change', () => {
+        //         if (checkbox.checked) {
+        //             this.selectedCuisines.add(checkbox.value.toLowerCase());
+        //         } else {
+        //             this.selectedCuisines.delete(checkbox.value.toLowerCase());
+        //         }
+        //         this.updateDisplay();
+        //     });
+        // });
+
+        // Filter button listeners
+        const filterButtons = document.querySelectorAll('.filter-button');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const filterGroup = button.closest('.filter-group');
+                const options = filterGroup.querySelector('.filter-options');
+                const wasActive = button.classList.contains('active');
+
+                // Close all other filter options
+                document.querySelectorAll('.filter-options').forEach(opt => {
+                    opt.classList.remove('show');
+                });
+                document.querySelectorAll('.filter-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Toggle current filter
+                if (!wasActive) {
+                    options.classList.add('show');
+                    button.classList.add('active');
+                }
+            });
+        });
+
+        // Close filters when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.filter-group')) {
+                document.querySelectorAll('.filter-options').forEach(opt => {
+                    opt.classList.remove('show');
+                });
+                document.querySelectorAll('.filter-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            }
+        });
+
+        // // Toggle between list and map view
+        // const toggleButton = document.getElementById('toggle-view');
+        // toggleButton.addEventListener('click', () => {
+        //     const listView = document.getElementById('bar-list');
+        //     const mapView = document.getElementById('map-view');
+        //     if (listView.style.display === 'none') {
+        //         listView.style.display = 'block';
+        //         mapView.style.display = 'none';
+        //         toggleButton.textContent = 'Map View';
+        //     } else {
+        //         listView.style.display = 'none';
+        //         mapView.style.display = 'block';
+        //         toggleButton.textContent = 'List View';
+        //         this.updateMap(this.filterBars());
+        //         if (this.map) {
+        //             this.map.invalidateSize();
+        //         }
+        //     }
+        // });
+    }
+
+    // updateMap(filteredBars) {
+    //     if (!this.map) {
+    //         // Initialize the map
+    //         this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
+
+    //         // Use a minimalistic dark tile layer
+    //         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    //             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+    //             subdomains: 'abcd',
+    //             maxZoom: 19,
+    //             className: 'leaflet-dark'
+    //         }).addTo(this.map);
+    //     } else {
+    //         // Clear existing markers
+    //         this.map.eachLayer((layer) => {
+    //             if (layer instanceof L.Marker) {
+    //                 this.map.removeLayer(layer);
+    //             }
+    //         });
+    //     }
+
+    //     // Add markers for filtered bars
+    //     filteredBars.forEach(bar => {
+    //         if (bar.lat && bar.lng) {
+    //             L.marker([parseFloat(bar.lat), parseFloat(bar.lng)])
+    //                 .addTo(this.map)
+    //                 .bindPopup(
+    //                     `<strong>${bar.place_name}</strong><br>${bar.budget}`
+    //                 );
+    //         }
+    //     });
+    // }
+
+}
+
+// Initialize display and add event listeners
+document.addEventListener('DOMContentLoaded', async function() {
+    const display = new BarDisplay();
+    await display.fetchBars('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/drink_places.csv');
+    display.setupEventListeners();
+    display.updateDisplay();
+});
+</script>
+</body>
+</html>
