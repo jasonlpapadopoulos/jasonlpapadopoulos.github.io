@@ -197,9 +197,6 @@ class RestaurantDisplay {
         </a><br><br>
         
         ${restaurant.description}<br><br>
-
-        <i>Pros: Great service, innovative dishes.</i><br>
-        <i>Cons: Service might be slow, portions small.</i><br><br>
         
         ${restaurant.maps_url && restaurant.maps_url.startsWith('http') ? `
             <a href="${restaurant.maps_url}" target="_blank">
@@ -341,75 +338,75 @@ class RestaurantDisplay {
             }
         });
 
-// Toggle between list and map view
-const toggleView = document.getElementById('toggle-view');
-const toggleOptions = toggleView.querySelectorAll('.view-toggle-option');
-const listView = document.getElementById('restaurant-list');
-const mapView = document.getElementById('map-view');
+        // Toggle between list and map view
+        const toggleView = document.getElementById('toggle-view');
+        const toggleOptions = toggleView.querySelectorAll('.view-toggle-option');
+        const listView = document.getElementById('restaurant-list');
+        const mapView = document.getElementById('map-view');
 
-toggleView.addEventListener('click', (e) => {
-    // Check if a toggle option was clicked
-    if (e.target.classList.contains('view-toggle-option')) {
-        // Remove active class from all options
-        toggleOptions.forEach(option => {
-            option.classList.remove('active');
-        });
-        
-        // Add active class to clicked option
-        e.target.classList.add('active');
+        toggleView.addEventListener('click', (e) => {
+            // Check if a toggle option was clicked
+            if (e.target.classList.contains('view-toggle-option')) {
+                // Remove active class from all options
+                toggleOptions.forEach(option => {
+                    option.classList.remove('active');
+                });
+                
+                // Add active class to clicked option
+                e.target.classList.add('active');
 
-        // Determine which view to show
-        if (e.target.textContent === 'List View') {
-            listView.style.display = 'block';
-            mapView.style.display = 'none';
-        } else {
-            listView.style.display = 'none';
-            mapView.style.display = 'block';
-            this.updateMap(this.filterRestaurants());
-            if (this.map) {
-                this.map.invalidateSize();
+                // Determine which view to show
+                if (e.target.textContent === 'List View') {
+                    listView.style.display = 'block';
+                    mapView.style.display = 'none';
+                } else {
+                    listView.style.display = 'none';
+                    mapView.style.display = 'block';
+                    this.updateMap(this.filterRestaurants());
+                    if (this.map) {
+                        this.map.invalidateSize();
+                    }
+                }
             }
-        }
-    }
-});
+        });
     }
 
     updateMap(filteredRestaurants) {
-    if (!this.map) {
-        // Initialize the map
-        this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
+        if (!this.map) {
+            // Initialize the map
+            this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
 
-        // Use a minimalistic dark tile layer
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 19,
-            className: 'leaflet-dark'
-        }).addTo(this.map);
-    } else {
-        // Clear existing markers
-        this.map.eachLayer((layer) => {
-            if (layer instanceof L.Marker) {
-                this.map.removeLayer(layer);
+            // Use a minimalistic dark tile layer
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                className: 'leaflet-dark'
+            }).addTo(this.map);
+        } else {
+            // Clear existing markers
+            this.map.eachLayer((layer) => {
+                if (layer instanceof L.Marker) {
+                    this.map.removeLayer(layer);
+                }
+            });
+        }
+
+        // Add markers for filtered restaurants
+        filteredRestaurants.forEach(restaurant => {
+            if (restaurant.lat && restaurant.lng) {
+                const marker = L.marker([parseFloat(restaurant.lat), parseFloat(restaurant.lng)])
+                    .addTo(this.map)
+                    .bindPopup(() => {
+                        const popupContent = this.createRestaurantBoxMap(restaurant);
+                        return popupContent;
+                    }, {
+                        maxWidth: 300,
+                        className: 'custom-popup'
+                    });
             }
         });
     }
-
-    // Add markers for filtered restaurants
-    filteredRestaurants.forEach(restaurant => {
-        if (restaurant.lat && restaurant.lng) {
-            const marker = L.marker([parseFloat(restaurant.lat), parseFloat(restaurant.lng)])
-                .addTo(this.map)
-                .bindPopup(() => {
-                    const popupContent = this.createRestaurantBoxMap(restaurant);
-                    return popupContent;
-                }, {
-                    maxWidth: 300,
-                    className: 'custom-popup'
-                });
-        }
-    });
-}
 
 }
 
