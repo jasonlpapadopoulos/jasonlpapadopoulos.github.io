@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Zero Otto Nove</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://images.ctfassets.net/1aemqu6a6t65/4JtDJzivR4WrpDbiWA9uPh/26aea7474731e3f1454838d44da2bca7/zero-otto-nove-joe-buglewicz-13?w=1200&h=800&q=75'>
+                <img class='restaurant-image' src='https://images.ctfassets.net/1aemqu6a6t65/4JtDJzivR4WrpDbiWA9uPh/26aea7474731e3f1454838d44da2bca7/zero-otto-nove-joe-buglewicz-13?w=1200&h=800&q=75' alt='Zero Otto Nove' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Zero Otto Nove</h1>
+            <div class='restaurant-type'>Italian • $$</div>
+            <div class='restaurant-address'>2357 Arthur Ave, Bronx, NY 10458, USA</div>
+
+            <p>
+                Authentic Italian trattoria inspired by the Salerno area code. Enjoy classic Southern Italian dishes, wood-fired pizzas, and a cozy, rustic vibe like an Italian village.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.8547264, -73.8884476], 12);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.8547264, -73.8884476]).addTo(this.map)
+                    .bindPopup('<b>Zero Otto Nove</b><br>2357 Arthur Ave, Bronx, NY 10458, USA').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Zero%20Otto%20Nove+2357%20Arthur%20Ave,%20Bronx,%20NY%2010458,%20USA';
+            const reservationUrl = 'https://www.sevenrooms.com/reservations/zeroottonovebronx';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

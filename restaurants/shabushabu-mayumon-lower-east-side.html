@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Shabushabu Mayumon</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://images.squarespace-cdn.com/content/v1/5e5f3066b68a8f72212dfb4d/1583807623004-WVM2RMD3FCE5R1XQMOLB/MM_interior_bright_01_MG_7795.jpg'>
+                <img class='restaurant-image' src='https://images.squarespace-cdn.com/content/v1/5e5f3066b68a8f72212dfb4d/1583807623004-WVM2RMD3FCE5R1XQMOLB/MM_interior_bright_01_MG_7795.jpg' alt='Shabushabu Mayumon' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Shabushabu Mayumon</h1>
+            <div class='restaurant-type'>Japanese • $$$$</div>
+            <div class='restaurant-address'>115 Division Street, New York, NY 10002</div>
+
+            <p>
+                Cozy 10-seat counter spot serving top-notch shabu-shabu. Savor A5 Miyazaki wagyu and American wagyu, complemented by a variety of sauces and classic Japanese methods. Experience it all in an omakase tasting menu.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.7142841, -73.992066], 12);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.7142841, -73.992066]).addTo(this.map)
+                    .bindPopup('<b>Shabushabu Mayumon</b><br>115 Division Street, New York, NY 10002').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Shabushabu%20Mayumon+115%20Division%20Street,%20New%20York,%20NY%2010002';
+            const reservationUrl = 'https://www.yelp.com/reservations/shabushabu-mayumon-new-york-5?from_reserve_now=1';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

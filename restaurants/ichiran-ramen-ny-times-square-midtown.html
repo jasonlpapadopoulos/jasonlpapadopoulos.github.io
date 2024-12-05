@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>ICHIRAN Ramen NY Times Square</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://cdn.vox-cdn.com/thumbor/hgqpsRmvCu2JcJg3yE0bw4jOyEc=/0x0:5576x3718/1200x675/filters:focal(2342x1413:3234x2305)/cdn.vox-cdn.com/uploads/chorus_image/image/59095387/Ichiran_Midtown_West_15.0.jpg'>
+                <img class='restaurant-image' src='https://cdn.vox-cdn.com/thumbor/hgqpsRmvCu2JcJg3yE0bw4jOyEc=/0x0:5576x3718/1200x675/filters:focal(2342x1413:3234x2305)/cdn.vox-cdn.com/uploads/chorus_image/image/59095387/Ichiran_Midtown_West_15.0.jpg' alt='ICHIRAN Ramen NY Times Square' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>ICHIRAN Ramen NY Times Square</h1>
+            <div class='restaurant-type'>Ramen • $$</div>
+            <div class='restaurant-address'>152 W 49th St, New York, NY 10020, USA</div>
+
+            <p>
+                Top-rated tonkotsu ramen spot serving up high-quality, carefully made dishes with a strong emphasis on safety and fresh ingredients. Only indoor seating, no reservations needed, and open late—even on holidays.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.7600629, -73.9832897], 12);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.7600629, -73.9832897]).addTo(this.map)
+                    .bindPopup('<b>ICHIRAN Ramen NY Times Square</b><br>152 W 49th St, New York, NY 10020, USA').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=ICHIRAN%20Ramen%20NY%20Times%20Square+152%20W%2049th%20St,%20New%20York,%20NY%2010020,%20USA';
+            const reservationUrl = 'Walk in Only';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

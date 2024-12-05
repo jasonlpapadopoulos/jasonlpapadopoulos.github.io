@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Cipriani Dolci</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://static.wixstatic.com/media/a4d0a3_eca5ca568795493b9e85a01bb5ab18b2~mv2.jpg/v1/fill/w_560,h_340,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Dolci%202.jpg'>
+                <img class='restaurant-image' src='https://static.wixstatic.com/media/a4d0a3_eca5ca568795493b9e85a01bb5ab18b2~mv2.jpg/v1/fill/w_560,h_340,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Dolci%202.jpg' alt='Cipriani Dolci' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Cipriani Dolci</h1>
+            <div class='restaurant-type'>Italian • $$$</div>
+            <div class='restaurant-address'>89 E 42nd St, New York, NY 10017</div>
+
+            <p>
+                Stylish eatery with a trendy vibe and friendly service. Enjoy a great Venetian menu at good prices. The stunning decor and lively atmosphere make it a favorite for meals and post-work meetups.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.7526943, -73.977253], 12);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.7526943, -73.977253]).addTo(this.map)
+                    .bindPopup('<b>Cipriani Dolci</b><br>89 E 42nd St, New York, NY 10017').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Cipriani%20Dolci+89%20E%2042nd%20St,%20New%20York,%20NY%2010017';
+            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/cipriani-dolci?date=2024-07-25&seats=2';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>
