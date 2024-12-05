@@ -3,7 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=0.75'>
-    <title>The Four Horsemen</title>
+    <title>Hole in the Wall</title>
     <link rel='stylesheet' href='../mystyles.css'>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -11,18 +11,18 @@
 <body>
     <div class='restaurant-container'>
         <div class='restaurant-image-wrapper'>
-            <a href='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68'>
-                <img class='restaurant-image' src='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' alt='The Four Horsemen' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            <a href='https://images.squarespace-cdn.com/content/v1/61e0b03673032e681ff314c3/3fa4a001-d20f-41fd-9545-6378a41f9c34/DSC06992.jpg'>
+                <img class='restaurant-image' src='https://images.squarespace-cdn.com/content/v1/61e0b03673032e681ff314c3/3fa4a001-d20f-41fd-9545-6378a41f9c34/DSC06992.jpg' alt='Hole in the Wall' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
             </a>
         </div>
         
         <div class='restaurant-details'>
-            <h1 class='restaurant-name'>The Four Horsemen</h1>
-            <div class='restaurant-type'>American • $$</div>
-            <div class='restaurant-address'>295 Grand St, Williamsburg, NY 11211</div>
+            <h1 class='restaurant-name'>Hole in the Wall</h1>
+            <div class='restaurant-type'>Other • $$</div>
+            <div class='restaurant-address'>37 W 24th St, New York, NY 10010</div>
 
             <p>
-                A contemporary spot with a focus on tasty New American small plates and a wide selection of natural and biodynamic wines. The vibe is relaxed and inviting, but the dining experience is expertly crafted. Founded by James Murphy from LCD Soundsystem.
+                A flexible spot for laid-back breakfast and dinner, complete with a covered deck. The menu boasts stunningly presented dishes inspired by global flavors and Mediterranean cooking. Perfect blend of style and comfort.
             </p>
             
             <div class='button-container' id='button-container'></div>
@@ -34,7 +34,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7280285, -74.0021577], 12);
+                this.map = L.map('map-view').setView([40.7432132, -73.9908672], 12);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -45,8 +45,8 @@
                 }).addTo(this.map);
 
                 // Add a marker for the restaurant location
-                L.marker([40.7280285, -74.0021577]).addTo(this.map)
-                    .bindPopup('<b>The Four Horsemen</b><br>295 Grand St, Williamsburg, NY 11211').openPopup();
+                L.marker([40.7432132, -73.9908672]).addTo(this.map)
+                    .bindPopup('<b>Hole in the Wall</b><br>37 W 24th St, New York, NY 10010').openPopup();
             } else {
                 // Clear existing markers
                 this.map.eachLayer((layer) => {
@@ -79,8 +79,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=The%20Four%20Horsemen+295%20Grand%20St,%20Williamsburg,%20NY%2011211';
-            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/the-four-horsemen?date=2024-07-17&seats=2';
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Hole%20in%20the%20Wall+37%20W%2024th%20St,%20New%20York,%20NY%2010010';
+            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/hole-in-the-wall-flatiron?date=2024-07-31&seats=2';
             renderButtons(mapsUrl, reservationUrl);
         });
     </script>

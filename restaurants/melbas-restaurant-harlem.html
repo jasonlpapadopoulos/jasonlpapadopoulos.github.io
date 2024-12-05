@@ -3,7 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=0.75'>
-    <title>The Four Horsemen</title>
+    <title>Melba's Restaurant</title>
     <link rel='stylesheet' href='../mystyles.css'>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -11,18 +11,18 @@
 <body>
     <div class='restaurant-container'>
         <div class='restaurant-image-wrapper'>
-            <a href='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68'>
-                <img class='restaurant-image' src='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' alt='The Four Horsemen' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            <a href='https://cdn.vox-cdn.com/thumbor/lcYC9nFnqI3GPTfrZstKf6AZnCw=/0x0:1024x683/1200x675/filters:focal(664x180:826x342)/cdn.vox-cdn.com/uploads/chorus_image/image/73165034/IMG_5448_PC_Anthony_Jones.0.jpeg'>
+                <img class='restaurant-image' src='https://cdn.vox-cdn.com/thumbor/lcYC9nFnqI3GPTfrZstKf6AZnCw=/0x0:1024x683/1200x675/filters:focal(664x180:826x342)/cdn.vox-cdn.com/uploads/chorus_image/image/73165034/IMG_5448_PC_Anthony_Jones.0.jpeg' alt='Melba's Restaurant' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
             </a>
         </div>
         
         <div class='restaurant-details'>
-            <h1 class='restaurant-name'>The Four Horsemen</h1>
+            <h1 class='restaurant-name'>Melba's Restaurant</h1>
             <div class='restaurant-type'>American • $$</div>
-            <div class='restaurant-address'>295 Grand St, Williamsburg, NY 11211</div>
+            <div class='restaurant-address'>300 W 114th St, New York, NY 10026</div>
 
             <p>
-                A contemporary spot with a focus on tasty New American small plates and a wide selection of natural and biodynamic wines. The vibe is relaxed and inviting, but the dining experience is expertly crafted. Founded by James Murphy from LCD Soundsystem.
+                Charming retro spot dishing out Southern favorites like fried chicken, eggnog waffles, and fruit cobbler. Cozy atmosphere that captures the local vibe perfectly.
             </p>
             
             <div class='button-container' id='button-container'></div>
@@ -34,7 +34,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7280285, -74.0021577], 12);
+                this.map = L.map('map-view').setView([40.8031588, -73.9566824], 12);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -45,8 +45,8 @@
                 }).addTo(this.map);
 
                 // Add a marker for the restaurant location
-                L.marker([40.7280285, -74.0021577]).addTo(this.map)
-                    .bindPopup('<b>The Four Horsemen</b><br>295 Grand St, Williamsburg, NY 11211').openPopup();
+                L.marker([40.8031588, -73.9566824]).addTo(this.map)
+                    .bindPopup('<b>Melba's Restaurant</b><br>300 W 114th St, New York, NY 10026').openPopup();
             } else {
                 // Clear existing markers
                 this.map.eachLayer((layer) => {
@@ -79,8 +79,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=The%20Four%20Horsemen+295%20Grand%20St,%20Williamsburg,%20NY%2011211';
-            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/the-four-horsemen?date=2024-07-17&seats=2';
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Melba's%20Restaurant+300%20W%20114th%20St,%20New%20York,%20NY%2010026';
+            const reservationUrl = 'https://www.opentable.com/r/melbas-new-york';
             renderButtons(mapsUrl, reservationUrl);
         });
     </script>

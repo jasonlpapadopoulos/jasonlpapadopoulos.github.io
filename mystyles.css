@@ -754,7 +754,7 @@
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(255,255,255,0.1);
   margin-bottom: 20px;
-  padding: 5px; /* Thin white border */
+  padding: 3px; /* Thin white border */
 }
 .restaurant-image {
   width: 100%;

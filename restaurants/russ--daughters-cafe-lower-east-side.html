@@ -3,7 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=0.75'>
-    <title>The Four Horsemen</title>
+    <title>Russ & Daughters Cafe</title>
     <link rel='stylesheet' href='../mystyles.css'>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -11,18 +11,18 @@
 <body>
     <div class='restaurant-container'>
         <div class='restaurant-image-wrapper'>
-            <a href='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68'>
-                <img class='restaurant-image' src='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' alt='The Four Horsemen' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            <a href='https://images.squarespace-cdn.com/content/v1/57be0600e3df288b8ce9492a/1480745105578-IAX2J3EG5ODYOD91MF6O/Shop+Storefront'>
+                <img class='restaurant-image' src='https://images.squarespace-cdn.com/content/v1/57be0600e3df288b8ce9492a/1480745105578-IAX2J3EG5ODYOD91MF6O/Shop+Storefront' alt='Russ & Daughters Cafe' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
             </a>
         </div>
         
         <div class='restaurant-details'>
-            <h1 class='restaurant-name'>The Four Horsemen</h1>
+            <h1 class='restaurant-name'>Russ & Daughters Cafe</h1>
             <div class='restaurant-type'>American • $$</div>
-            <div class='restaurant-address'>295 Grand St, Williamsburg, NY 11211</div>
+            <div class='restaurant-address'>127 Orchard Street, New York, NY 10002</div>
 
             <p>
-                A contemporary spot with a focus on tasty New American small plates and a wide selection of natural and biodynamic wines. The vibe is relaxed and inviting, but the dining experience is expertly crafted. Founded by James Murphy from LCD Soundsystem.
+                Cozy café serving Jewish comfort food with smoked fish, bagels, and classic dishes. A charming spot that celebrates a century of delicious family tradition.
             </p>
             
             <div class='button-container' id='button-container'></div>
@@ -34,7 +34,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7280285, -74.0021577], 12);
+                this.map = L.map('map-view').setView([40.7196388, -73.9895629], 12);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -45,8 +45,8 @@
                 }).addTo(this.map);
 
                 // Add a marker for the restaurant location
-                L.marker([40.7280285, -74.0021577]).addTo(this.map)
-                    .bindPopup('<b>The Four Horsemen</b><br>295 Grand St, Williamsburg, NY 11211').openPopup();
+                L.marker([40.7196388, -73.9895629]).addTo(this.map)
+                    .bindPopup('<b>Russ & Daughters Cafe</b><br>127 Orchard Street, New York, NY 10002').openPopup();
             } else {
                 // Clear existing markers
                 this.map.eachLayer((layer) => {
@@ -79,8 +79,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=The%20Four%20Horsemen+295%20Grand%20St,%20Williamsburg,%20NY%2011211';
-            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/the-four-horsemen?date=2024-07-17&seats=2';
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Russ%20&%20Daughters%20Cafe+127%20Orchard%20Street,%20New%20York,%20NY%2010002';
+            const reservationUrl = 'Walk in Only';
             renderButtons(mapsUrl, reservationUrl);
         });
     </script>

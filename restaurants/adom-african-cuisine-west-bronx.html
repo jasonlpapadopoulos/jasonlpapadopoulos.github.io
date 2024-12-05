@@ -3,7 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=0.75'>
-    <title>The Four Horsemen</title>
+    <title>Adom African Cuisine</title>
     <link rel='stylesheet' href='../mystyles.css'>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -11,18 +11,18 @@
 <body>
     <div class='restaurant-container'>
         <div class='restaurant-image-wrapper'>
-            <a href='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68'>
-                <img class='restaurant-image' src='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' alt='The Four Horsemen' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            <a href='https://tb-static.uber.com/prod/image-proc/processed_images/4a4f13bf062c004059974aafcc99ff3a/8a42ee7a692dfa4155879820804a277f.jpeg'>
+                <img class='restaurant-image' src='https://tb-static.uber.com/prod/image-proc/processed_images/4a4f13bf062c004059974aafcc99ff3a/8a42ee7a692dfa4155879820804a277f.jpeg' alt='Adom African Cuisine' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
             </a>
         </div>
         
         <div class='restaurant-details'>
-            <h1 class='restaurant-name'>The Four Horsemen</h1>
-            <div class='restaurant-type'>American • $$</div>
-            <div class='restaurant-address'>295 Grand St, Williamsburg, NY 11211</div>
+            <h1 class='restaurant-name'>Adom African Cuisine</h1>
+            <div class='restaurant-type'>African • $</div>
+            <div class='restaurant-address'>613 E Tremont Ave, Bronx, NY 10457</div>
 
             <p>
-                A contemporary spot with a focus on tasty New American small plates and a wide selection of natural and biodynamic wines. The vibe is relaxed and inviting, but the dining experience is expertly crafted. Founded by James Murphy from LCD Soundsystem.
+                Authentic Ghanaian and African eats with traditional flavors and fresh ingredients. Enjoy favorites like jollof rice, jerk chicken, and fufu. Quality and heritage are the focus.
             </p>
             
             <div class='button-container' id='button-container'></div>
@@ -34,7 +34,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7280285, -74.0021577], 12);
+                this.map = L.map('map-view').setView([40.8462404, -73.8925518], 12);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -45,8 +45,8 @@
                 }).addTo(this.map);
 
                 // Add a marker for the restaurant location
-                L.marker([40.7280285, -74.0021577]).addTo(this.map)
-                    .bindPopup('<b>The Four Horsemen</b><br>295 Grand St, Williamsburg, NY 11211').openPopup();
+                L.marker([40.8462404, -73.8925518]).addTo(this.map)
+                    .bindPopup('<b>Adom African Cuisine</b><br>613 E Tremont Ave, Bronx, NY 10457').openPopup();
             } else {
                 // Clear existing markers
                 this.map.eachLayer((layer) => {
@@ -79,8 +79,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=The%20Four%20Horsemen+295%20Grand%20St,%20Williamsburg,%20NY%2011211';
-            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/the-four-horsemen?date=2024-07-17&seats=2';
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Adom%20African%20Cuisine+613%20E%20Tremont%20Ave,%20Bronx,%20NY%2010457';
+            const reservationUrl = 'Walk in Only';
             renderButtons(mapsUrl, reservationUrl);
         });
     </script>

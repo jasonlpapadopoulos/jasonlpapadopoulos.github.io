@@ -3,7 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=0.75'>
-    <title>The Four Horsemen</title>
+    <title>Cecconi's NoMad</title>
     <link rel='stylesheet' href='../mystyles.css'>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -11,18 +11,18 @@
 <body>
     <div class='restaurant-container'>
         <div class='restaurant-image-wrapper'>
-            <a href='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68'>
-                <img class='restaurant-image' src='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' alt='The Four Horsemen' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            <a href='https://resizer.otstatic.com/v2/photos/xlarge/2/49216835.webp'>
+                <img class='restaurant-image' src='https://resizer.otstatic.com/v2/photos/xlarge/2/49216835.webp' alt='Cecconi's NoMad' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
             </a>
         </div>
         
         <div class='restaurant-details'>
-            <h1 class='restaurant-name'>The Four Horsemen</h1>
-            <div class='restaurant-type'>American • $$</div>
-            <div class='restaurant-address'>295 Grand St, Williamsburg, NY 11211</div>
+            <h1 class='restaurant-name'>Cecconi's NoMad</h1>
+            <div class='restaurant-type'>Italian • $$$</div>
+            <div class='restaurant-address'>1170 Broadway, New York, NY 10001</div>
 
             <p>
-                A contemporary spot with a focus on tasty New American small plates and a wide selection of natural and biodynamic wines. The vibe is relaxed and inviting, but the dining experience is expertly crafted. Founded by James Murphy from LCD Soundsystem.
+                A modern Italian eatery in a historic building, serving hand-made pasta, wood-fired pizza, and Northern Italian cuisine. Think classic yet stylish vibes with navy velvet seating, golden-yellow leather chairs, and a sleek wooden bar. Open to the public, but members and hotel guests need to book ahead.
             </p>
             
             <div class='button-container' id='button-container'></div>
@@ -34,7 +34,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7280285, -74.0021577], 12);
+                this.map = L.map('map-view').setView([40.7449246, -73.988596], 12);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -45,8 +45,8 @@
                 }).addTo(this.map);
 
                 // Add a marker for the restaurant location
-                L.marker([40.7280285, -74.0021577]).addTo(this.map)
-                    .bindPopup('<b>The Four Horsemen</b><br>295 Grand St, Williamsburg, NY 11211').openPopup();
+                L.marker([40.7449246, -73.988596]).addTo(this.map)
+                    .bindPopup('<b>Cecconi's NoMad</b><br>1170 Broadway, New York, NY 10001').openPopup();
             } else {
                 // Clear existing markers
                 this.map.eachLayer((layer) => {
@@ -79,8 +79,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=The%20Four%20Horsemen+295%20Grand%20St,%20Williamsburg,%20NY%2011211';
-            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/the-four-horsemen?date=2024-07-17&seats=2';
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Cecconi's%20NoMad+1170%20Broadway,%20New%20York,%20NY%2010001';
+            const reservationUrl = 'https://www.opentable.com/r/cecconis-at-the-ned-nomad-new-york';
             renderButtons(mapsUrl, reservationUrl);
         });
     </script>

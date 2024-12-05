@@ -184,7 +184,20 @@ class RestaurantDisplay {
     // Generate the URL for the restaurant's page
     // const restaurantPageUrl = `restaurants/${restaurant.place_name.toLowerCase().replace(/ /g, '-')}-${restaurant.neighborhood.toLowerCase().replace(/ /g, '-')}.html`;
 
-    const restaurantPageUrl = `restaurants/${restaurant.place_name_clean}-${restaurant.neighborhood_clean}.html`;
+    const cleanString = (str) => {
+    return str
+        .toLowerCase()               // Convert to lowercase
+        .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+        .trim()                       // Remove leading/trailing whitespace
+        .replace(/\s+/g, '-')         // Replace spaces with hyphens
+        .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
+};
+
+const place_name_clean = cleanString(restaurant.place_name);
+const neighborhood_clean = cleanString(restaurant.neighborhood);
+
+const restaurantPageUrl = `restaurants/${place_name_clean}-${neighborhood_clean}.html`;
+
 
     box.innerHTML = `
         <strong>${restaurant.place_name}</strong><br>
