@@ -1,22 +1,16 @@
 [[redirects]]
-from = "/what-are-you-looking-for2"
-to = "/what-are-you-looking-for2.html"
+from = "/what-are-you-looking-for2.html"
+to = "/what-are-you-looking-for2"
 status = 200
 [[redirects]]
-from = "/neighborhoods"
-to = "/neighborhoods.html"
+from = "/neighborhoods.html"
+to = "/neighborhoods"
 status = 200
 [[redirects]]
-from = "/food"
-to = "/food/index.html"
+from = "/food/index.html"
+to = "/food"
 status = 200
 [[redirects]]
-from = "/drinks"
-to = "/drink/index.html"
+from = "/drink/index.html"
+to = "/drinks"
 status = 200
-Preserve localStorage between redirects
-[[headers]]
-for = "/*"
-[headers.values]
-Cross-Origin-Opener-Policy = "same-origin"
-Cross-Origin-Embedder-Policy = "require-corp"
