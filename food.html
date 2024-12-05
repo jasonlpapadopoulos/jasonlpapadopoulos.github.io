@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.75">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7">
     <title>Plana - Food in New York City</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -103,13 +103,18 @@
     </div>
 </div>
 <div class="results-container">
-    <!-- <div class="view-toggle-container">
-        <button id="toggle-view" class="bottom-toggle-button">Map View</button>
-    </div> -->
+    <div class="view-toggle-container">
+        <!-- <button id="toggle-view" class="bottom-toggle-button">Map View</button> -->
+        <div id="toggle-view" class="view-toggle">
+            <div class="view-toggle-option active">List View</div>
+            <div class="view-toggle-option">Map View</div>
+        </div>
+    </div>
     <div id="restaurant-list"></div>
-    <!-- <div id="map-view" class="view-container" style="display:none; width: 500px; height: 500px;"></div> -->
+    <div id="map-view" class="view-container" style="display:none; width: 500px"></div>
 </div>
-</body>
+
+
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
 class RestaurantDisplay {
@@ -173,33 +178,65 @@ class RestaurantDisplay {
     }
 
     createRestaurantBox(restaurant) {
+    const box = document.createElement('div');
+    box.className = 'place-box';
+
+    // Generate the URL for the restaurant's page
+    // const restaurantPageUrl = `restaurants/${restaurant.place_name.toLowerCase().replace(/ /g, '-')}-${restaurant.neighborhood.toLowerCase().replace(/ /g, '-')}.html`;
+
+    const restaurantPageUrl = 'restaurants/shalom-japan-williamsburg.html';
+
+
+    box.innerHTML = `
+        <strong>${restaurant.place_name}</strong><br>
+        <i>${restaurant.cuisine_pretty}, ${restaurant.budget}</i><br><br>
+        
+        <a href="${restaurantPageUrl}">
+            <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
+            onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+        </a><br><br>
+        
+        ${restaurant.description}<br><br>
+
+        <i>Pros: Great service, innovative dishes.</i><br>
+        <i>Cons: Service might be slow, portions small.</i><br><br>
+        
+        ${restaurant.maps_url && restaurant.maps_url.startsWith('http') ? `
+            <a href="${restaurant.maps_url}" target="_blank">
+                <button class="choice-button">See in Maps</button>
+            </a>
+        ` : ''}
+        
+        ${restaurant.reservation_url && restaurant.reservation_url.startsWith('http') ? `
+            <a href="${restaurant.reservation_url}" target="_blank">
+                <button class="choice-button">Reserve</button>
+            </a>
+        ` : ''}
+    `;
+
+    return box;
+}
+
+    createRestaurantBoxMap(restaurant) {
         const box = document.createElement('div');
         box.className = 'place-box';
+
+        // Generate the URL for the restaurant's page
+        const restaurantPageUrl = `restaurants/${restaurant.place_name.toLowerCase().replace(/ /g, '-')}-${restaurant.neighborhood.toLowerCase().replace(/ /g, '-')}.html`;
 
         box.innerHTML = `
             <strong>${restaurant.place_name}</strong><br>
             <i>${restaurant.cuisine_pretty}, ${restaurant.budget}</i><br><br>
             
-            <a href="${restaurant.image_url}">
+            <a href="${restaurantPageUrl}">
                 <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
-                onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068''">
+                    onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'"
+                    style="max-width: 100%; height: auto;">
             </a><br><br>
             
-            ${restaurant.description}<br><br>
-            
-            ${restaurant.maps_url && restaurant.maps_url.startsWith('http') ? `
-                <a href="${restaurant.maps_url}" target="_blank">
-                    <button class="choice-button">See in Maps</button>
-                </a>
-            ` : ''}
-            
-            ${restaurant.reservation_url && restaurant.reservation_url.startsWith('http') ? `
-                <a href="${restaurant.reservation_url}" target="_blank">
-                    <button class="choice-button">Reserve</button>
-                </a>
-            ` : ''}
+            ${restaurant.description || ''}<br><br>
         `;
-
+        
         return box;
     }
 
@@ -304,59 +341,75 @@ class RestaurantDisplay {
             }
         });
 
-        // // Toggle between list and map view
-        // const toggleButton = document.getElementById('toggle-view');
-        // toggleButton.addEventListener('click', () => {
-        //     const listView = document.getElementById('restaurant-list');
-        //     const mapView = document.getElementById('map-view');
-        //     if (listView.style.display === 'none') {
-        //         listView.style.display = 'block';
-        //         mapView.style.display = 'none';
-        //         toggleButton.textContent = 'Map View';
-        //     } else {
-        //         listView.style.display = 'none';
-        //         mapView.style.display = 'block';
-        //         toggleButton.textContent = 'List View';
-        //         this.updateMap(this.filterRestaurants());
-        //         if (this.map) {
-        //             this.map.invalidateSize();
-        //         }
-        //     }
-        // });
+// Toggle between list and map view
+const toggleView = document.getElementById('toggle-view');
+const toggleOptions = toggleView.querySelectorAll('.view-toggle-option');
+const listView = document.getElementById('restaurant-list');
+const mapView = document.getElementById('map-view');
+
+toggleView.addEventListener('click', (e) => {
+    // Check if a toggle option was clicked
+    if (e.target.classList.contains('view-toggle-option')) {
+        // Remove active class from all options
+        toggleOptions.forEach(option => {
+            option.classList.remove('active');
+        });
+        
+        // Add active class to clicked option
+        e.target.classList.add('active');
+
+        // Determine which view to show
+        if (e.target.textContent === 'List View') {
+            listView.style.display = 'block';
+            mapView.style.display = 'none';
+        } else {
+            listView.style.display = 'none';
+            mapView.style.display = 'block';
+            this.updateMap(this.filterRestaurants());
+            if (this.map) {
+                this.map.invalidateSize();
+            }
+        }
+    }
+});
     }
 
-    // updateMap(filteredRestaurants) {
-    //     if (!this.map) {
-    //         // Initialize the map
-    //         this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
+    updateMap(filteredRestaurants) {
+    if (!this.map) {
+        // Initialize the map
+        this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
 
-    //         // Use a minimalistic dark tile layer
-    //         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    //             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-    //             subdomains: 'abcd',
-    //             maxZoom: 19,
-    //             className: 'leaflet-dark'
-    //         }).addTo(this.map);
-    //     } else {
-    //         // Clear existing markers
-    //         this.map.eachLayer((layer) => {
-    //             if (layer instanceof L.Marker) {
-    //                 this.map.removeLayer(layer);
-    //             }
-    //         });
-    //     }
+        // Use a minimalistic dark tile layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19,
+            className: 'leaflet-dark'
+        }).addTo(this.map);
+    } else {
+        // Clear existing markers
+        this.map.eachLayer((layer) => {
+            if (layer instanceof L.Marker) {
+                this.map.removeLayer(layer);
+            }
+        });
+    }
 
-    //     // Add markers for filtered restaurants
-    //     filteredRestaurants.forEach(restaurant => {
-    //         if (restaurant.lat && restaurant.lng) {
-    //             L.marker([parseFloat(restaurant.lat), parseFloat(restaurant.lng)])
-    //                 .addTo(this.map)
-    //                 .bindPopup(
-    //                     `<strong>${restaurant.place_name}</strong><br>${restaurant.cuisine_pretty}, ${restaurant.budget}`
-    //                 );
-    //         }
-    //     });
-    // }
+    // Add markers for filtered restaurants
+    filteredRestaurants.forEach(restaurant => {
+        if (restaurant.lat && restaurant.lng) {
+            const marker = L.marker([parseFloat(restaurant.lat), parseFloat(restaurant.lng)])
+                .addTo(this.map)
+                .bindPopup(() => {
+                    const popupContent = this.createRestaurantBoxMap(restaurant);
+                    return popupContent;
+                }, {
+                    maxWidth: 300,
+                    className: 'custom-popup'
+                });
+        }
+    });
+}
 
 }
 
@@ -366,6 +419,24 @@ document.addEventListener('DOMContentLoaded', async function() {
     await display.fetchRestaurants('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/food_places.csv');
     display.setupEventListeners();
     display.updateDisplay();
+});
+document.querySelector('.view-toggle').addEventListener('click', function(e) {
+  // Check if a toggle option was clicked
+  if (e.target.classList.contains('view-toggle-option')) {
+    // Remove active class from all options
+    this.querySelectorAll('.view-toggle-option').forEach(option => {
+      option.classList.remove('active');
+    });
+    
+    // Add active class to clicked option
+    e.target.classList.add('active');
+    
+    // Optional: You can add logic here to show/hide corresponding view
+    const selectedView = e.target.getAttribute('data-view');
+    // Example: 
+    // document.getElementById('listView').style.display = selectedView === 'list' ? 'block' : 'none';
+    // document.getElementById('mapView').style.display = selectedView === 'map' ? 'block' : 'none';
+  }
 });
 </script>
 </body>

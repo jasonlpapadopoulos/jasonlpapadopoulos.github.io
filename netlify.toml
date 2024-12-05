@@ -1,0 +1,21 @@
+[[redirects]]
+from = "/what-are-you-looking-for2.html"
+to = "/what-are-you-looking-for2"
+status = 200
+[[redirects]]
+from = "/neighborhoods.html"
+to = "/neighborhoods"
+status = 200
+[[redirects]]
+from = "/food/index.html"
+to = "/food"
+status = 200
+[[redirects]]
+from = "/drink/index.html"
+to = "/drinks"
+status = 200
+[[headers]]
+for = "/*"
+[headers.values]
+Cross-Origin-Opener-Policy = "same-origin"
+Cross-Origin-Embedder-Policy = "require-corp"
