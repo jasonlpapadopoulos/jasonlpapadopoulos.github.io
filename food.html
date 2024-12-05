@@ -184,8 +184,7 @@ class RestaurantDisplay {
     // Generate the URL for the restaurant's page
     // const restaurantPageUrl = `restaurants/${restaurant.place_name.toLowerCase().replace(/ /g, '-')}-${restaurant.neighborhood.toLowerCase().replace(/ /g, '-')}.html`;
 
-    const restaurantPageUrl = 'restaurants/shalom-japan-williamsburg.html';
-
+    const restaurantPageUrl = `restaurants/${restaurant.place_name_clean}-${restaurant.neighborhood_clean}.html`;
 
     box.innerHTML = `
         <strong>${restaurant.place_name}</strong><br>

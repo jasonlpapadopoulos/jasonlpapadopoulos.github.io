@@ -735,3 +735,53 @@
     height: auto;
     border-radius: 8px;
 }
+
+/* Individual Restaurant Pages */
+
+.restaurant-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  animation: fadeIn 1s ease-out;
+}
+.restaurant-image-wrapper {
+  width: 90%;
+  max-width: 600px;
+  background-color: white; /* White border */
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(255,255,255,0.1);
+  margin-bottom: 20px;
+  padding: 5px; /* Thin white border */
+}
+.restaurant-image {
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border-radius: 5px; /* Slightly smaller radius to create a gap */
+}
+.restaurant-details {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+}
+.restaurant-name {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+.restaurant-type {
+  font-style: italic;
+  margin-bottom: 7px;
+}
+.restaurant-address {
+  font-size: 0.9em;
+  margin-bottom: 20px;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
