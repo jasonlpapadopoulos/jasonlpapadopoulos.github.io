@@ -82,7 +82,6 @@ class BarDisplay {
         this.bars = [];
         this.selectedPrices = new Set();
         this.selectedSettings = new Set();
-        // this.selectedCuisines = new Set();
     }
 
     parseCSV(csvText) {
@@ -129,44 +128,64 @@ class BarDisplay {
             const settingMatch = this.selectedSettings.size === 0 || [...this.selectedSettings].some(setting => 
                 bar[setting.toLowerCase()] === "1"
             );
-            // const cuisineMatch = this.selectedCuisines.size === 0 || 
-            //                    this.selectedCuisines.has(bar.cuisine.toLowerCase());
 
             return neighborhoodMatch && priceMatch && settingMatch;
-            //  && cuisineMatch;
         });
     }
 
     createBarBox(bar) {
-    const box = document.createElement('div');
-    box.className = 'place-box';
+        const box = document.createElement('div');
+        box.className = 'place-box';
+    
+        box.innerHTML = `
+            <strong>${bar.place_name}</strong><br>
+            <i>${bar.budget}</i><br><br>
+            
+            <a href="${bar.image_url}">
+                <img src="${bar.image_url}" alt="${bar.place_name}" 
+                onerror="this.src='https://via.placeholder.com/300x200.png?text=No+Image'"
+            </a><br><br>
+            
+            ${bar.description}<br><br>
+            
+            ${bar.maps_url && bar.maps_url.startsWith('http') ? `
+                <a href="${bar.maps_url}" target="_blank">
+                    <button class="choice-button">See in Maps</button>
+                </a>
+            ` : ''}
+            
+            ${bar.reservation_url && bar.reservation_url.startsWith('http') ? `
+                <a href="${bar.reservation_url}" target="_blank">
+                    <button class="choice-button">Reserve</button>
+                </a>
+            ` : ''}
+            `;
+        
+            return box;
+    }
 
-    box.innerHTML = `
-        <strong>${bar.place_name}</strong><br>
-        <i>${bar.budget}</i><br><br>
-        
-        <a href="${bar.image_url}">
-            <img src="${bar.image_url}" alt="${bar.place_name}" 
-                 onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068''">
-        </a><br><br>
-        
-        ${bar.description}<br><br>
-        
-        ${bar.maps_url && bar.maps_url.startsWith('http') ? `
-            <a href="${bar.maps_url}" target="_blank">
-                <button class="choice-button">See in Maps</button>
-            </a>
-        ` : ''}
-        
-        ${bar.reservation_url && bar.reservation_url.startsWith('http') ? `
-            <a href="${bar.reservation_url}" target="_blank">
-                <button class="choice-button">Reserve</button>
-            </a>
-        ` : ''}
-    `;
-
-    return box;
-}
+    createBarBoxMap(bar) {
+      const box = document.createElement('div');
+      box.className = 'place-box';
+      
+      // Generate the URL for the bar's page
+            const barPageUrl = `bars/${bar.place_name.toLowerCase().replace(/ /g, '-')}-${bar.neighborhood.toLowerCase().replace(/ /g, '-')}.html`;
+    
+            box.innerHTML = `
+                <strong>${bar.place_name}</strong><br>
+                <i>${bar.cuisine_pretty}, ${bar.budget}</i><br><br>
+                
+                <a href="${barPageUrl}">
+                    <img src="${bar.image_url}" alt="${bar.place_name}" 
+                    onerror="this.src='https://via.placeholder.com/300x200.png?text=No+Image'"
+                        style="max-width: 100%; height: auto;">
+                </a><br><br>
+                
+                ${bar.description || ''}<br><br>
+            `;
+            
+            return box;
+    }
 
     async updateDisplay() {
         const filteredBars = this.filterBars();
@@ -220,19 +239,6 @@ class BarDisplay {
             });
         });
 
-        // Serves Food filter listener
-        // const cuisineCheckboxes = document.querySelectorAll('input[name="cuisine"]');
-        // cuisineCheckboxes.forEach(checkbox => {
-        //     checkbox.addEventListener('change', () => {
-        //         if (checkbox.checked) {
-        //             this.selectedCuisines.add(checkbox.value.toLowerCase());
-        //         } else {
-        //             this.selectedCuisines.delete(checkbox.value.toLowerCase());
-        //         }
-        //         this.updateDisplay();
-        //     });
-        // });
-
         // Filter button listeners
         const filterButtons = document.querySelectorAll('.filter-button');
         filterButtons.forEach(button => {
@@ -269,69 +275,100 @@ class BarDisplay {
             }
         });
 
-        // // Toggle between list and map view
-        // const toggleButton = document.getElementById('toggle-view');
-        // toggleButton.addEventListener('click', () => {
-        //     const listView = document.getElementById('bar-list');
-        //     const mapView = document.getElementById('map-view');
-        //     if (listView.style.display === 'none') {
-        //         listView.style.display = 'block';
-        //         mapView.style.display = 'none';
-        //         toggleButton.textContent = 'Map View';
-        //     } else {
-        //         listView.style.display = 'none';
-        //         mapView.style.display = 'block';
-        //         toggleButton.textContent = 'List View';
-        //         this.updateMap(this.filterBars());
-        //         if (this.map) {
-        //             this.map.invalidateSize();
-        //         }
-        //     }
-        // });
-    }
-
-    // updateMap(filteredBars) {
-    //     if (!this.map) {
-    //         // Initialize the map
-    //         this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
-
-    //         // Use a minimalistic dark tile layer
-    //         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    //             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-    //             subdomains: 'abcd',
-    //             maxZoom: 19,
-    //             className: 'leaflet-dark'
-    //         }).addTo(this.map);
-    //     } else {
-    //         // Clear existing markers
-    //         this.map.eachLayer((layer) => {
-    //             if (layer instanceof L.Marker) {
-    //                 this.map.removeLayer(layer);
-    //             }
-    //         });
-    //     }
-
-    //     // Add markers for filtered bars
-    //     filteredBars.forEach(bar => {
-    //         if (bar.lat && bar.lng) {
-    //             L.marker([parseFloat(bar.lat), parseFloat(bar.lng)])
-    //                 .addTo(this.map)
-    //                 .bindPopup(
-    //                     `<strong>${bar.place_name}</strong><br>${bar.budget}`
-    //                 );
-    //         }
-    //     });
-    // }
-
+    // Toggle between list and map view
+    const toggleView = document.getElementById('toggle-view');
+    const toggleOptions = toggleView.querySelectorAll('.view-toggle-option');
+    const listView = document.getElementById('bar-list');
+    const mapView = document.getElementById('map-view');
+    
+    toggleView.addEventListener('click', (e) => {
+      // Check if a toggle option was clicked
+      if (e.target.classList.contains('view-toggle-option')) {
+        // Remove active class from all options
+        toggleOptions.forEach(option => {
+          option.classList.remove('active');
+        });
+        
+        // Add active class to clicked option
+        e.target.classList.add('active');
+        
+        // Determine which view to show
+        if (e.target.textContent === 'List View') {
+          listView.style.display = 'block';
+          mapView.style.display = 'none';
+        } else {
+          listView.style.display = 'none';
+          mapView.style.display = 'block';
+          this.updateMap(this.filterBars());
+          if (this.map) {
+            this.map.invalidateSize();
+          }
+        }
+      }
+    });
 }
-
-// Initialize display and add event listeners
-document.addEventListener('DOMContentLoaded', async function() {
-    const display = new BarDisplay();
-    await display.fetchBars('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/drink_places.csv');
-    display.setupEventListeners();
-    display.updateDisplay();
-});
+    updateMap(filteredBars) {
+      if (!this.map) {
+        // Initialize the map
+        this.map = L.map('map-view').setView([40.7128, -74.0060], 12);
+        
+        // Use a minimalistic dark tile layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+          subdomains: 'abcd',
+          maxZoom: 19,
+          className: 'leaflet-dark'
+        }).addTo(this.map);
+      } else {
+        // Clear existing markers
+        this.map.eachLayer((layer) => {
+          if (layer instanceof L.Marker) {
+            this.map.removeLayer(layer);
+          }
+        });
+      }
+      // Add markers for filtered bars
+      filteredBars.forEach(bar => {
+        if (bar.lat && bar.lng) {
+          const marker = L.marker([parseFloat(bar.lat), parseFloat(bar.lng)])
+          .addTo(this.map)
+          .bindPopup(() => {
+            const popupContent = this.createBarBoxMap(bar);
+            return popupContent;
+          }, {
+            maxWidth: 300,
+            className: 'custom-popup'
+          });
+        }
+      });
+    }
+}
+    // Initialize display and add event listeners
+    document.addEventListener('DOMContentLoaded', async function() {
+      const display = new BarDisplay();
+      await display.fetchBars('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/food_places.csv');
+      display.setupEventListeners();
+      display.updateDisplay();
+    });
+    
+    document.querySelector('.view-toggle').addEventListener('click', function(e) {
+      // Check if a toggle option was clicked
+      if (e.target.classList.contains('view-toggle-option')) {
+        // Remove active class from all options
+        this.querySelectorAll('.view-toggle-option').forEach(option => {
+          option.classList.remove('active');
+        });
+        
+        // Add active class to clicked option
+        e.target.classList.add('active');
+        
+        // Optional: You can add logic here to show/hide corresponding view
+        const selectedView = e.target.getAttribute('data-view');
+        // Example: 
+          // document.getElementById('listView').style.display = selectedView === 'list' ? 'block' : 'none';
+        // document.getElementById('mapView').style.display = selectedView === 'map' ? 'block' : 'none';
+      }
+    });
 </script>
 </body>
 </html>
