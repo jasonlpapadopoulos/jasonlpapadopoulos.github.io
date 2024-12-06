@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Mission Sandwich Social</h1>
             <div class='restaurant-type'>Deli & Bagel • $</div>
-            <div class='restaurant-address'>326 Bedford Ave, Brooklyn, NY 11249</div>
 
             <p>
                 Counter-service sub shop by Chef Brian Tsao serving up hearty, saucy subs on freshly baked Dutch Crunch bread. Expect bold flavors and a heavy metal vibe. No seating, but the walls are alive with vibrant graffiti.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7131768, -73.9622764], 12);
+                this.map = L.map('map-view').setView([40.7131768, -73.9622764], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Nurse Bettie</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://i.dailymail.co.uk/1s/2023/10/14/11/76486991-12624989-NURSE_BETTIE_A_harsh_light_illuminates_this_pinup_themed_burlesq-a-94_1697278872880.jpg'>
+                <img class='restaurant-image' src='https://i.dailymail.co.uk/1s/2023/10/14/11/76486991-12624989-NURSE_BETTIE_A_harsh_light_illuminates_this_pinup_themed_burlesq-a-94_1697278872880.jpg' alt='Nurse Bettie' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Nurse Bettie</h1>
+            <div class='restaurant-type'>$$</div>
+
+            <p>
+                A stylish place with a vintage pin-up vibe, serving up classic and modern cocktails. Enjoy happy hour deals and live burlesque in a cozy, intimate space. It's been the go-to spot since 2006.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.7188563, -73.9869371], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.7188563, -73.9869371]).addTo(this.map)
+                    .bindPopup('<b>Nurse Bettie</b><br>106 Norfolk St, New York, NY 10002').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Nurse%20Bettie+106%20Norfolk%20St,%20New%20York,%20NY%2010002';
+            const reservationUrl = 'Walk in Only';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Jahn’s</h1>
             <div class='restaurant-type'>Diner • $$</div>
-            <div class='restaurant-address'>81-04 37th Ave, Queens, NY 11372</div>
 
             <p>
                 A 61-year-old diner and ice cream spot known for its huge Kitchen Sink Sundae. The menu mixes classic diner dishes with Greek favorites. All served in a charming, retro vibe.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7494368, -73.8849821], 12);
+                this.map = L.map('map-view').setView([40.7494368, -73.8849821], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

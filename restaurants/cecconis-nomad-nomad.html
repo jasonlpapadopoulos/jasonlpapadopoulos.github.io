@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Cecconi's NoMad</h1>
             <div class='restaurant-type'>Italian • $$$</div>
-            <div class='restaurant-address'>1170 Broadway, New York, NY 10001</div>
 
             <p>
                 A modern Italian eatery in a historic building, serving hand-made pasta, wood-fired pizza, and Northern Italian cuisine. Think classic yet stylish vibes with navy velvet seating, golden-yellow leather chairs, and a sleek wooden bar. Open to the public, but members and hotel guests need to book ahead.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7449246, -73.988596], 12);
+                this.map = L.map('map-view').setView([40.7449246, -73.988596], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

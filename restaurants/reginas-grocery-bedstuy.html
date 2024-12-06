@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Regina's Grocery</h1>
             <div class='restaurant-type'>Sandwich • $</div>
-            <div class='restaurant-address'>1063 Bedford Avenue, Brooklyn, NY 11216</div>
 
             <p>
                 Beloved Italian deli is opening up on Bedford Avenue. This Brooklyn spot serves classic sandwiches, like Uncle Jimmy and Uncle John, alongside salads and Italian favorites, all inspired by family recipes.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.6875557, -73.9545693], 12);
+                this.map = L.map('map-view').setView([40.6875557, -73.9545693], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

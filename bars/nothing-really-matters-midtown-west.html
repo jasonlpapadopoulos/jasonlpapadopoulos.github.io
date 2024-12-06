@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Nothing Really Matters</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://offloadmedia.feverup.com/secretnyc.co/wp-content/uploads/2022/02/25100726/272986638_4739351516146368_8193509583270623717_n-e1644530880646.jpg'>
+                <img class='restaurant-image' src='https://offloadmedia.feverup.com/secretnyc.co/wp-content/uploads/2022/02/25100726/272986638_4739351516146368_8193509583270623717_n-e1644530880646.jpg' alt='Nothing Really Matters' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Nothing Really Matters</h1>
+            <div class='restaurant-type'>$</div>
+
+            <p>
+                Secret cocktail spot tucked away in a subway station. Think New York-inspired drinks, a speakeasy feel, and a cool dim atmosphere with a disco ball and sparkly wallpaper. A hidden gem with a unique vibe.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.7614927, -73.9844598], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.7614927, -73.9844598]).addTo(this.map)
+                    .bindPopup('<b>Nothing Really Matters</b><br>210 W 50th St, New York, NY 10019').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Nothing%20Really%20Matters+210%20W%2050th%20St,%20New%20York,%20NY%2010019';
+            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/nothing-really-matters?date=2024-09-30&seats=2';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

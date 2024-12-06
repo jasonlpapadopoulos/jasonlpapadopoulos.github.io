@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>McSorley's Old Ale House</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://images.sideways.nyc/4elL2dX2veOLmYmUKO6ROa/mcsorleys-old-ale-house-1.jpg?auto=format&w=768&fit=crop'>
+                <img class='restaurant-image' src='https://images.sideways.nyc/4elL2dX2veOLmYmUKO6ROa/mcsorleys-old-ale-house-1.jpg?auto=format&w=768&fit=crop' alt='McSorley's Old Ale House' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>McSorley's Old Ale House</h1>
+            <div class='restaurant-type'>$</div>
+
+            <p>
+                Historic Irish pub founded in 1854, known for its deep-rooted history and ability to persevere through Prohibition. Enjoy classic light and dark ales in a cozy, sawdust-covered setting. Timeless charm with a laid-back vibe.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.7287612, -73.9897021], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.7287612, -73.9897021]).addTo(this.map)
+                    .bindPopup('<b>McSorley's Old Ale House</b><br>15 E 7th St, New York, NY 10003').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=McSorley's%20Old%20Ale%20House+15%20E%207th%20St,%20New%20York,%20NY%2010003';
+            const reservationUrl = 'Walk in Only';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

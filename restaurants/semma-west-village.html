@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Semma</h1>
             <div class='restaurant-type'>Indian • $$</div>
-            <div class='restaurant-address'>60 Greenwich Ave, New York, NY 10011</div>
 
             <p>
                 Michelin-starred spot serving up genuine South Indian dishes, crafted by Chef Vijay Kumar. The menu bursts with rich flavors and local ingredients, all set against decor inspired by Kerala.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.736072, -74.000689], 12);
+                this.map = L.map('map-view').setView([40.736072, -74.000689], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

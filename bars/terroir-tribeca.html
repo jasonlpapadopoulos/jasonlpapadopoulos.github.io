@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Terroir</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://punchdrink.com/wp-content/uploads/2017/06/Article-Paul-Grieco-Terroir-2-1.jpg?w=1024'>
+                <img class='restaurant-image' src='https://punchdrink.com/wp-content/uploads/2017/06/Article-Paul-Grieco-Terroir-2-1.jpg?w=1024' alt='Terroir' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Terroir</h1>
+            <div class='restaurant-type'>$$</div>
+
+            <p>
+                Trendy wine spot serving wines on tap, rock & roll tunes, and a varied drink menu. Savor unique wines and tasty bites like veal-and-ricotta meatballs in a chill, lively vibe.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.7188986, -74.0099667], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.7188986, -74.0099667]).addTo(this.map)
+                    .bindPopup('<b>Terroir</b><br>24 Harrison St, New York, NY 10013').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Terroir+24%20Harrison%20St,%20New%20York,%20NY%2010013';
+            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/terroir?date=2024-09-24&seats=2';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

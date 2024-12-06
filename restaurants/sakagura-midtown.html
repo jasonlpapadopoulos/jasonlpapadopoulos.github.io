@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Sakagura</h1>
             <div class='restaurant-type'>Japanese • $$$</div>
-            <div class='restaurant-address'>211 E 43rd St, New York, NY 10017</div>
 
             <p>
                 This hidden gem is a cozy underground Japanese eatery famous for its vast sake selection (more than 260 types) and real tapas-style fare. Enjoy a calm, traditional vibe right in the midst of the city's hustle and bustle.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7512542, -73.9731311], 12);
+                this.map = L.map('map-view').setView([40.7512542, -73.9731311], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

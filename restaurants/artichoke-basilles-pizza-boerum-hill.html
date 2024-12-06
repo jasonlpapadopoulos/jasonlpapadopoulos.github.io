@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Artichoke Basille's Pizza</h1>
             <div class='restaurant-type'>Pizza • $$</div>
-            <div class='restaurant-address'>59 5th Ave, Brooklyn, NY 11217</div>
 
             <p>
                 This popular pizza place was started by fourth-generation pizzaiolos Francis and Sal. They serve thick, creamy, and delicious pizzas that have won over both critics and local fans since opening in 2008.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.6809284, -73.9771392], 12);
+                this.map = L.map('map-view').setView([40.6809284, -73.9771392], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

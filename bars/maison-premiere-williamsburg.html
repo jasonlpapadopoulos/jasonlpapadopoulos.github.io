@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Maison Premiere</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://i.pinimg.com/736x/e1/41/b9/e141b924de3986262d7e97fecbe07bdd.jpg'>
+                <img class='restaurant-image' src='https://i.pinimg.com/736x/e1/41/b9/e141b924de3986262d7e97fecbe07bdd.jpg' alt='Maison Premiere' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Maison Premiere</h1>
+            <div class='restaurant-type'>$$$</div>
+
+            <p>
+                Charming spot with a Parisian café vibe and a New Orleans cocktail scene. Famous for its wide absinthe choices, reasonably priced oysters, and expertly made classic cocktails. Atmosphere is elegantly nostalgic and inviting.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.7142593, -73.9616513], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.7142593, -73.9616513]).addTo(this.map)
+                    .bindPopup('<b>Maison Premiere</b><br>298 Bedford Ave, Brooklyn, NY 11249').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Maison%20Premiere+298%20Bedford%20Ave,%20Brooklyn,%20NY%2011249';
+            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/maison-premiere?date=2024-07-22&seats=2';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

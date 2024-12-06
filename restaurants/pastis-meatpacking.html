@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Pastis</h1>
             <div class='restaurant-type'>French • $$$</div>
-            <div class='restaurant-address'>52 Gansevoort St, New York, NY 10014</div>
 
             <p>
                 A beloved French bistro serving up classic dishes like moules, steak frites, and timeless desserts. Stylish space with a curved zinc bar, vintage mirrors, and a beautiful mosaic floor. Chic vibes with a cozy feel.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7392043, -74.0069594], 12);
+                this.map = L.map('map-view').setView([40.7392043, -74.0069594], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

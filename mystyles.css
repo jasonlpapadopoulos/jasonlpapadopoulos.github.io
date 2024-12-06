@@ -694,6 +694,7 @@
     border-radius: 25px;
     overflow: hidden;
     max-width: 300px;
+    max-height: 50px;
     margin: 10px auto;
   }
   
@@ -745,16 +746,6 @@
   max-width: 800px;
   margin: 0 auto;
   animation: fadeIn 1s ease-out;
-}
-.restaurant-image-wrapper {
-  width: 90%;
-  max-width: 600px;
-  background-color: white; /* White border */
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(255,255,255,0.1);
-  margin-bottom: 20px;
-  padding: 3px; /* Thin white border */
 }
 .restaurant-image {
   width: 100%;

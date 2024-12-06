@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Tonchin BROOKLYN</h1>
             <div class='restaurant-type'>Ramen • $$</div>
-            <div class='restaurant-address'>109 N 3rd St, Brooklyn, NY 11249</div>
 
             <p>
                 Contemporary Japanese eatery blending classic tastes with a fresh spin. Enjoy house-made noodles, rich Tokyo Tonkotsu broth, and a selection of natural wines. A friendly spot perfect for get-togethers and tasty bites.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7168274, -73.9617324], 12);
+                this.map = L.map('map-view').setView([40.7168274, -73.9617324], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

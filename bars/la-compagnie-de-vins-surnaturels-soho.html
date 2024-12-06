@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>La Compagnie de Vins Surnaturels</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://www.itruereview.com/wp-content/uploads/2016/01/4sqap14520731514521626_Y-Ufs0lS3FClz4TjItSgu_Ul6mR4zbpq-WhyG8m8_eg-600x600.jpg'>
+                <img class='restaurant-image' src='https://www.itruereview.com/wp-content/uploads/2016/01/4sqap14520731514521626_Y-Ufs0lS3FClz4TjItSgu_Ul6mR4zbpq-WhyG8m8_eg-600x600.jpg' alt='La Compagnie de Vins Surnaturels' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>La Compagnie de Vins Surnaturels</h1>
+            <div class='restaurant-type'>$$$</div>
+
+            <p>
+                Stylish wine spot with rich colors, boasting over 1,000 wines from around the world. Enjoy seasonal tapas in a cozy, Parisian-inspired setting by a top designer. A perfect blend of charm and sophistication.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!this.map) {
+                // Initialize the map
+                this.map = L.map('map-view').setView([40.7204999, -73.9980785], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(this.map);
+
+                // Add a marker for the restaurant location
+                L.marker([40.7204999, -73.9980785]).addTo(this.map)
+                    .bindPopup('<b>La Compagnie de Vins Surnaturels</b><br>249 Centre Street, New York, NY 10013').openPopup();
+            } else {
+                // Clear existing markers
+                this.map.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        this.map.removeLayer(layer);
+                    }
+                });
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=La%20Compagnie%20de%20Vins%20Surnaturels+249%20Centre%20Street,%20New%20York,%20NY%2010013';
+            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/la-compagnie-des-vins-surnaturels?seats=2&date=2024-09-23';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

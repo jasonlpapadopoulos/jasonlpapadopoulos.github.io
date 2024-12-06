@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Le Crocodile</h1>
             <div class='restaurant-type'>French • $$$</div>
-            <div class='restaurant-address'>80 Wythe Ave, Brooklyn, NY 11249</div>
 
             <p>
                 All-day French brasserie serving up creative and hearty dishes. Enjoy steak tartare, moules mariniere, and standout options like roast chicken and sticky banana date pudding. Don’t forget to check out the impressive wine and cocktail selections.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7130477, -73.9657681], 12);
+                this.map = L.map('map-view').setView([40.7130477, -73.9657681], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 
