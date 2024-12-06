@@ -155,10 +155,10 @@ class BarDisplay {
                 .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
         };
 
-    const place_name_clean = cleanString(bar.place_name);
-    const neighborhood_clean = cleanString(bar.neighborhood);
+        const place_name_clean = cleanString(bar.place_name);
+        const neighborhood_clean = cleanString(bar.neighborhood);
 
-    const barPageUrl = `bars/${place_name_clean}-${neighborhood_clean}.html`;
+        const barPageUrl = `bars/${place_name_clean}-${neighborhood_clean}.html`;
 
         box.innerHTML = `
             <strong>${bar.place_name}</strong><br>
@@ -192,11 +192,23 @@ class BarDisplay {
         box.className = 'place-box';
 
         // Generate the URL for the bar's page
-        const barPageUrl = `bars/${bar.place_name.toLowerCase().replace(/ /g, '-')}-${bar.neighborhood.toLowerCase().replace(/ /g, '-')}.html`;
+        const cleanString = (str) => {
+            return str
+                .toLowerCase()               // Convert to lowercase
+                .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+                .trim()                       // Remove leading/trailing whitespace
+                .replace(/\s+/g, '-')         // Replace spaces with hyphens
+                .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
+        };
+
+        const place_name_clean = cleanString(bar.place_name);
+        const neighborhood_clean = cleanString(bar.neighborhood);
+
+        const barPageUrl = `bars/${place_name_clean}-${neighborhood_clean}.html`;
 
         box.innerHTML = `
             <strong>${bar.place_name}</strong><br>
-            <i>${bar.cuisine_pretty}, ${bar.budget}</i><br><br>
+            <i>${bar.budget}</i><br><br>
             
             <a href="${barPageUrl}">
                 <img src="${bar.image_url}" alt="${bar.place_name}" 
