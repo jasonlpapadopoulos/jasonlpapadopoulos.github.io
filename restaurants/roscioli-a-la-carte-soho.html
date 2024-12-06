@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Roscioli A la Carte</h1>
             <div class='restaurant-type'>Italian • $$</div>
-            <div class='restaurant-address'>43 MacDougal St, New York, NY 10012</div>
 
             <p>
                 This spot serves up genuine Roman tastes with a classic Italian market vibe. Expect top-notch ingredients, a deli display, an open kitchen, and options for both à la carte dishes and tasting menus. It pays tribute to its sister restaurant in Rome.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7277483, -74.0026023], 12);
+                this.map = L.map('map-view').setView([40.7277483, -74.0026023], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

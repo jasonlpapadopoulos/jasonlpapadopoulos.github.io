@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>The Mark Restaurant by Jean-Georges</h1>
             <div class='restaurant-type'>American • $$$$</div>
-            <div class='restaurant-address'>25 E 77th St, New York, NY 10075</div>
 
             <p>
                 A stylish restaurant in a luxury hotel serving delightful European favorites with a twist of global flavors. Elegant dining areas, outdoor seating, and crafted cocktails create a sophisticated vibe. Close to Central Park and the Met.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7753299, -73.9632594], 12);
+                this.map = L.map('map-view').setView([40.7753299, -73.9632594], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

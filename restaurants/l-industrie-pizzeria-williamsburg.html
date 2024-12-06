@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>L’ Industrie Pizzeria</h1>
             <div class='restaurant-type'>Pizza • $</div>
-            <div class='restaurant-address'>254 S 2nd St, Brooklyn, NY 11211</div>
 
             <p>
                 Popular hotspot for traditional Italian and creative pizza, serving wood-fired pies, burrata slices, and gelato. Founded by a Tuscany native, it mixes Italian cooking with New York vibes.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7116097, -73.9578261], 12);
+                this.map = L.map('map-view').setView([40.7116097, -73.9578261], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

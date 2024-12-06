@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Cloverhill</h1>
             <div class='restaurant-type'>American • $$$</div>
-            <div class='restaurant-address'>20 Columbia Pl, Brooklyn, NY 11201</div>
 
             <p>
                 Charming 34-seat eatery serving a fusion of French and new American dishes crafted by executive chef Charlie Mitchell. Housed in a historic landmark, it boasts a refined yet inviting menu with a friendly vibe.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.693107, -73.9987279], 12);
+                this.map = L.map('map-view').setView([40.693107, -73.9987279], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

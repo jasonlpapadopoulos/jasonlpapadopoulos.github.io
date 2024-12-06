@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Rosemary's East</h1>
             <div class='restaurant-type'>Italian • $$</div>
-            <div class='restaurant-address'>350 1st Avenue, New York, NY 10010</div>
 
             <p>
                 Cozy spot at 825 Third Avenue serving hand-crafted pasta, Neapolitan pizzas, and fresh seasonal produce from McEnroe Organic Farm. It has a 100-seat dining room and a 40-seat sidewalk cafe. Perfect for family-style meals and friendly service.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7350464, -73.9791563], 12);
+                this.map = L.map('map-view').setView([40.7350464, -73.9791563], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

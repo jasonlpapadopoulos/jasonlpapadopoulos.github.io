@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Ume</h1>
             <div class='restaurant-type'>Sushi • $$$$</div>
-            <div class='restaurant-address'>237 Kent Ave, Brooklyn, NY 11249</div>
 
             <p>
                 This unique Japanese spot offers a chic omakase experience in a cozy, minimalistic space with a lovely patio garden. Guests can make their own handrolls using globally-inspired seasonings, making for a fun and creative dining adventure.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7165079, -73.9654572], 12);
+                this.map = L.map('map-view').setView([40.7165079, -73.9654572], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

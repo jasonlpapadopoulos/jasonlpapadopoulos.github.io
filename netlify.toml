@@ -1,6 +1,14 @@
 [[redirects]]
-from = "/what-are-you-looking-for2.html"
-to = "/what-are-you-looking-for2"
+  from = "/restaurants/:restaurant"
+  to = "/restaurants/:restaurant.html"
+  status = 200
+[[redirects]]
+  from = "/bars/:bar"
+  to = "/bars/:bar.html"
+  status = 200
+[[redirects]]
+from = "/what-are-you-looking-for.html"
+to = "/what-are-you-looking-for"
 status = 200
 [[redirects]]
 from = "/neighborhoods.html"

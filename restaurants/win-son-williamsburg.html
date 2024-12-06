@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Win Son</h1>
             <div class='restaurant-type'>Asian • $$</div>
-            <div class='restaurant-address'>159 Graham Ave, Brooklyn, NY 11206</div>
 
             <p>
                 This spot serves elevated Taiwanese-American dishes in a laid-back, modern setting. Expect exposed brick, greenery, and retro Asian decor. The shareable menu includes items like lou rou fan and the Nutritious Sandwich. It's even got a MICHELIN Bib Gourmand award.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7074472, -73.9433955], 12);
+                this.map = L.map('map-view').setView([40.7074472, -73.9433955], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

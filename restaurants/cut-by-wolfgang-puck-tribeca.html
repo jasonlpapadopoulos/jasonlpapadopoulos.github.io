@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>CUT by Wolfgang Puck</h1>
             <div class='restaurant-type'>Steakhouse • $$$$</div>
-            <div class='restaurant-address'>99 Church St, New York, NY 10007</div>
 
             <p>
                 CUT by Wolfgang Puck is an upscale steakhouse in a luxury hotel. It offers high-end dining with fresh, local ingredients. The space has a chic, theatrical vibe. Perfect for celebrities, locals, and business diners.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.713108, -74.009244], 12);
+                this.map = L.map('map-view').setView([40.713108, -74.009244], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 

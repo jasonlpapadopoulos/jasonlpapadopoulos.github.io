@@ -19,7 +19,6 @@
         <div class='restaurant-details'>
             <h1 class='restaurant-name'>Edith's Sandwich Counter</h1>
             <div class='restaurant-type'>Deli & Bagel • $</div>
-            <div class='restaurant-address'>495 Lorimer St, Brooklyn, NY 11211</div>
 
             <p>
                 Casual spot serving up fresh, grilled-to-order bagels and hot sandwiches. Enjoy breakfast and lunch with a historical twist, plus creative options like the BEC&L sandwich and refreshing iced cafe slushies. No reservations required, with some outdoor seating available or take-out if you prefer.
@@ -34,7 +33,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (!this.map) {
                 // Initialize the map
-                this.map = L.map('map-view').setView([40.7116962, -73.9492356], 12);
+                this.map = L.map('map-view').setView([40.7116962, -73.9492356], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -64,14 +63,14 @@
             if (mapsUrl && mapsUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${mapsUrl} target="_blank">
-                        <button class="choice-button">See in Maps</button>
+                        <button class="choice-button">See in Google Maps</button>
                     </a>`;
             }
 
             if (reservationUrl && reservationUrl.startsWith('http')) {
                 buttonsHtml += `
                     <a href=${reservationUrl} target="_blank">
-                        <button class="choice-button">Reserve</button>
+                        <button class="choice-button">Reserve a Table</button>
                     </a>`;
             }
 
