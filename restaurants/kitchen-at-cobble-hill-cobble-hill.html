@@ -31,9 +31,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            if (!this.map) {
-                // Initialize the map
-                this.map = L.map('map-view').setView([40.6853397, -73.994628], 16);
+            const latitude = '40.6853397'; // Replace with actual latitude value dynamically
+            const longitude = '-73.994628'; // Replace with actual longitude value dynamically
+
+            if (!isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))) {
+                // Initialize the map if latitude and longitude are valid
+                const map = L.map('map-view').setView([parseFloat(latitude), parseFloat(longitude)], 16);
 
                 // Use a minimalistic dark tile layer
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -41,18 +44,17 @@
                     subdomains: 'abcd',
                     maxZoom: 19,
                     className: 'leaflet-dark'
-                }).addTo(this.map);
+                }).addTo(map);
 
                 // Add a marker for the restaurant location
-                L.marker([40.6853397, -73.994628]).addTo(this.map)
+                L.marker([parseFloat(latitude), parseFloat(longitude)]).addTo(map)
                     .bindPopup('<b>Kitchen at Cobble Hill</b><br>254 Court St, Brooklyn, NY 11231').openPopup();
             } else {
-                // Clear existing markers
-                this.map.eachLayer((layer) => {
-                    if (layer instanceof L.Marker) {
-                        this.map.removeLayer(layer);
-                    }
-                });
+                // Hide the map view if latitude and longitude are invalid
+                const mapView = document.getElementById('map-view');
+                if (mapView) {
+                    mapView.style.display = 'none';
+                }
             }
         });
 

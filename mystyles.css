@@ -147,12 +147,14 @@
   .choice-button {
     background-color: black;
     color: white;
-    border: 1px solid white;
-    padding: 5px 10px;
-    margin: 0 5px;
+    border: 0.1rem solid white; /* Replacing 1px with 0.1rem */
+    padding: 0.3rem 0.6rem; /* Replacing 5px 10px with rem units */
+    margin: 0 0.3rem; /* Replacing 0 5px with rem units */
     cursor: pointer;
-    transition: all 0.3s ease;
-  }
+    transition: all 0.3s ease; /* Keeping the transition duration in seconds */
+    font-size: 1.25rem; /* Control the font size (optional, default is 1rem) */
+    border-radius: 0.2rem; /* Add optional rounding (e.g., 2px -> 0.2rem) */
+}
   
   .choice-button:hover {
     background-color: white;

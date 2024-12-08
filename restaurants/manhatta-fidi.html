@@ -1,1 +1,89 @@
-NA
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Manhatta</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://static01.nyt.com/images/2022/03/09/dining/09manhatta-bar1/merlin_203224119_294ee467-36e0-4f24-b731-161786b5b4b1-superJumbo.jpg'>
+                <img class='restaurant-image' src='https://static01.nyt.com/images/2022/03/09/dining/09manhatta-bar1/merlin_203224119_294ee467-36e0-4f24-b731-161786b5b4b1-superJumbo.jpg' alt='Manhatta' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Manhatta</h1>
+            <div class='restaurant-type'>American • $$$</div>
+
+            <p>
+                Manhatta is on the 60th floor, serving a mix of classic and modern dishes alongside stunning views of the city. Enjoy a cutting-edge chef's counter and a top-notch bar.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const latitude = ''; // Replace with actual latitude value dynamically
+            const longitude = ''; // Replace with actual longitude value dynamically
+
+            if (!isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))) {
+                // Initialize the map if latitude and longitude are valid
+                const map = L.map('map-view').setView([parseFloat(latitude), parseFloat(longitude)], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(map);
+
+                // Add a marker for the restaurant location
+                L.marker([parseFloat(latitude), parseFloat(longitude)]).addTo(map)
+                    .bindPopup('<b>Manhatta</b><br>28 Liberty St, 60th Floor, New York, NY 10005').openPopup();
+            } else {
+                // Hide the map view if latitude and longitude are invalid
+                const mapView = document.getElementById('map-view');
+                if (mapView) {
+                    mapView.style.display = 'none';
+                }
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Manhatta+28%20Liberty%20St,%2060th%20Floor,%20New%20York,%20NY%2010005';
+            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/manhatta?gad_source=1&gbraid=0AAAAADRRHWNDLGoKyLs00U02W6kZVy7q0&gclid=CjwKCAiAxKy5BhBbEiwAYiW--5nRoE57C-r03hlrLz-Rlel3wx92qYxoWRm2SbexvONb65j5kq4HtBoCh2QQAvD_BwE&gclsrc=aw.ds&date=2024-11-06&seats=2';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

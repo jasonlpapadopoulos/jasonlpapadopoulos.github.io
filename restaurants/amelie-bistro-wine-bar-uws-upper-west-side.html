@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Amelie Bistro & Wine Bar UWS</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://offloadmedia.feverup.com/secretnyc.co/wp-content/uploads/2022/07/25092313/39995547_691488951249762_6455995717964958312_n-e1657055510178.jpg'>
+                <img class='restaurant-image' src='https://offloadmedia.feverup.com/secretnyc.co/wp-content/uploads/2022/07/25092313/39995547_691488951249762_6455995717964958312_n-e1657055510178.jpg' alt='Amelie Bistro & Wine Bar UWS' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Amelie Bistro & Wine Bar UWS</h1>
+            <div class='restaurant-type'>American • $$</div>
+
+            <p>
+                Charming bistro with Michelin recognition, serving up French and Mediterranean dishes like mussels, ravioli, and goat cheese. Enjoy a cozy vibe and heated outdoor seating.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const latitude = '40.7887447'; // Replace with actual latitude value dynamically
+            const longitude = '-73.9746255'; // Replace with actual longitude value dynamically
+
+            if (!isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))) {
+                // Initialize the map if latitude and longitude are valid
+                const map = L.map('map-view').setView([parseFloat(latitude), parseFloat(longitude)], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(map);
+
+                // Add a marker for the restaurant location
+                L.marker([parseFloat(latitude), parseFloat(longitude)]).addTo(map)
+                    .bindPopup('<b>Amelie Bistro & Wine Bar UWS</b><br>566 Amsterdam Ave, New York, NY 10024').openPopup();
+            } else {
+                // Hide the map view if latitude and longitude are invalid
+                const mapView = document.getElementById('map-view');
+                if (mapView) {
+                    mapView.style.display = 'none';
+                }
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Amelie%20Bistro%20&%20Wine%20Bar%20UWS+566%20Amsterdam%20Ave,%20New%20York,%20NY%2010024';
+            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/amelie-upper-west-side?date=2024-07-17&seats=2';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

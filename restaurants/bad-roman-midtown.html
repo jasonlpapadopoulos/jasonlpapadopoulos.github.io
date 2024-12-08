@@ -1,1 +1,89 @@
-NA
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>Bad Roman</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://resizer.otstatic.com/v2/photos/wide-xlarge/2/51434279.webp'>
+                <img class='restaurant-image' src='https://resizer.otstatic.com/v2/photos/wide-xlarge/2/51434279.webp' alt='Bad Roman' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>Bad Roman</h1>
+            <div class='restaurant-type'>Italian • $$$</div>
+
+            <p>
+                An upscale Italian spot on the third floor, this modern restaurant serves fun takes on Italian classics and house-made pasta. Enjoy a vibrant atmosphere and striking views of Central Park.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const latitude = ''; // Replace with actual latitude value dynamically
+            const longitude = ''; // Replace with actual longitude value dynamically
+
+            if (!isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))) {
+                // Initialize the map if latitude and longitude are valid
+                const map = L.map('map-view').setView([parseFloat(latitude), parseFloat(longitude)], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(map);
+
+                // Add a marker for the restaurant location
+                L.marker([parseFloat(latitude), parseFloat(longitude)]).addTo(map)
+                    .bindPopup('<b>Bad Roman</b><br>10 Columbus Circle, Third Floor, New York, NY 10019').openPopup();
+            } else {
+                // Hide the map view if latitude and longitude are invalid
+                const mapView = document.getElementById('map-view');
+                if (mapView) {
+                    mapView.style.display = 'none';
+                }
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Bad%20Roman+10%20Columbus%20Circle,%20Third%20Floor,%20New%20York,%20NY%2010019';
+            const reservationUrl = 'https://www.opentable.com/r/bad-roman-new-york?ref=1068';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>

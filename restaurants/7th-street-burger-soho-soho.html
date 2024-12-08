@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>7th Street Burger - Soho</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <a href='https://mir-s3-cdn-cf.behance.net/project_modules/1400/f2d18d138649179.622160e4eb984.png'>
+                <img class='restaurant-image' src='https://mir-s3-cdn-cf.behance.net/project_modules/1400/f2d18d138649179.622160e4eb984.png' alt='7th Street Burger - Soho' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            </a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>7th Street Burger - Soho</h1>
+            <div class='restaurant-type'>Burger • $</div>
+
+            <p>
+                Famous for its straightforward yet delicious smash burgers, this spot uses a 75/25 meat-to-fat blend, topped with onions, pickles, and American cheese on grilled potato rolls. Now, it's making waves in London, teaming up with Truffle Burger.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const latitude = '40.7231381'; // Replace with actual latitude value dynamically
+            const longitude = '-73.9956604'; // Replace with actual longitude value dynamically
+
+            if (!isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))) {
+                // Initialize the map if latitude and longitude are valid
+                const map = L.map('map-view').setView([parseFloat(latitude), parseFloat(longitude)], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(map);
+
+                // Add a marker for the restaurant location
+                L.marker([parseFloat(latitude), parseFloat(longitude)]).addTo(map)
+                    .bindPopup('<b>7th Street Burger - Soho</b><br>250 Mulberry St, New York, NY 10012').openPopup();
+            } else {
+                // Hide the map view if latitude and longitude are invalid
+                const mapView = document.getElementById('map-view');
+                if (mapView) {
+                    mapView.style.display = 'none';
+                }
+            }
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=7th%20Street%20Burger%20-%20Soho+250%20Mulberry%20St,%20New%20York,%20NY%2010012';
+            const reservationUrl = 'Walk in Only';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>
