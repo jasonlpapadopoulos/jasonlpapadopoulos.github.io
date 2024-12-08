@@ -177,56 +177,56 @@ class RestaurantDisplay {
         });
     }
 
+    // createRestaurantBox(restaurant) {
+    //     const box = document.createElement('div');
+    //     box.className = 'place-box';
+
+    //     // Generate the URL for the restaurant's page
+    //     // const restaurantPageUrl = `restaurants/${restaurant.place_name.toLowerCase().replace(/ /g, '-')}-${restaurant.neighborhood.toLowerCase().replace(/ /g, '-')}.html`;
+
+    //         const cleanString = (str) => {
+    //             return str
+    //                 .toLowerCase()               // Convert to lowercase
+    //                 .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+    //                 .trim()                       // Remove leading/trailing whitespace
+    //                 .replace(/\s+/g, '-')         // Replace spaces with hyphens
+    //                 .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
+    //         };
+
+    //         const place_name_clean = cleanString(restaurant.place_name);
+    //         const neighborhood_clean = cleanString(restaurant.neighborhood);
+
+    //         const restaurantPageUrl = `restaurants/${place_name_clean}-${neighborhood_clean}.html`;
+
+
+    //     box.innerHTML = `
+    //         <strong>${restaurant.place_name}</strong><br>
+    //         <i>${restaurant.cuisine_pretty}, ${restaurant.budget}</i><br><br>
+            
+    //         <a href="${restaurantPageUrl}">
+    //             <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
+    //             onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+    //         </a><br><br>
+            
+    //         ${restaurant.description}<br><br>
+            
+    //         ${restaurant.maps_url && restaurant.maps_url.startsWith('http') ? `
+    //             <a href="${restaurant.maps_url}" target="_blank">
+    //                 <button class="choice-button">See in Maps</button>
+    //             </a>
+    //         ` : ''}
+            
+    //         ${restaurant.reservation_url && restaurant.reservation_url.startsWith('http') ? `
+    //             <a href="${restaurant.reservation_url}" target="_blank">
+    //                 <button class="choice-button">Reserve</button>
+    //             </a>
+    //         ` : ''}
+    //     `;
+
+    //     return box;
+    // }
+
     createRestaurantBox(restaurant) {
-    const box = document.createElement('div');
-    box.className = 'place-box';
-
-    // Generate the URL for the restaurant's page
-    // const restaurantPageUrl = `restaurants/${restaurant.place_name.toLowerCase().replace(/ /g, '-')}-${restaurant.neighborhood.toLowerCase().replace(/ /g, '-')}.html`;
-
-        const cleanString = (str) => {
-            return str
-                .toLowerCase()               // Convert to lowercase
-                .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-                .trim()                       // Remove leading/trailing whitespace
-                .replace(/\s+/g, '-')         // Replace spaces with hyphens
-                .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
-        };
-
-        const place_name_clean = cleanString(restaurant.place_name);
-        const neighborhood_clean = cleanString(restaurant.neighborhood);
-
-        const restaurantPageUrl = `restaurants/${place_name_clean}-${neighborhood_clean}.html`;
-
-
-    box.innerHTML = `
-        <strong>${restaurant.place_name}</strong><br>
-        <i>${restaurant.cuisine_pretty}, ${restaurant.budget}</i><br><br>
-        
-        <a href="${restaurantPageUrl}">
-            <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
-            onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
-        </a><br><br>
-        
-        ${restaurant.description}<br><br>
-        
-        ${restaurant.maps_url && restaurant.maps_url.startsWith('http') ? `
-            <a href="${restaurant.maps_url}" target="_blank">
-                <button class="choice-button">See in Maps</button>
-            </a>
-        ` : ''}
-        
-        ${restaurant.reservation_url && restaurant.reservation_url.startsWith('http') ? `
-            <a href="${restaurant.reservation_url}" target="_blank">
-                <button class="choice-button">Reserve</button>
-            </a>
-        ` : ''}
-    `;
-
-    return box;
-}
-
-    createRestaurantBoxMap(restaurant) {
         const box = document.createElement('div');
         box.className = 'place-box';
 
@@ -243,7 +243,7 @@ class RestaurantDisplay {
         const place_name_clean = cleanString(restaurant.place_name);
         const neighborhood_clean = cleanString(restaurant.neighborhood);
 
-        const restaurantPageUrl = `restaurants/${place_name_clean}-${neighborhood_clean}.html`;
+        const restaurantPageUrl = `restaurants/${place_name_clean}-${neighborhood_clean}`;
 
         box.innerHTML = `
             <strong>${restaurant.place_name}</strong><br>

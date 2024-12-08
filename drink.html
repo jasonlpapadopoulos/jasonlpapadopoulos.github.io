@@ -142,52 +142,52 @@ class BarDisplay {
         });
     }
 
+    // createBarBox(bar) {
+    //     const box = document.createElement('div');
+    //     box.className = 'place-box';
+
+    //     const cleanString = (str) => {
+    //         return str
+    //             .toLowerCase()               // Convert to lowercase
+    //             .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+    //             .trim()                       // Remove leading/trailing whitespace
+    //             .replace(/\s+/g, '-')         // Replace spaces with hyphens
+    //             .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
+    //     };
+
+    //     const place_name_clean = cleanString(bar.place_name);
+    //     const neighborhood_clean = cleanString(bar.neighborhood);
+
+    //     const barPageUrl = `bars/${place_name_clean}-${neighborhood_clean}`;
+
+    //     box.innerHTML = `
+    //         <strong>${bar.place_name}</strong><br>
+    //         <i>${bar.budget}</i><br><br>
+            
+    //         <a href="${barPageUrl}">
+    //             <img src="${bar.image_url}" alt="${bar.place_name}" 
+    //             onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+    //         </a><br><br>
+            
+    //         ${bar.description}<br><br>
+            
+    //         ${bar.maps_url && bar.maps_url.startsWith('http') ? `
+    //             <a href="${bar.maps_url}" target="_blank">
+    //                 <button class="choice-button">See in Maps</button>
+    //             </a>
+    //         ` : ''}
+            
+    //         ${bar.reservation_url && bar.reservation_url.startsWith('http') ? `
+    //             <a href="${bar.reservation_url}" target="_blank">
+    //                 <button class="choice-button">Reserve</button>
+    //             </a>
+    //         ` : ''}
+    //     `;
+
+    //     return box;
+    // }
+
     createBarBox(bar) {
-        const box = document.createElement('div');
-        box.className = 'place-box';
-
-        const cleanString = (str) => {
-            return str
-                .toLowerCase()               // Convert to lowercase
-                .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-                .trim()                       // Remove leading/trailing whitespace
-                .replace(/\s+/g, '-')         // Replace spaces with hyphens
-                .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
-        };
-
-        const place_name_clean = cleanString(bar.place_name);
-        const neighborhood_clean = cleanString(bar.neighborhood);
-
-        const barPageUrl = `bars/${place_name_clean}-${neighborhood_clean}.html`;
-
-        box.innerHTML = `
-            <strong>${bar.place_name}</strong><br>
-            <i>${bar.budget}</i><br><br>
-            
-            <a href="${barPageUrl}">
-                <img src="${bar.image_url}" alt="${bar.place_name}" 
-                onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
-            </a><br><br>
-            
-            ${bar.description}<br><br>
-            
-            ${bar.maps_url && bar.maps_url.startsWith('http') ? `
-                <a href="${bar.maps_url}" target="_blank">
-                    <button class="choice-button">See in Maps</button>
-                </a>
-            ` : ''}
-            
-            ${bar.reservation_url && bar.reservation_url.startsWith('http') ? `
-                <a href="${bar.reservation_url}" target="_blank">
-                    <button class="choice-button">Reserve</button>
-                </a>
-            ` : ''}
-        `;
-
-        return box;
-    }
-
-    createBarBoxMap(bar) {
         const box = document.createElement('div');
         box.className = 'place-box';
 
@@ -204,7 +204,7 @@ class BarDisplay {
         const place_name_clean = cleanString(bar.place_name);
         const neighborhood_clean = cleanString(bar.neighborhood);
 
-        const barPageUrl = `bars/${place_name_clean}-${neighborhood_clean}.html`;
+        const barPageUrl = `bars/${place_name_clean}-${neighborhood_clean}`;
 
         box.innerHTML = `
             <strong>${bar.place_name}</strong><br>
@@ -370,7 +370,7 @@ class BarDisplay {
                 const marker = L.marker([parseFloat(bar.lat), parseFloat(bar.lng)])
                     .addTo(this.map)
                     .bindPopup(() => {
-                        const popupContent = this.createBarBoxMap(bar);
+                        const popupContent = this.createBarBox(bar);
                         return popupContent;
                     }, {
                         maxWidth: 300,
