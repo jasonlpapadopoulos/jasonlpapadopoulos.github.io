@@ -129,7 +129,7 @@ class BarDisplay {
         if (selectedNeighborhoods.length === 0) return [];
         
         return this.bars.filter(bar => {
-            const neighborhoodMatch = selectedNeighborhoods.includes(bar.neighborhood);
+            const neighborhoodMatch = selectedNeighborhoods.includes(bar.neighborhood_clean);
             const priceMatch = this.selectedPrices.size === 0 || this.selectedPrices.has(bar.budget);
             const settingMatch = this.selectedSettings.size === 0 || [...this.selectedSettings].some(setting => 
                 bar[setting.toLowerCase()] === "1"
@@ -366,8 +366,8 @@ class BarDisplay {
 
         // Add markers for filtered bars
         filteredBars.forEach(bar => {
-            if (bar.lat && bar.lng) {
-                const marker = L.marker([parseFloat(bar.lat), parseFloat(bar.lng)])
+            if (!isNaN(parseFloat(bar.lat)) && !isNaN(parseFloat(bar.lon))) {
+                const marker = L.marker([parseFloat(bar.lat), parseFloat(bar.lon)])
                     .addTo(this.map)
                     .bindPopup(() => {
                         const popupContent = this.createBarBox(bar);
@@ -385,7 +385,7 @@ class BarDisplay {
 // Initialize display and add event listeners
 document.addEventListener('DOMContentLoaded', async function() {
     const display = new BarDisplay();
-    await display.fetchBars('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/drink_places.csv');
+    await display.fetchBars('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/drinks.csv');
     display.setupEventListeners();
     display.updateDisplay();
 });
