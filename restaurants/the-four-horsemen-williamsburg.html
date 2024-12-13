@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC090JXSHE"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
+    gtag('config', 'G-SC090JXSHE');
+    </script>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=0.75'>
     <title>The Four Horsemen</title>
@@ -12,9 +20,8 @@
 <body>
     <div class='restaurant-container'>
         <div class='restaurant-image-wrapper'>
-            <a href='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68'>
-                <img class='restaurant-image' src='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' alt='The Four Horsemen' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
-            </a>
+            <img class='restaurant-image' src='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' alt='The Four Horsemen' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            <a href='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' class='image-source-link' target="_blank" rel="noopener noreferrer">Image Source</a>
         </div>
         
         <div class='restaurant-details'>
@@ -28,6 +35,14 @@
             <div class='button-container' id='button-container'></div>
         </div>
         <div id="map-view"></div>
+
+        <!-- New Nearby Bars Section -->
+        <div class="nearby-bars-container">
+            <h2 class="nearby-bars-title">Drinks after dinner?</h2>
+            <div class="nearby-bars-scroll" id="nearby-bars-scroll">
+                <!-- Bars will be dynamically inserted here -->
+            </div>
+        </div>
     </div>
 
     <script>
@@ -57,6 +72,47 @@
                     mapView.style.display = 'none';
                 }
             }
+
+            // Function to render nearby bars
+            function renderNearbyBars(bars) {
+                const barsContainer = document.getElementById('nearby-bars-scroll');
+                barsContainer.innerHTML = bars.map(bar => `
+                    <div class="nearby-bar-card">
+                        <img src="${bar.imageUrl}" alt="${bar.name}" class="nearby-bar-image" 
+                             onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+                        <div class="nearby-bar-details">
+                            <div class="nearby-bar-name">${bar.name}</div>
+                            <div class="nearby-bar-neighborhood">${bar.neighborhood}</div>
+                            <div class="nearby-bar-description">${bar.description}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Sample nearby bars data (replace with actual data)
+            const nearbyBars = [
+                {
+                    name: "The Whiskey Barrel",
+                    neighborhood: "Downtown",
+                    description: "",
+                    imageUrl: "https://i.pinimg.com/736x/e1/41/b9/e141b924de3986262d7e97fecbe07bdd.jpg"
+                },
+                {
+                    name: "Rooftop Lounge",
+                    neighborhood: "Midtown",
+                    description: "",
+                    imageUrl: "https://robbreport.com/wp-content/uploads/2021/08/BarBlondeau_0721_LizClayman_HERO.jpg?w=1000"
+                },
+                {
+                    name: "Jazz & Spirits",
+                    neighborhood: "Arts District",
+                    description: "",
+                    imageUrl: "https://www.tagvenue.com/resize/31/04/fit-900-600;53515-outdoor-garden-room.jpg"
+                }
+            ];
+
+            // Render nearby bars
+            renderNearbyBars(nearbyBars);
         });
 
         function renderButtons(mapsUrl, reservationUrl) {

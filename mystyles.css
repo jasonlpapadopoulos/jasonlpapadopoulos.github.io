@@ -157,8 +157,7 @@
 }
   
   .choice-button:hover {
-    background-color: white;
-    color: black;
+    background: linear-gradient(45deg, rgba(255, 107, 107, 0.5), rgba(78, 205, 196, 0.5));
   }
   
   .filters-container {
@@ -506,12 +505,19 @@
   
   .options-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-columns: repeat(2, 1fr); /* Default 2 columns */
     gap: 2rem;
     opacity: 0;
     animation: fadeIn 1s ease-in forwards;
     animation-delay: 0.5s;
 }
+
+/* When screen width is wider, switch to 4 columns */
+/* @media screen and (min-width: 1024px) {
+    .options-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+} */
   
   .option {
     width: 200px;
@@ -628,6 +634,10 @@
 
   .produce-icon:after {
     content: '🔪';
+  }
+
+  .nyc-icon:after {
+    content: '🗽 ';
   }
   
   /* Animations */
@@ -862,4 +872,12 @@
   color: white;
   font-size: 0.9em;
   line-height: 1.4;
+}
+
+.image-source-link {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 0.6em;
+  color: #4169E1;
+  text-decoration: underline;
 }
