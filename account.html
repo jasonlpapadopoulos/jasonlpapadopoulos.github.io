@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account - Plana</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/roboto/2.0.0/css/roboto.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mystyles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script defer src="account.js"></script>
+</head>
+<body>
+  <div id="account-container">
+    <h1>Account</h1>
+    <div id="account-content"></div>
+  </div>
+</body>
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  #account-container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 500px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  input {
+    padding: 8px;
+    font-size: 1rem;
+  }
+  button {
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+</style>
+</html>
