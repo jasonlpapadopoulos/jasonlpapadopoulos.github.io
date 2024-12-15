@@ -11,13 +11,6 @@ app.use(express.json()); // For parsing JSON request bodies
 // Enable CORS
 app.use(cors()); // Allow all origins by default
 
-// Optional: Customize CORS (e.g., allow specific origins)
-app.use(cors({
-  origin: 'http://localhost:8000', // Replace with the URL where your frontend is served
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
 // MySQL connection pool
 const db = mysql.createPool({
   host: process.env.DB_HOST,
