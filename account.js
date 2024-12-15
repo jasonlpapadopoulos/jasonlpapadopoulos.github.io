@@ -15,40 +15,91 @@ auth.onAuthStateChanged((user) => {
         console.error('Error logging out:', error.message);
       });
     });
+    // window.location.href = 'what-are-you-looking-for.html';
   } else {
     // User is not logged in
     accountContent.innerHTML = `
-      <h2>Sign Up</h2>
-      <form id="signup-form">
-        <input type="email" id="signup-email" placeholder="Email" required>
-        <input type="password" id="signup-password" placeholder="Password" required>
-        <button type="submit">Sign Up</button>
+    <div id="account-container">
+      <h3>First time here?</h3>
+      <form id="signup-form" class="animated-form">
+        <div class="input-container">
+          <i class="icon fa fa-envelope"></i>
+          <input type="email" id="signup-email" placeholder="Email" required>
         </div>
+        <div class="input-container">
+          <i class="icon fa fa-lock"></i>
+          <input type="password" id="signup-password" placeholder="Password" required>
+        </div>
+        <div class="input-container">
+          <i class="icon fa fa-user"></i>
+          <input type="text" id="signup-first-name" placeholder="First Name" required>
+        </div>
+        <button type="submit" class="cta-button">Sign Up</button>
       </form>
-      <h2>Log In</h2>
-      <form id="login-form">
-        <input type="email" id="login-email" placeholder="Email" required>
-        <input type="password" id="login-password" placeholder="Password" required>
-        <button type="submit">Log In</button>
+    </div>
+    <div id="account-container">
+      <h3>Already a Planaer?</h3>
+      <form id="login-form" class="animated-form">
+        <div class="input-container">
+          <i class="icon fa fa-envelope"></i>
+          <input type="email" id="login-email" placeholder="Email" required>
+        </div>
+        <div class="input-container">
+          <i class="icon fa fa-lock"></i>
+          <input type="password" id="login-password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="cta-button">Log In</button>
       </form>
       <p>
-        <button id="forgot-password-button" type="button">Forgot My Password</button>
-        </p>
-        <p id="login-error-message" style="color: red; font-size: 14px; display: none;"></p>
-    `;
+        <button id="forgot-password-button" class="link-button" type="button">Forgot My Password</button>
+      </p>
+    </div>
+    <div id="account-container">
+      <h3>Too busy for any of that?</h3>
+      <p>
+        <button id="guest-button" class="cta-button guest-button" type="button">Continue as Guest</button>
+      </p>
+      <p id="login-error-message" class="error-message" style="display: none;"></p>
+    </div>
+  `;
+  
     // Attach form event listeners
+// Attach form event listeners
     document.getElementById('signup-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('signup-email').value;
-      const password = document.getElementById('signup-password').value;
-
-      auth.createUserWithEmailAndPassword(email, password)
+        e.preventDefault();
+        const firstName = document.getElementById('signup-first-name').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+    
+        auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          console.log('User signed up:', userCredential.user);
+            const user = userCredential.user;
+    
+            // Send user data to your backend
+            fetch('http://localhost:3000/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                firebaseUid: user.uid,
+                email: user.email,
+                firstName: firstName
+            }),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('User added to database:', data);
+            })
+            .catch((error) => {
+                console.error('Error adding user to database:', error);
+            });
         })
         .catch((error) => {
-          console.error('Error signing up:', error.message);
+            console.error('Error signing up:', error.message);
         });
+    });
+  
+    document.getElementById('guest-button').addEventListener('click', () => {
+        accountContent.innerHTML = `<h2>Welcome, Guest!</h2>`;
     });
 
     document.getElementById('login-form').addEventListener('submit', (e) => {
@@ -83,26 +134,6 @@ auth.onAuthStateChanged((user) => {
             alert(`Error: ${error.message}`);
         });
     });
-    
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-        const errorMessageElement = document.getElementById('login-error-message');
-      
-        auth.signInWithEmailAndPassword(email, password)
-          .then((userCredential) => {
-            // Clear any previous error messages
-            errorMessageElement.style.display = 'none';
-            console.log('User logged in:', userCredential.user);
-          })
-          .catch((error) => {
-            // Display error message
-            errorMessageElement.style.display = 'block';
-            errorMessageElement.textContent = getFriendlyErrorMessage(error.code);
-            console.error('Error logging in:', error.message);
-          });
-      });
       
       // Function to return user-friendly error messages
       function getFriendlyErrorMessage(errorCode) {

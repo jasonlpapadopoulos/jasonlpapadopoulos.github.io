@@ -912,3 +912,10 @@
 #forgot-password-button:hover {
   color: #357AE8;
 }
+
+#login-error-message {
+  margin-top: 10px;
+  color: #ff0000;
+  font-size: 14px;
+  font-weight: bold;
+}

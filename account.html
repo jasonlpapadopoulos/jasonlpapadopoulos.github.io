@@ -11,40 +11,131 @@
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script defer src="account.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
-  <div id="account-container">
-    <h1>Account</h1>
+  <!-- <div id="account-container"> -->
+    <h1>Welcome!</h1>
     <div id="account-content"></div>
-  </div>
+  <!-- </div> -->
 </body>
 <style>
-  body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
+/* General Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#account-container {
+  text-align: center;
+  margin: 20px auto;
+  max-width: 500px;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: black;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Input Styles */
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+.input-container i.icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #aaa;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: box-shadow 0.3s ease;
+}
+
+.input-container input:focus {
+  box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+  border-color: rgba(255, 107, 107, 0.5);
+}
+
+/* CTA Buttons */
+.cta-button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(45deg, rgba(255, 107, 107, 0.5), rgba(78, 205, 196, 0.5));
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.cta-button:hover {
+  background: linear-gradient(45deg, rgba(255, 107, 107, 1), rgba(78, 205, 196, 1));
+  transform: translateY(-2px);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+}
+
+.guest-button {
+  background: linear-gradient(45deg, rgba(78, 205, 196, 0.5), rgba(255, 107, 107, 0.5));
+  margin-top: 15px;
+}
+
+/* Link Buttons */
+.link-button {
+  background: none;
+  color: #3498db;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.link-button:hover {
+  color: #1d78c1;
+}
+
+/* Error Messages */
+.error-message {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Animations */
+.animated-form {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  #account-container {
-    text-align: center;
-    margin: 20px auto;
-    max-width: 500px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  input {
-    padding: 8px;
-    font-size: 1rem;
-  }
-  button {
-    padding: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-  }
+}
+
 </style>
 </html>
