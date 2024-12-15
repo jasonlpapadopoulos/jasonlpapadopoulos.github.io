@@ -49,6 +49,7 @@ auth.onAuthStateChanged((user) => {
           <input type="password" id="login-password" placeholder="Password" required>
         </div>
         <button type="submit" class="cta-button">Log In</button>
+        <p id="login-error-message" class="error-message" style="display: none;"></p>
       </form>
       <p>
         <button id="forgot-password-button" class="link-button" type="button">Forgot My Password</button>
@@ -59,7 +60,6 @@ auth.onAuthStateChanged((user) => {
       <p>
         <button id="guest-button" class="cta-button guest-button" type="button">Continue as Guest</button>
       </p>
-      <p id="login-error-message" class="error-message" style="display: none;"></p>
     </div>
   `;
   
@@ -103,18 +103,24 @@ auth.onAuthStateChanged((user) => {
     });
 
     document.getElementById('login-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          console.log('User logged in:', userCredential.user);
-        })
-        .catch((error) => {
-          console.error('Error logging in:', error.message);
-        });
-    });
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        const errorMessageElement = document.getElementById('login-error-message');
+      
+        auth.signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            // Clear any previous error messages
+            errorMessageElement.style.display = 'none';
+            console.log('User logged in:', userCredential.user);
+          })
+          .catch((error) => {
+            // Display error message
+            errorMessageElement.style.display = 'block';
+            errorMessageElement.textContent = getFriendlyErrorMessage(error.code);
+            console.error('Error logging in:', error.message);
+          });
+      });
 
     // Password reset
     document.getElementById('forgot-password-button').addEventListener('click', () => {
