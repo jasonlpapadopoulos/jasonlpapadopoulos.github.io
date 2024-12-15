@@ -16,7 +16,7 @@
 </head>
 <body>
   <!-- <div id="account-container"> -->
-    <h1>Welcome!</h1>
+    <h2>Welcome!</h2>
     <div id="account-content"></div>
   <!-- </div> -->
 </body>
@@ -37,7 +37,7 @@ body {
   text-align: center;
   margin: 20px auto;
   max-width: 500px;
-  padding: 30px;
+  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 12px;
   background-color: black;
@@ -47,16 +47,8 @@ body {
 /* Input Styles */
 .input-container {
   position: relative;
-  margin-bottom: 20px;
-  margin-top: 15px;
-}
-
-.input-container i.icon {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: #aaa;
+  margin-bottom: 5px; /* Reduced gap between fields */
+  margin-top: 5px; /* Remove extra top margin */
 }
 
 .input-container input {
@@ -66,6 +58,20 @@ body {
   border: 1px solid #ddd;
   border-radius: 5px;
   transition: box-shadow 0.3s ease;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Use gap for consistent spacing */
+}
+
+.input-container i.icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #aaa;
 }
 
 .input-container input:focus {
@@ -135,6 +141,20 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+#form-container {
+  margin-bottom: 20px;
+}
+
+#form-container a {
+  color: #3498db;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#form-container a:hover {
+  color: #1d78c1;
 }
 
 </style>

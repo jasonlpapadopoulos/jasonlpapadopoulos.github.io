@@ -15,7 +15,6 @@ auth.onAuthStateChanged((user) => {
         console.error('Error logging out:', error.message);
       });
     });
-    // window.location.href = 'what-are-you-looking-for.html';
   } else {
     // User is not logged in
     accountContent.innerHTML = `
@@ -49,8 +48,8 @@ auth.onAuthStateChanged((user) => {
           <input type="password" id="login-password" placeholder="Password" required>
         </div>
         <button type="submit" class="cta-button">Log In</button>
-        <p id="login-error-message" class="error-message" style="display: none;"></p>
       </form>
+      <p id="login-error-message" class="error-message" style="display: none;"></p>
       <p>
         <button id="forgot-password-button" class="link-button" type="button">Forgot My Password</button>
       </p>
