@@ -64,38 +64,40 @@ auth.onAuthStateChanged((user) => {
   
     // Attach form event listeners
 // Attach form event listeners
-    document.getElementById('signup-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const firstName = document.getElementById('signup-first-name').value;
-        const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('signup-password').value;
-    
-        auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-    
-            // Send user data to your backend
-            fetch('http://localhost:3000/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                firebaseUid: user.uid,
-                email: user.email,
-                firstName: firstName
-            }),
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('User added to database:', data);
-            })
-            .catch((error) => {
-                console.error('Error adding user to database:', error);
-            });
-        })
-        .catch((error) => {
-            console.error('Error signing up:', error.message);
-        });
+const API_BASE_URL =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:3000' // Development URL
+    : 'https://jasonlpapadopoulos-github-io.onrender.com'; // Replace with your Render backend URL
+
+document.getElementById('signup-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const firstName = document.getElementById('signup-first-name').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+
+      // Send user data to your backend
+      fetch(`${API_BASE_URL}/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firebaseUid: user.uid,
+          email: user.email,
+          firstName: firstName,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log('User added to database:', data))
+        .catch((error) => console.error('Error adding user to database:', error));
+    })
+    .catch((error) => {
+      console.error('Error signing up:', error.message);
     });
+});
+
   
     document.getElementById('guest-button').addEventListener('click', () => {
         accountContent.innerHTML = `<h2>Welcome, Guest!</h2>`;
