@@ -229,7 +229,7 @@ class RestaurantDisplay {
             const neighborhoodMatch = selectedNeighborhoods.includes(restaurant.neighborhood_clean);
             const priceMatch = this.selectedPrices.size === 0 || this.selectedPrices.has(restaurant.budget);
             const mealMatch = this.selectedMeals.size === 0 || [...this.selectedMeals].some(meal => 
-                restaurant[meal.toLowerCase()] === "1"
+                restaurant[meal.toLowerCase()] === 1
             );
             const cuisineMatch = this.selectedCuisines.size === 0 || 
                                this.selectedCuisines.has(restaurant.cuisine_clean);
