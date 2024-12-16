@@ -65,7 +65,7 @@ app.post('/signup', (req, res) => {
   });
 
 app.get('/api/food', (req, res) => {
-    db.query('SELECT count(*) FROM food', (err, results) => {
+    db.query('SELECT * FROM food', (err, results) => {
         if (err) {
             res.status(500).send('Error querying the database');
             return;
