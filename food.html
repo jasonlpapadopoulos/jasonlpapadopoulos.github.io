@@ -135,29 +135,60 @@ class RestaurantDisplay {
         this.map = null;
     }
 
-    parseCSV(csvText) {
-        const lines = csvText.split('\n');
-        const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+    // parseCSV(csvText) {
+    //     const lines = csvText.split('\n');
+    //     const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
         
-        return lines.slice(1)
-            .filter(line => line.trim())
-            .map(line => {
-                const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)
-                    .map(val => val.replace(/"/g, '').trim());
+    //     return lines.slice(1)
+    //         .filter(line => line.trim())
+    //         .map(line => {
+    //             const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)
+    //                 .map(val => val.replace(/"/g, '').trim());
                 
-                return headers.reduce((obj, header, index) => {
-                    obj[header] = values[index];
-                    return obj;
-                }, {});
-            });
-    }
+    //             return headers.reduce((obj, header, index) => {
+    //                 obj[header] = values[index];
+    //                 return obj;
+    //             }, {});
+    //         });
+    // }
 
-    async fetchRestaurants(csvUrl) {
+    // async fetchRestaurants(csvUrl) {
+    //     try {
+    //         const response = await fetch(csvUrl);
+    //         const csvText = await response.text();
+    //         this.restaurants = this.parseCSV(csvText);
+    //         // console.log(`Successfully parsed ${this.restaurants.length} rows.`);
+    //         return this.restaurants;
+    //     } catch (error) {
+    //         console.error('Error fetching restaurant data:', error);
+    //         return [];
+    //     }
+    // }
+
+    async fetchRestaurants() {
         try {
-            const response = await fetch(csvUrl);
-            const csvText = await response.text();
-            this.restaurants = this.parseCSV(csvText);
-            // console.log(`Successfully parsed ${this.restaurants.length} rows.`);
+            // Dynamically determine the API base URL
+            const isProd = window.location.hostname === 'makeplana.com';
+            const API_BASE_URL = isProd 
+                ? 'https://jasonlpapadopoulos-github-io.onrender.com' 
+                : 'http://localhost:3000';
+
+            const apiUrl = `${API_BASE_URL}/api/food`;
+
+            const response = await fetch(apiUrl);
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            
+            // Assuming the API returns an array of restaurant objects
+            this.restaurants = data;
+            
+            console.log(`Successfully fetched ${this.restaurants.length} restaurants`);
+            console.log(window.location.hostname)
+            // console.log(data);
             return this.restaurants;
         } catch (error) {
             console.error('Error fetching restaurant data:', error);
@@ -207,73 +238,24 @@ class RestaurantDisplay {
         });
     }
 
-    // createRestaurantBox(restaurant) {
-    //     const box = document.createElement('div');
-    //     box.className = 'place-box';
-
-    //     // Generate the URL for the restaurant's page
-    //     // const restaurantPageUrl = `restaurants/${restaurant.place_name.toLowerCase().replace(/ /g, '-')}-${restaurant.neighborhood.toLowerCase().replace(/ /g, '-')}.html`;
-
-    //         const cleanString = (str) => {
-    //             return str
-    //                 .toLowerCase()               // Convert to lowercase
-    //                 .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-    //                 .trim()                       // Remove leading/trailing whitespace
-    //                 .replace(/\s+/g, '-')         // Replace spaces with hyphens
-    //                 .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
-    //         };
-
-    //         const place_name_clean = cleanString(restaurant.place_name);
-    //         const neighborhood_clean = cleanString(restaurant.neighborhood);
-
-    //         const restaurantPageUrl = `restaurants/${place_name_clean}-${neighborhood_clean}.html`;
-
-
-    //     box.innerHTML = `
-    //         <strong>${restaurant.place_name}</strong><br>
-    //         <i>${restaurant.cuisine_pretty}, ${restaurant.budget}</i><br><br>
-            
-    //         <a href="${restaurantPageUrl}">
-    //             <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
-    //             onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
-    //         </a><br><br>
-            
-    //         ${restaurant.description}<br><br>
-            
-    //         ${restaurant.maps_url && restaurant.maps_url.startsWith('http') ? `
-    //             <a href="${restaurant.maps_url}" target="_blank">
-    //                 <button class="choice-button">See in Maps</button>
-    //             </a>
-    //         ` : ''}
-            
-    //         ${restaurant.reservation_url && restaurant.reservation_url.startsWith('http') ? `
-    //             <a href="${restaurant.reservation_url}" target="_blank">
-    //                 <button class="choice-button">Reserve</button>
-    //             </a>
-    //         ` : ''}
-    //     `;
-
-    //     return box;
-    // }
-
     createRestaurantBox(restaurant) {
         const box = document.createElement('div');
         box.className = 'place-box';
 
         // Generate the URL for the restaurant's page
-        const cleanString = (str) => {
-            return str
-                .toLowerCase()               // Convert to lowercase
-                .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-                .trim()                       // Remove leading/trailing whitespace
-                .replace(/\s+/g, '-')         // Replace spaces with hyphens
-                .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
-        };
+        // const cleanString = (str) => {
+        //     return str
+        //         .toLowerCase()               // Convert to lowercase
+        //         .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+        //         .trim()                       // Remove leading/trailing whitespace
+        //         .replace(/\s+/g, '-')         // Replace spaces with hyphens
+        //         .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
+        // };
 
-        const place_name_clean = cleanString(restaurant.place_name);
-        const neighborhood_clean = cleanString(restaurant.neighborhood);
+        // const place_name_clean = cleanString(restaurant.place_name);
+        // const neighborhood_clean = cleanString(restaurant.neighborhood);
 
-        const restaurantPageUrl = `restaurants/${place_name_clean}-${neighborhood_clean}`;
+        const restaurantPageUrl = `restaurants/${restaurant.place_name_clean}-${restaurant.neighborhood_clean}`;
 
         box.innerHTML = `
             <strong>${restaurant.place_name}</strong><br>
@@ -467,10 +449,11 @@ class RestaurantDisplay {
 // Initialize display and add event listeners
 document.addEventListener('DOMContentLoaded', async function() {
     const display = new RestaurantDisplay();
-    await display.fetchRestaurants('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/food.csv');
+    await display.fetchRestaurants();
     display.setupEventListeners();
     display.updateDisplay();
 });
+
 document.querySelector('.view-toggle').addEventListener('click', function(e) {
   // Check if a toggle option was clicked
   if (e.target.classList.contains('view-toggle-option')) {
@@ -488,39 +471,6 @@ document.querySelector('.view-toggle').addEventListener('click', function(e) {
     // document.getElementById('listView').style.display = selectedView === 'list' ? 'block' : 'none';
     // document.getElementById('mapView').style.display = selectedView === 'map' ? 'block' : 'none';
   }
-});
-
-
-    document.addEventListener('DOMContentLoaded', async function() {
-    // Define the API URL dynamically (depending on local or production)
-    // const API_BASE_URL =
-    // window.location.hostname === 'localhost'
-    //     ? 'http://localhost:3000' // Development URL
-    //     : 'https://jasonlpapadopoulos-github-io.onrender.com';
-        const isProd = window.location.hostname === 'makeplana.com';
-        const API_BASE_URL = isProd ? 'https://jasonlpapadopoulos-github-io.onrender.com' : 'http://localhost:3000';
-
-        const apiUrl = `${API_BASE_URL}/api/food`;
-
-        try {
-            // Fetch the restaurant data from the API
-            const response = await fetch(apiUrl);
-
-            // Check if the response is successful
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            // Parse the response as JSON
-            const data = await response.json();
-
-            // Log a success message to the console
-            console.log('Successfully fetched restaurant data!');
-            console.log(data);  // Log the actual data to inspect it
-
-        } catch (error) {
-            console.error('Error fetching restaurant data:', error);
-        }
 });
 
 
