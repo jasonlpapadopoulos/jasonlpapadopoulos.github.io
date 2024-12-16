@@ -187,7 +187,7 @@ class RestaurantDisplay {
             this.restaurants = data;
             
             console.log(`Successfully fetched ${this.restaurants.length} restaurants`);
-            console.log(window.location.hostname)
+            console.log('Host:', window.location.hostname);
             // console.log(data);
             return this.restaurants;
         } catch (error) {
