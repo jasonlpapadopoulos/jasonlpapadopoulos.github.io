@@ -33,12 +33,12 @@ db.getConnection((err, connection) => {
   }
 });
 
-console.log('Database Config:', {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  });
+// console.log('Database Config:', {
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_NAME
+//   });
   
 
 // Default route
@@ -63,7 +63,19 @@ app.post('/signup', (req, res) => {
       res.status(201).json({ message: 'User added successfully', userId: results.insertId });
     });
   });
-  
+
+app.get('/api/food', (req, res) => {
+    db.query('SELECT count(*) FROM food', (err, results) => {
+        if (err) {
+            res.status(500).send('Error querying the database');
+            return;
+        }
+        res.json(results);  // Send results as JSON
+    });
+});
+
+app.use(express.static('public'));  // Assuming food.html is in 'public' directory
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

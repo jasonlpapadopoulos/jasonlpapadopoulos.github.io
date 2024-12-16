@@ -67,7 +67,7 @@ auth.onAuthStateChanged((user) => {
 const API_BASE_URL =
   window.location.hostname === 'localhost'
     ? 'http://localhost:3000' // Development URL
-    : 'https://jasonlpapadopoulos-github-io.onrender.com'; // Replace with your Render backend URL
+    : 'https://jasonlpapadopoulos-github-io.onrender.com';
 
 document.getElementById('signup-form').addEventListener('submit', (e) => {
   e.preventDefault();
