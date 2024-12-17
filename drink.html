@@ -19,65 +19,62 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
 <body>
-<div class="header">
-    <div class="filters-container">
-        <div class="banner">
-            <a href="https://makeplana.com">Plana</a>
-        </div>
-        <div class="filter-group">
-            <button class="filter-button" data-filter="setting">Setting</button>
-            <div class="filter-options">
-                <label class="filter-option">
-                    <input type="checkbox" name="setting" value="cocktail"> Cocktail Bar
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="setting" value="dive"> Dive Bar
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="setting" value="jazz"> Live Jazz
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="setting" value="rooftop"> Rooftop
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="setting" value="speakeasy"> Speakeasy
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="setting" value="beer"> Beer Hall
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="setting" value="pub"> Pub
-                </label>
+    <div class="site-header">
+        <div class="site-header-content">
+            <div class="header-top">
+                <div class="banner">
+                    <a href="https://makeplana.com">Plana</a>
+                </div>
+                <a href="https://makeplana.com/account" class="account-section"><span>👤</span>Account</a>
+            </div>
+            <div class="filters-container">
+                <div class="filter-group">
+                    <button class="filter-button" data-filter="setting">Setting</button>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="setting" value="cocktail"> Cocktail Bar
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="setting" value="dive"> Dive Bar
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="setting" value="jazz"> Live Jazz
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="setting" value="rooftop"> Rooftop
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="setting" value="speakeasy"> Speakeasy
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="setting" value="beer"> Beer Hall
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="setting" value="pub"> Pub
+                        </label>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <button class="filter-button" data-filter="price">Price Range</button>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="price" value="$"> $
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="price" value="$$"> $$
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="price" value="$$$"> $$$
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="price" value="$$$$"> $$$$
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="filter-group">
-            <button class="filter-button" data-filter="price">Price Range</button>
-            <div class="filter-options">
-                <label class="filter-option">
-                    <input type="checkbox" name="price" value="$"> $
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="price" value="$$"> $$
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="price" value="$$$"> $$$
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="price" value="$$$$"> $$$$
-                </label>
-            </div>
-        </div>
-        <!-- <div class="filter-group">
-            <button class="filter-button" data-filter="servesFood">Serves Food?</button>
-            <div class="filter-options">
-                <label class="filter-option">
-                    <input type="checkbox" name="servesFood" value="yes"> Yes
-                </label>
-            </div>
-        </div> -->
-        <div class="fixed-line"></div>
+        <div class="header-bottom-line"></div>
     </div>
-</div>
 <div class="results-container">
     <div class="view-toggle-container">
         <div id="toggle-view" class="view-toggle">
@@ -99,28 +96,42 @@ class BarDisplay {
         this.map = null;
     }
 
-    parseCSV(csvText) {
-        const lines = csvText.split('\n');
-        const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
-        
-        return lines.slice(1)
-            .filter(line => line.trim())
-            .map(line => {
-                const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)
-                    .map(val => val.replace(/"/g, '').trim());
-                
-                return headers.reduce((obj, header, index) => {
-                    obj[header] = values[index];
-                    return obj;
-                }, {});
-            });
-    }
-
     async fetchBars(csvUrl) {
         try {
             const response = await fetch(csvUrl);
             const csvText = await response.text();
             this.bars = this.parseCSV(csvText);
+            return this.bars;
+        } catch (error) {
+            console.error('Error fetching bar data:', error);
+            return [];
+        }
+    }
+
+    async fetchBars() {
+        try {
+            // Dynamically determine the API base URL
+            const isProd = window.location.hostname === 'makeplana.com';
+            const API_BASE_URL = isProd 
+                ? 'https://jasonlpapadopoulos-github-io.onrender.com' 
+                : 'http://localhost:3000';
+
+            const apiUrl = `${API_BASE_URL}/api/drinks`;
+
+            const response = await fetch(apiUrl);
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            
+            // Assuming the API returns an array of bar objects
+            this.bars = data;
+            
+            console.log(`Successfully fetched ${this.bars.length} bars`);
+            console.log('Host:', window.location.hostname);
+            // console.log(data);
             return this.bars;
         } catch (error) {
             console.error('Error fetching bar data:', error);
@@ -141,7 +152,7 @@ class BarDisplay {
             const neighborhoodMatch = selectedNeighborhoods.includes(bar.neighborhood_clean);
             const priceMatch = this.selectedPrices.size === 0 || this.selectedPrices.has(bar.budget);
             const settingMatch = this.selectedSettings.size === 0 || [...this.selectedSettings].some(setting => 
-                bar[setting.toLowerCase()] === "1"
+                bar[setting.toLowerCase()] === 1
             );
             // const cuisineMatch = this.selectedCuisines.size === 0 || 
             //                    this.selectedCuisines.has(bar.cuisine.toLowerCase());
@@ -150,51 +161,6 @@ class BarDisplay {
             //  && cuisineMatch;
         });
     }
-
-    // createBarBox(bar) {
-    //     const box = document.createElement('div');
-    //     box.className = 'place-box';
-
-    //     const cleanString = (str) => {
-    //         return str
-    //             .toLowerCase()               // Convert to lowercase
-    //             .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-    //             .trim()                       // Remove leading/trailing whitespace
-    //             .replace(/\s+/g, '-')         // Replace spaces with hyphens
-    //             .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
-    //     };
-
-    //     const place_name_clean = cleanString(bar.place_name);
-    //     const neighborhood_clean = cleanString(bar.neighborhood);
-
-    //     const barPageUrl = `bars/${place_name_clean}-${neighborhood_clean}`;
-
-    //     box.innerHTML = `
-    //         <strong>${bar.place_name}</strong><br>
-    //         <i>${bar.budget}</i><br><br>
-            
-    //         <a href="${barPageUrl}">
-    //             <img src="${bar.image_url}" alt="${bar.place_name}" 
-    //             onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
-    //         </a><br><br>
-            
-    //         ${bar.description}<br><br>
-            
-    //         ${bar.maps_url && bar.maps_url.startsWith('http') ? `
-    //             <a href="${bar.maps_url}" target="_blank">
-    //                 <button class="choice-button">See in Maps</button>
-    //             </a>
-    //         ` : ''}
-            
-    //         ${bar.reservation_url && bar.reservation_url.startsWith('http') ? `
-    //             <a href="${bar.reservation_url}" target="_blank">
-    //                 <button class="choice-button">Reserve</button>
-    //             </a>
-    //         ` : ''}
-    //     `;
-
-    //     return box;
-    // }
 
     createBarBox(bar) {
         const box = document.createElement('div');
@@ -394,7 +360,7 @@ class BarDisplay {
 // Initialize display and add event listeners
 document.addEventListener('DOMContentLoaded', async function() {
     const display = new BarDisplay();
-    await display.fetchBars('https://raw.githubusercontent.com/jasonlpapadopoulos/jasonlpapadopoulos.github.io/main/drinks.csv');
+    await display.fetchBars();
     display.setupEventListeners();
     display.updateDisplay();
 });
