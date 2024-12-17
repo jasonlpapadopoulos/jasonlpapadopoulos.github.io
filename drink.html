@@ -198,15 +198,19 @@ class BarDisplay {
     }
 
     async updateDisplay() {
-        const filteredBars = this.filterBars();
         const container = document.getElementById('bar-list');
 
         // Show loading message
         container.innerHTML = '<p>Loading...</p>';
-        
-        // Wait for 2 seconds
-        await new Promise(resolve => setTimeout(resolve, 667));
 
+        // Start fetching the data and the minimum loading delay in parallel
+        const fetchData = this.filterBars(); // Replace with actual async fetch if needed
+        const minimumWait = new Promise(resolve => setTimeout(resolve, 1000)); // At least 1 second wait
+
+        // Wait for both the data and the minimum wait time to complete
+        const filteredBars = await Promise.all([fetchData, minimumWait]).then(results => results[0]);
+
+        // Clear the container
         container.innerHTML = '';
 
         if (filteredBars.length === 0) {
@@ -218,9 +222,10 @@ class BarDisplay {
                 container.appendChild(this.createBarBox(bar));
             });
         }
-        
+
         this.updateMap(filteredBars);
     }
+
 
     setupEventListeners() {
         // Price filter listeners

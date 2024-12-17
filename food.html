@@ -218,15 +218,19 @@ class RestaurantDisplay {
     }
 
     async updateDisplay() {
-        const filteredRestaurants = this.filterRestaurants();
         const container = document.getElementById('restaurant-list');
 
         // Show loading message
         container.innerHTML = '<p>Loading...</p>';
-        
-        // Wait for 2 seconds
-        await new Promise(resolve => setTimeout(resolve, 667));
 
+        // Start fetching the data and the minimum loading delay in parallel
+        const fetchData = this.filterRestaurants(); // Replace with actual async fetch if needed
+        const minimumWait = new Promise(resolve => setTimeout(resolve, 1000)); // At least 1 second wait
+
+        // Wait for both the data and the minimum wait time to complete
+        const filteredRestaurants = await Promise.all([fetchData, minimumWait]).then(results => results[0]);
+
+        // Clear the container
         container.innerHTML = '';
 
         if (filteredRestaurants.length === 0) {
@@ -238,9 +242,10 @@ class RestaurantDisplay {
                 container.appendChild(this.createRestaurantBox(restaurant));
             });
         }
-        
+
         this.updateMap(filteredRestaurants);
     }
+
 
     setupEventListeners() {
         // Price filter listeners
