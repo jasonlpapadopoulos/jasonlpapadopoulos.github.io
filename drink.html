@@ -200,15 +200,15 @@ class BarDisplay {
     async updateDisplay() {
         const container = document.getElementById('bar-list');
 
-        // Show loading message
+        // Show loading message immediately
         container.innerHTML = '<p>Loading...</p>';
 
-        // Start fetching the data and the minimum loading delay in parallel
-        const fetchData = this.filterBars(); // Replace with actual async fetch if needed
-        const minimumWait = new Promise(resolve => setTimeout(resolve, 1000)); // At least 1 second wait
+        // Now start fetching the data and the minimum loading delay in parallel
+        const fetchDataPromise = (async () => this.filterBars())(); // Ensure async execution
+        const minimumWaitPromise = new Promise(resolve => setTimeout(resolve, 1000)); // At least 1 second wait
 
         // Wait for both the data and the minimum wait time to complete
-        const filteredBars = await Promise.all([fetchData, minimumWait]).then(results => results[0]);
+        const filteredBars = await Promise.all([fetchDataPromise, minimumWaitPromise]).then(results => results[0]);
 
         // Clear the container
         container.innerHTML = '';
@@ -225,7 +225,6 @@ class BarDisplay {
 
         this.updateMap(filteredBars);
     }
-
 
     setupEventListeners() {
         // Price filter listeners
