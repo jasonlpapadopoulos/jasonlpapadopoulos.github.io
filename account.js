@@ -1,20 +1,61 @@
 const accountContent = document.getElementById('account-content');
 
+const API_BASE_URL =
+window.location.hostname === ''
+    ? 'http://localhost:3000' // Development URL
+    : 'https://jasonlpapadopoulos-github-io.onrender.com';
+
 // Check authentication state
 auth.onAuthStateChanged((user) => {
   if (user) {
-    // User is logged in
+
     accountContent.innerHTML = `
-      <p>You are logged in as <strong>${user.email}</strong></p>
-      <button id="logout-button">Log Out</button>
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading your account...</p>
+    </div>
     `;
-    document.getElementById('logout-button').addEventListener('click', () => {
-      auth.signOut().then(() => {
-        console.log('User logged out');
-      }).catch((error) => {
-        console.error('Error logging out:', error.message);
+
+    // Fetch user's first name
+    fetch(`${API_BASE_URL}/get-user?firebaseUid=${user.uid}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Update the account content with personalized welcome
+        accountContent.innerHTML = `
+          <p class="title">Welcome, ${data.firstName || user.email}!</p>
+          <button class="city-button" id="logout-button">Log Out</button>
+        `;
+        
+        // Re-attach logout button event listener
+        document.getElementById('logout-button').addEventListener('click', () => {
+          auth.signOut().then(() => {
+            console.log('User logged out');
+          }).catch((error) => {
+            console.error('Error logging out:', error.message);
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+        // Fallback to email if first name fetch fails
+        accountContent.innerHTML = `
+          <p>Welcome, ${user.email}!</p>
+          <button class="cta-button" id="logout-button">Log Out</button>
+        `;
+        
+        document.getElementById('logout-button').addEventListener('click', () => {
+          auth.signOut().then(() => {
+            console.log('User logged out');
+          }).catch((error) => {
+            console.error('Error logging out:', error.message);
+          });
+        });
       });
-    });
   } else {
     // User is not logged in
     accountContent.innerHTML = `
@@ -62,10 +103,7 @@ auth.onAuthStateChanged((user) => {
     </div>
   `;
     // Attach form event listeners
-    const API_BASE_URL =
-    window.location.hostname === 'localhost'
-        ? 'http://localhost:3000' // Development URL
-        : 'https://jasonlpapadopoulos-github-io.onrender.com';
+
 
     document.getElementById('signup-form').addEventListener('submit', (e) => {
     e.preventDefault();
