@@ -1,5 +1,12 @@
 const accountContent = document.getElementById('account-content');
 
+accountContent.innerHTML = `
+<div class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading your account...</p>
+</div>
+`;
+
 const API_BASE_URL =
 window.location.hostname === ''
     ? 'http://localhost:3000' // Development URL
@@ -8,13 +15,6 @@ window.location.hostname === ''
 // Check authentication state
 auth.onAuthStateChanged((user) => {
   if (user) {
-
-    accountContent.innerHTML = `
-    <div class="loading-container">
-        <div class="spinner"></div>
-        <p>Loading your account...</p>
-    </div>
-    `;
 
     // Fetch user's first name
     fetch(`${API_BASE_URL}/get-user?firebaseUid=${user.uid}`)
@@ -78,7 +78,7 @@ auth.onAuthStateChanged((user) => {
       </form>
     </div>
     <div id="account-container">
-      <h3>Already a Planaer?</h3>
+      <h3>Been here before?</h3>
       <form id="login-form" class="animated-form">
         <div class="input-container">
           <i class="icon fa fa-envelope"></i>
