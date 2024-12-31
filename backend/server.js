@@ -9,15 +9,15 @@ const app = express();
 app.use(express.json()); // For parsing JSON request bodies
 
 // Enable CORS
-// app.use(cors()); // Allow all origins by default
-const corsOptions = {
-  origin: ['http://localhost:3000', 'https://jasonlpapadopoulos-github-io.onrender.com'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-};
+app.use(cors()); // Allow all origins by default
+// const corsOptions = {
+//   origin: ['http://localhost:3000', 'https://jasonlpapadopoulos-github-io.onrender.com'],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+//   credentials: true
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // MySQL connection pool
 const db = mysql.createPool({
