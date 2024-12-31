@@ -9,7 +9,15 @@ const app = express();
 app.use(express.json()); // For parsing JSON request bodies
 
 // Enable CORS
-app.use(cors()); // Allow all origins by default
+// app.use(cors()); // Allow all origins by default
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://jasonlpapadopoulos-github-io.onrender.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 // MySQL connection pool
 const db = mysql.createPool({
@@ -78,26 +86,26 @@ app.get('/api/drinks', (req, res) => {
 
 // Add this route to your server.js
 app.get('/get-user', (req, res) => {
-    const firebaseUid = req.query.firebaseUid;
-  
-    if (!firebaseUid) {
-      return res.status(400).json({ error: 'Firebase UID is required' });
+  const firebaseUid = req.query.firebaseUid;
+
+  if (!firebaseUid) {
+    return res.status(400).json({ error: 'Firebase UID is required' });
+  }
+
+  const query = 'SELECT first_name FROM users WHERE firebase_uid = ?';
+  db.query(query, [firebaseUid], (err, results) => {
+    if (err) {
+      console.error('Error fetching user:', err.message);
+      return res.status(500).json({ error: 'Failed to retrieve user' });
     }
-  
-    const query = 'SELECT first_name FROM users WHERE firebase_uid = ?';
-    db.query(query, [firebaseUid], (err, results) => {
-      if (err) {
-        console.error('Error fetching user:', err.message);
-        return res.status(500).json({ error: 'Failed to retrieve user' });
-      }
-  
-      if (results.length === 0) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-  
-      res.json({ firstName: results[0].first_name });
-    });
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ firstName: results[0].first_name });
   });
+});
 
 app.use(express.static('public'));
 
