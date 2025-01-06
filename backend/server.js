@@ -8,6 +8,30 @@ dotenv.config();
 const app = express();
 app.use(express.json()); // For parsing JSON request bodies
 
+app.use((req, res, next) => {
+  // Allow a specific origin
+  // res.setHeader('Access-Control-Allow-Origin', 'https://your-frontend-domain.com');
+
+  // Or, temporarily for development, allow all
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  // Allowed request methods
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
+  // Allowed request headers
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  // If you need credentials (cookies, etc.)
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  // If the browser sends an OPTIONS request, quickly respond with OK
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
 // Enable CORS
 app.use(cors()); // Allow all origins by default
 // const corsOptions = {

@@ -53,6 +53,18 @@
     max-width: 100%;
   }
 
+  /* .comment {
+    font-size: clamp(0.5rem, 6vw, 1.5rem);
+    margin-top: clamp(1.25rem, 4.25vw, 2.25rem);
+    margin-bottom: clamp(4.25rem, 4.25vw, 2.25rem);
+    font-style: italic;
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+    animation-delay: 0.5s;
+    word-wrap: break-word;
+    max-width: 100%;
+  } */
+
   .homepage-text {
     font-size: clamp(1rem, 4vw, 1.5rem);
     margin-top: clamp(0.25rem, 1.25vw, 2.25rem);
@@ -231,6 +243,7 @@
   }
   
   .filters-container {
+    max-width: 100%;
     margin-bottom: 10px;
     margin-top: 10px;
     justify-content: center;
@@ -246,7 +259,8 @@
   
   .filter-group {
     position: relative;
-    min-width: 150px;
+    min-width: 100px;
+    max-width: 100%;
   }
   
   .filter-button {
@@ -276,6 +290,8 @@
   
   .filter-options {
     position: absolute;
+    max-height: 300px;
+    overflow-y: auto;
     top: calc(100% + 10px);
     /* left: 0; */
       right: 0;
@@ -291,11 +307,30 @@
     z-index: 1000;
   }
   
+  .filter-options::-webkit-scrollbar {
+      width: 10px;
+  }
+
+  .filter-options::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 10px;
+  }
+
+  .filter-options::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+  }
+
   .filter-options.show {
     display: block;
     opacity: 1;
     transform: translateY(0);
-  }
+    width: auto; /* Allows it to grow based on content */
+    min-width: fit-content; /* Ensures it matches the content */
+    max-width: 300px; /* Sets a maximum width */
+    white-space: nowrap; /* Prevents wrapping of long words */
+
+    text-overflow: ellipsis; /* Adds ellipsis if content overflows */
+}
   
   .filter-option {
     display: flex;
@@ -862,20 +897,27 @@
 }
 
 /* Nearby Bars Horizontal Scroll Styling */
-.nearby-bars-container {
+.nearby-place-container {
   margin-top: 20px;
   padding: 15px;
   background-color: black;
 }
 
-.nearby-bars-title {
+.nearby-place-title {
   font-size: 1.5em;
   margin-bottom: 15px;
   text-align: center;
   color: white;
 }
 
-.nearby-bars-scroll {
+.nearby-place-subtitle {
+  font-size: 0.75em;
+  margin-bottom: 10px;
+  text-align: center;
+  color: white;
+}
+
+.nearby-place-scroll {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -885,63 +927,77 @@
   padding-bottom: 15px;
 }
 
-.nearby-bars-scroll::-webkit-scrollbar {
+.nearby-place-scroll::-webkit-scrollbar {
   height: 8px;
 }
 
-.nearby-bars-scroll::-webkit-scrollbar-track {
+.nearby-place-scroll::-webkit-scrollbar-track {
   background: #222;
 }
 
-.nearby-bars-scroll::-webkit-scrollbar-thumb {
+.nearby-place-scroll::-webkit-scrollbar-thumb {
   background-color: #555;
   border-radius: 4px;
 }
 
-.nearby-bar-card {
-  flex: 0 0 250px;
-  scroll-snap-align: start;
+
+.nearby-place-card {
+  width: 250px; /* Fixed width */
+  height: 350px; /* Fixed height */
   border: 1px solid white;
   border-radius: 8px;
   overflow: hidden;
   background-color: black;
-  box-shadow: 0 4px 6px rgba(255,255,255,0.1);
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
   transition: transform 0.3s ease;
+  display: flex; /* Ensures content inside card stacks correctly */
+  flex-direction: column; /* Vertical stacking for image and details */
 }
 
-.nearby-bar-card:hover {
+.nearby-place-card:hover {
   background: linear-gradient(45deg, rgba(255, 107, 107, 0.25), rgba(78, 205, 196, 0.25));
 }
 
-.nearby-bar-image {
+.nearby-place-image {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: 200px; /* Fixed height for the image */
+  object-fit: cover; /* Ensures the image fills the space while preserving aspect ratio */
   filter: brightness(0.8);
 }
 
-.nearby-bar-details {
+.nearby-place-details {
   padding: 10px;
   color: white;
+  height: calc(100% - 200px); /* Ensures remaining space below the image is used for details */
+  overflow: hidden; /* Prevents content overflow */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Optional for spacing out details */
 }
 
-.nearby-bar-name {
+.nearby-place-name {
   font-size: 1.2em;
   font-weight: bold;
   margin-bottom: 5px;
   color: white;
 }
 
-.nearby-bar-neighborhood {
+.nearby-place-neighborhood {
   color: white;
   font-size: 0.9em;
   margin-bottom: 5px;
 }
 
-.nearby-bar-description {
+.nearby-place-description {
   color: white;
   font-size: 0.9em;
   line-height: 1.4;
+}
+
+.nearby-place-link {
+  display: inline-block; /* Ensure it behaves like a block container */
+  text-decoration: none; /* Remove default underline styling */
+  color: inherit; /* Ensure the text color matches the surrounding context */
 }
 
 .image-source-link {

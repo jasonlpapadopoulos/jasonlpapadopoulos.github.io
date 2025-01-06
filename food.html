@@ -11,7 +11,7 @@
     gtag('config', 'G-SC090JXSHE');
     </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plana - Food in New York City</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -60,57 +60,10 @@
                         </label>
                     </div>
                 </div>
-                <div class="filter-group">
+                <div class="filter-group" data-filter="cuisine">
                     <button class="filter-button" data-filter="cuisine">Cuisine</button>
                     <div class="filter-options">
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="american"> American
-                        </label>
-                        <!-- <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="asian"> Asian
-                        </label> -->
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="chinese"> Chinese
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="deli--bagel"> Deli & Bagel
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="french"> French
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="fusion"> Fusion
-                        </label>
-                        <!-- <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="indian"> Indian
-                        </label> -->
-                        <!-- <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="irish"> Irish
-                        </label> -->
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="italian"> Italian
-                        </label>
-                        <!-- <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="latin-american"> Latin American
-                        </label> -->
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="mediterranean"> Mediterranean
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="mexican"> Mexican
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="pizza"> Pizza
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="ramen"> Ramen
-                        </label>
-                        <!-- <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="steakhouse"> Steakhouse
-                        </label> -->
-                        <label class="filter-option">
-                            <input type="checkbox" name="cuisine" value="sushi"> Sushi
-                        </label>
+                        <!-- dynamically generated cuisine options will go here -->
                     </div>
                 </div>
             </div>
@@ -174,7 +127,6 @@ class RestaurantDisplay {
 
     async fetchRestaurants() {
         try {
-            // Dynamically determine the API base URL
             const isProd = window.location.hostname === 'makeplana.com';
             const API_BASE_URL = isProd 
                 ? 'https://jasonlpapadopoulos-github-io.onrender.com' 
@@ -189,20 +141,19 @@ class RestaurantDisplay {
             }
 
             const data = await response.json();
-            
-            // Assuming the API returns an array of restaurant objects
             this.restaurants = data;
-            
+
+            // Create dynamic cuisine filter options
+            this.createCuisineFilterOptions();
+
             console.log(`Successfully fetched ${this.restaurants.length} restaurants`);
-            console.log('Host:', window.location.hostname);
-            // console.log(data);
             return this.restaurants;
         } catch (error) {
             console.error('Error fetching restaurant data:', error);
             return [];
         }
     }
-
+    
     getSelectedNeighborhoods() {
         const selectedNeighborhoods = localStorage.getItem('selectedNeighborhoods');
         return selectedNeighborhoods ? JSON.parse(selectedNeighborhoods) : [];
@@ -248,6 +199,9 @@ class RestaurantDisplay {
     }
 
     setupEventListeners() {
+
+        this.createCuisineFilterOptions();
+
         // Price filter listeners
         const priceCheckboxes = document.querySelectorAll('input[name="price"]');
         priceCheckboxes.forEach(checkbox => {
@@ -393,12 +347,49 @@ class RestaurantDisplay {
         });
     }
 
+    createCuisineFilterOptions() {
+    const cuisineContainer = document.querySelector('.filter-group[data-filter="cuisine"] .filter-options');
+    if (!cuisineContainer) {
+        console.error('Cuisine filter container not found');
+        return;
+    }
+    console.log('Cuisine container found, updating options...');
+    cuisineContainer.innerHTML = ''; // Clear existing options
+
+    // Get filtered restaurants based on selected neighborhoods
+    const selectedNeighborhoods = this.getSelectedNeighborhoods();
+    const filteredRestaurants = this.restaurants.filter(restaurant => selectedNeighborhoods.includes(restaurant.neighborhood_clean));
+
+    // Create a set of unique cuisine names, filtering out undefined values
+    const cuisineSet = new Set(
+        filteredRestaurants
+            .map(restaurant => restaurant.cuisine)
+            .filter(cuisine => cuisine !== undefined)
+    );
+
+    // Convert the set to an array and sort it alphabetically
+    const sortedCuisines = Array.from(cuisineSet).sort();
+
+    console.log(`Sorted cuisine set: ${sortedCuisines.join(', ')}`); // Log the sorted cuisines
+
+    // Append the sorted options to the cuisine container
+    sortedCuisines.forEach(cuisine => {
+        const label = document.createElement('label');
+        label.className = 'filter-option';
+        label.innerHTML = `<input type="checkbox" name="cuisine" value="${cuisine.toLowerCase()}"> ${cuisine}`;
+        cuisineContainer.appendChild(label);
+        console.log(`Added cuisine option: ${cuisine}`);
+    });
+    console.log('Cuisine filter options updated');
+}
+
 }
 
 // Initialize display and add event listeners
 document.addEventListener('DOMContentLoaded', async function() {
     const display = new RestaurantDisplay();
     await display.fetchRestaurants();
+    display.createCuisineFilterOptions(); // Ensure this is called after fetching restaurants
     display.setupEventListeners();
     display.updateDisplay();
 });

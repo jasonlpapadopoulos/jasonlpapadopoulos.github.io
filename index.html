@@ -24,12 +24,13 @@
     <a href="what-are-you-looking-for.html">
       <img 
         class="city-image"
+        id="rotating-image"
         src="https://images.unsplash.com/photo-1518563172008-e56c5dfbaef6?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
         alt="NYC Skyline"
       >
     </a>
     <a href="what-are-you-looking-for.html" class="city-button">New York City</a>
-    <p class="homepage-text">Find the best things to do in your city.</p>
+    <p class="homepage-text">Find the best things to do. Just launched in New York.</p>
     <!-- <p class="homepage-text">A no-frills city guide.</p>
     <p class="homepage-text">Find what you're looking for.</p> -->
     <!-- <p class="homepage-text">Just launched in NYC.</p>
@@ -44,4 +45,24 @@
       font-family: "Playfair Display", serif;
     }
   </style>
+      <!-- <script>
+        const images = [
+          "https://images.unsplash.com/photo-1518563172008-e56c5dfbaef6?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://plus.unsplash.com/premium_photo-1661344206906-ea0b40c65d15?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/29/night-square.jpg?q=80&w=2981&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://plus.unsplash.com/premium_photo-1682657000431-84ea0dcf361c?q=80&w=3135&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://plus.unsplash.com/premium_photo-1697730064923-dd664fc81d19?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "https://images.unsplash.com/photo-1512850183-6d7990f42385?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        ];
+  
+        let currentIndex = 0;
+        const imageElement = document.getElementById("rotating-image");
+  
+        function rotateImages() {
+          currentIndex = (currentIndex + 1) % images.length; // Loop through images
+          imageElement.src = images[currentIndex];
+        }
+  
+        setInterval(rotateImages, 2000); // Switch image every 2 seconds
+      </script> -->
 </html>

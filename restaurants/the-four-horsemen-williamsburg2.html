@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC090JXSHE"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-SC090JXSHE');
+    </script>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=0.75'>
+    <title>The Four Horsemen</title>
+    <link rel='stylesheet' href='../mystyles.css'>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class='restaurant-container'>
+        <div class='restaurant-image-wrapper'>
+            <img class='restaurant-image' src='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' alt='The Four Horsemen' onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+            <a href='https://res.cloudinary.com/the-infatuation/image/upload/q_auto,f_auto/cms/reviews/four-horsemen/banners/1513024586.68' class='image-source-link' target="_blank" rel="noopener noreferrer">Image Source</a>
+        </div>
+        
+        <div class='restaurant-details'>
+            <h1 class='restaurant-name'>The Four Horsemen</h1>
+            <div class='restaurant-type'>American • $$</div>
+
+            <p>
+                A contemporary spot with a focus on tasty New American small plates and a wide selection of natural and biodynamic wines. The vibe is relaxed and inviting, but the dining experience is expertly crafted. Founded by James Murphy from LCD Soundsystem.
+            </p>
+            
+            <div class='button-container' id='button-container'></div>
+        </div>
+        <div id="map-view"></div>
+
+        <!-- Other Restaurants Like This Section -->
+        <div class="nearby-place-container">
+            <h2 class="nearby-place-title">Other Restaurants Like This</h2>
+            <h3 class="nearby-place-subtitle">Here's what's nearby and a similar vibe to The Four Horsemen:</h3>
+            <div class="nearby-place-scroll" id="nearby-restaurants-scroll">
+                <!-- Restaurants will be dynamically inserted here -->
+            </div>
+        </div>
+
+
+        <!-- New Nearby Bars Section -->
+        <div class="nearby-place-container">
+            <h2 class="nearby-place-title">Drinks after dinner?</h2>
+            <h3 class="nearby-place-subtitle">Here's what's nearby and a similar vibe to The Four Horsemen:</h3>
+            <div class="nearby-place-scroll" id="nearby-bars-scroll">
+                <!-- Bars will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const latitude = '40.71316'; // Replace with actual latitude value dynamically
+            const longitude = '-73.95724'; // Replace with actual longitude value dynamically
+
+            if (!isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))) {
+                // Initialize the map if latitude and longitude are valid
+                const map = L.map('map-view').setView([parseFloat(latitude), parseFloat(longitude)], 16);
+
+                // Use a minimalistic dark tile layer
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    className: 'leaflet-dark'
+                }).addTo(map);
+
+                // Add a marker for the restaurant location
+                L.marker([parseFloat(latitude), parseFloat(longitude)]).addTo(map)
+                    .bindPopup('<b>The Four Horsemen</b><br>295 Grand St, Williamsburg, NY 11211').openPopup();
+            } else {
+                // Hide the map view if latitude and longitude are invalid
+                const mapView = document.getElementById('map-view');
+                if (mapView) {
+                    mapView.style.display = 'none';
+                }
+            }
+
+            // Function to render nearby restaurants
+            function renderNearbyRestaurants(restaurants) {
+                const restaurantsContainer = document.getElementById('nearby-restaurants-scroll');
+                restaurantsContainer.innerHTML = restaurants.map(restaurant => `
+                    <a href="${restaurant.link}" class="nearby-place-link" target="_blank" rel="noopener noreferrer">
+                        <div class="nearby-place-card">
+                            <img src="${restaurant.imageUrl}" alt="${restaurant.name}" class="nearby-place-image" 
+                                onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+                            <div class="nearby-place-details">
+                                <div class="nearby-place-name">${restaurant.name}</div>
+                                
+                                <div class="nearby-place-description">${restaurant.description}</div>
+                            </div>
+                        </div>
+                    </a>
+                `).join('');
+            }
+
+            // Function to render nearby bars
+            function renderNearbyBars(bars) {
+                const barsContainer = document.getElementById('nearby-bars-scroll');
+                barsContainer.innerHTML = bars.map(bar => `
+                    <a href="${bar.link}" class="nearby-place-link" target="_blank" rel="noopener noreferrer">
+                        <div class="nearby-place-card">
+                            <img src="${bar.imageUrl}" alt="${bar.name}" class="nearby-place-image" 
+                                onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+                            <div class="nearby-place-details">
+                                <div class="nearby-place-name">${bar.name}</div>
+                                
+                                <div class="nearby-place-description">${bar.description}</div>
+                            </div>
+                        </div>
+                    </a>
+                `).join('');
+            }
+
+            // remove neighborhood
+            // <div class="nearby-bar-neighborhood">${bar.neighborhood}</div>
+
+            // Nearby bars data
+            const nearbyBars = [
+                {
+                    name: "Maison Premiere",
+                    neighborhood: "Williamsburg",
+                    description: "Charming spot with a Parisian café vibe and a New Orleans cocktail scene. Famous for its wide absinthe choices, reasonably priced oysters, and expertly made classic cocktails. Atmosphere is elegantly nostalgic and inviting.",
+                    imageUrl: "https://i.pinimg.com/736x/e1/41/b9/e141b924de3986262d7e97fecbe07bdd.jpg",
+                    link: "https://makeplana.com/bars/maison-premiere-williamsburg"
+                },
+                {
+                    name: "Bar Blondeau",
+                    neighborhood: "Williamsburg",
+                    description: "Trendy spot on the 6th floor, boasting stunning Manhattan skyline views. Sip on natural wines and seasonal cocktails while enjoying European-inspired small plates like oysters, tuna toast, and fried chicken. Instant vibe.",
+                    imageUrl: "https://robbreport.com/wp-content/uploads/2021/08/BarBlondeau_0721_LizClayman_HERO.jpg?w=1000",
+                    link: "https://makeplana.com/bars/bar-blondeau-williamsburg"
+                },
+                {
+                    name: "Sauced",
+                    neighborhood: "Williamsburg",
+                    description: "Chill spot with no menu, serving up handpicked natural wines by the glass and bottle. Enjoy daily food specials and live tunes for a one-of-a-kind wine experience.",
+                    imageUrl: "https://www.tagvenue.com/resize/31/04/fit-900-600;53515-outdoor-garden-room.jpg",
+                    link: "https://makeplana.com/bars/sauced-williamsburg"
+                }
+            ];
+
+            // Nearby restaurants data
+            const nearbyRestaurants = [
+                {
+                    name: "Maison Premiere",
+                    neighborhood: "Williamsburg",
+                    description: "Charming spot with a Parisian café vibe and a New Orleans cocktail scene. Famous for its wide absinthe choices, reasonably priced oysters, and expertly made classic cocktails. Atmosphere is elegantly nostalgic and inviting.",
+                    imageUrl: "https://i.pinimg.com/736x/e1/41/b9/e141b924de3986262d7e97fecbe07bdd.jpg",
+                    link: "https://makeplana.com/bars/maison-premiere-williamsburg"
+                },
+                {
+                    name: "Bar Blondeau",
+                    neighborhood: "Williamsburg",
+                    description: "Trendy spot on the 6th floor, boasting stunning Manhattan skyline views. Sip on natural wines and seasonal cocktails while enjoying European-inspired small plates like oysters, tuna toast, and fried chicken. Instant vibe.",
+                    imageUrl: "https://robbreport.com/wp-content/uploads/2021/08/BarBlondeau_0721_LizClayman_HERO.jpg?w=1000",
+                    link: "https://makeplana.com/bars/bar-blondeau-williamsburg"
+                },
+                {
+                    name: "Sauced",
+                    neighborhood: "Williamsburg",
+                    description: "Chill spot with no menu, serving up handpicked natural wines by the glass and bottle. Enjoy daily food specials and live tunes for a one-of-a-kind wine experience.",
+                    imageUrl: "https://www.tagvenue.com/resize/31/04/fit-900-600;53515-outdoor-garden-room.jpg",
+                    link: "https://makeplana.com/bars/sauced-williamsburg"
+                }
+            ];
+
+            // Render nearby bars
+            renderNearbyBars(nearbyBars);
+            renderNearbyRestaurants(nearbyRestaurants);
+        });
+
+        function renderButtons(mapsUrl, reservationUrl) {
+            const buttonContainer = document.getElementById('button-container');
+            let buttonsHtml = '';
+
+            if (mapsUrl && mapsUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${mapsUrl} target="_blank">
+                        <button class="choice-button">See in Google Maps</button>
+                    </a>`;
+            }
+
+            if (reservationUrl && reservationUrl.startsWith('http')) {
+                buttonsHtml += `
+                    <a href=${reservationUrl} target="_blank">
+                        <button class="choice-button">Reserve a Table</button>
+                    </a>`;
+            }
+
+            buttonContainer.innerHTML = buttonsHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=The%20Four%20Horsemen+295%20Grand%20St,%20Williamsburg,%20NY%2011211';
+            const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/the-four-horsemen?date=2024-07-17&seats=2';
+            renderButtons(mapsUrl, reservationUrl);
+        });
+    </script>
+</body>
+</html>
