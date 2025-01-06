@@ -705,7 +705,18 @@
     height: auto;
     border-radius: 15px;
     max-height: 67vh;
-  } 
+  }
+
+  .place-box a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  
+  .place-box a div {
+    width: 100%;
+  }
+
   
   /* Icons */
   

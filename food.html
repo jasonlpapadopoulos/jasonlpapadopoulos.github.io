@@ -183,16 +183,19 @@ class RestaurantDisplay {
         const restaurantPageUrl = `restaurants/${restaurant.place_name_clean}-${restaurant.neighborhood_clean}`;
 
         box.innerHTML = `
-            <strong>${restaurant.place_name}</strong><br>
-            <i>${restaurant.cuisine}, ${restaurant.budget}</i><br><br>
-            
-            <a href="${restaurantPageUrl}">
-                <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
-                onerror="this.src='https://via.placeholder.com/300x200.png?text=No+Image'"
-                    style="max-width: 100%; height: auto;">
-            </a><br><br>
-            
-            ${restaurant.description || ''}<br><br>
+            <a href="${restaurantPageUrl}" class="restaurant-link">
+                <div class="restaurant-content">
+                    <strong>${restaurant.place_name}</strong><br>
+                    <i>${restaurant.cuisine}, ${restaurant.budget}</i><br><br>
+                    
+                    <img src="${restaurant.image_url}" alt="${restaurant.place_name}" 
+                        onerror="this.src='https://via.placeholder.com/300x200.png?text=No+Image'"
+                        style="max-width: 100%; height: auto;">
+                    <br><br>
+                    
+                    ${restaurant.description || ''}<br><br>
+                </div>
+            </a>
         `;
         
         return box;
