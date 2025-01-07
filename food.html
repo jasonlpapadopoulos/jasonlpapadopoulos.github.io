@@ -97,6 +97,9 @@ class RestaurantDisplay {
     }
 
     async updateDisplay() {
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         const container = document.getElementById('restaurant-list');
 
         // Show loading message immediately

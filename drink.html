@@ -199,6 +199,9 @@ class BarDisplay {
     }
 
     async updateDisplay() {
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
         const container = document.getElementById('bar-list');
 
         // Show loading message immediately

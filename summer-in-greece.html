@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to vacation in Greece</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e3f2fd;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 15px;
+    }
+    h1 {
+      text-align: center;
+      color: #1e88e5;
+      margin-bottom: 20px;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: #1e88e5;
+      font-weight: bold;
+    }
+    label {
+      margin-left: 5px;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    input[type="submit"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: #1e88e5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background: #1565c0;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .checkbox-group label {
+      flex: 1 1 calc(50% - 10px);
+    }
+  </style>
+</head>
+<body>
+  <h1>Where to vacation in Greece</h1>
+  
+  <form action="#" method="GET">
+    <!-- Who’s Coming? -->
+    <p>Who’s coming?</p>
+    <input type="radio" name="group" id="solo" value="Just me">
+    <label for="solo">Just me</label><br>
+    
+    <input type="radio" name="group" id="couple" value="Couple">
+    <label for="couple">Couple</label><br>
+    
+    <input type="radio" name="group" id="friends" value="Friends">
+    <label for="friends">Friends</label><br>
+    
+    <input type="radio" name="group" id="family" value="Family">
+    <label for="family">Family</label><br>
+    
+    <!-- Trip Duration -->
+    <p>How long is your trip?</p>
+    <input type="radio" name="trip_length" id="short" value="2-3 days">
+    <label for="short">2-3 days</label><br>
+    
+    <input type="radio" name="trip_length" id="medium" value="4-7 days">
+    <label for="medium">4-7 days</label><br>
+    
+    <input type="radio" name="trip_length" id="long" value="7 days+">
+    <label for="long">7 days+</label><br>
+    
+    <input type="radio" name="trip_length" id="month" value="Month+">
+    <label for="month">Month+</label><br>
+    
+    <!-- Budget Range -->
+    <p>What’s your budget range?</p>
+    <input type="radio" name="budget" id="budget1" value="€">
+    <label for="budget1">€ (Budget conscious, prioritize price)</label><br>
+    
+    <input type="radio" name="budget" id="budget2" value="€€">
+    <label for="budget2">€€ (Roomy, but not splurging)</label><br>
+    
+    <input type="radio" name="budget" id="budget3" value="€€€">
+    <label for="budget3">€€€ (Comfortable, not over the top)</label><br>
+    
+    <input type="radio" name="budget" id="budget4" value="€€€€">
+    <label for="budget4">€€€€ (What does budget mean lol)</label><br>
+    
+    <!-- Main Interests -->
+    <p>What are your main interests? (select up to 3)</p>
+    <div class="checkbox-group">
+      <input type="checkbox" name="interests" id="beaches" value="Beaches">
+      <label for="beaches">Beaches</label>
+      
+      <input type="checkbox" name="interests" id="history" value="Historical sites">
+      <label for="history">Historical sites and archaeology</label>
+      
+      <input type="checkbox" name="interests" id="food" value="Food and wine">
+      <label for="food">Food and wine</label>
+      
+      <input type="checkbox" name="interests" id="nightlife" value="Nightlife">
+      <label for="nightlife">Nightlife and parties</label>
+      
+      <input type="checkbox" name="interests" id="villages" value="Traditional villages">
+      <label for="villages">Traditional villages</label>
+      
+      <input type="checkbox" name="interests" id="hiking" value="Hiking and nature">
+      <label for="hiking">Hiking and nature</label>
+      
+      <input type="checkbox" name="interests" id="photography" value="Photography">
+      <label for="photography">Photography</label>
+      
+      <input type="checkbox" name="interests" id="scuba" value="Scuba diving">
+      <label for="scuba">Scuba diving & watersports</label>
+      
+      <input type="checkbox" name="interests" id="art" value="Art and culture">
+      <label for="art">Art and culture</label>
+    </div>
+    
+    <!-- Crowd Tradeoff -->
+    <p>The Crowd Tradeoff</p>
+    <input type="radio" name="crowds" id="avoid" value="Avoid crowds">
+    <label for="avoid">I would skip on mainstream destinations</label><br>
+    
+    <input type="radio" name="crowds" id="mustsee" value="Must-see">
+    <label for="mustsee">I want to visit the “must-sees”</label><br>
+
+    <input type="radio" name="crowds" id="inbetween" value="In-between">
+    <label for="mustsee">Somewhere in-between</label><br>
+    
+    <!-- Accommodation -->
+    <p>What’s your style of accommodation?</p>
+    <input type="radio" name="accommodation" id="resort" value="All-inclusive resorts">
+    <label for="resort">All-inclusive resorts</label><br>
+    
+    <input type="radio" name="accommodation" id="central" value="Central location">
+    <label for="central">Central location - I want to walk to things</label><br>
+    
+    <input type="radio" name="accommodation" id="remote" value="Remote and scenic">
+    <label for="remote">Remote and scenic - I am ok with driving</label><br>
+    
+    <input type="radio" name="accommodation" id="camping" value="Camping">
+    <label for="camping">Camping</label><br>
+    
+    <!-- Transportation Preferences -->
+    <p>Transportation preferences</p>
+    <input type="radio" name="transport" id="fly" value="Fly">
+    <label for="fly">Places I can fly to</label><br>
+    
+    <input type="radio" name="transport" id="drive" value="Drive">
+    <label for="drive">Places I can drive to</label><br>
+    
+    <input type="radio" name="transport" id="shortferry" value="Short ferry">
+    <label for="shortferry">Short ferry rides (below 5 hours)</label><br>
+    
+    <input type="radio" name="transport" id="longferry" value="Long ferry">
+    <label for="longferry">Long ferry rides (6 to 12 hours)</label><br>
+    
+    <!-- Athens Option -->
+    <p>If flying to Athens first, would you care to spend a few days there?</p>
+    <input type="radio" name="athens" id="yes" value="Yes">
+    <label for="yes">Yes</label><br>
+    
+    <input type="radio" name="athens" id="no" value="No">
+    <label for="no">No</label><br>
+    
+    <!-- Submit Button -->
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
