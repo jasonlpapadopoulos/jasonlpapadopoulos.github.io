@@ -53,9 +53,9 @@
     max-width: 100%;
   }
 
-  /* .comment {
-    font-size: clamp(0.5rem, 6vw, 1.5rem);
-    margin-top: clamp(1.25rem, 4.25vw, 2.25rem);
+  .comment {
+    font-size: clamp(0.5rem, 3vw, 1.2rem);
+    margin-top: clamp(0.75rem, 4.25vw, 2.25rem);
     margin-bottom: clamp(4.25rem, 4.25vw, 2.25rem);
     font-style: italic;
     opacity: 0;
@@ -63,7 +63,7 @@
     animation-delay: 0.5s;
     word-wrap: break-word;
     max-width: 100%;
-  } */
+  }
 
   .homepage-text {
     font-size: clamp(1rem, 4vw, 1.5rem);
@@ -625,8 +625,8 @@
 } */
   
   .option {
-    width: 200px;
-    height: 200px;
+    height: 40vw;
+    aspect-ratio: 1/1;
     border: 2px solid white;
     border-radius: 15px;
     display: flex;
@@ -712,7 +712,7 @@
     color: inherit;
     display: block;
   }
-  
+
   .place-box a div {
     width: 100%;
   }
