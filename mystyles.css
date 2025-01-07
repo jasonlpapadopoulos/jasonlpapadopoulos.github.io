@@ -611,7 +611,7 @@
   .options-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Default 2 columns */
-    gap: 2rem;
+    gap: 1rem;
     opacity: 0;
     animation: fadeIn 1s ease-in forwards;
     animation-delay: 0.5s;
@@ -627,6 +627,7 @@
   .option {
     height: 40vw;
     aspect-ratio: 1/1;
+    max-height: 200px;
     border: 2px solid white;
     border-radius: 15px;
     display: flex;
