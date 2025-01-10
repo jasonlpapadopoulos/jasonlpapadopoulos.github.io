@@ -36,24 +36,37 @@
         </div>
         <div id="map-view"></div>
 
-        <!-- Other Restaurants Like This Section -->
         <div class="nearby-place-container">
-            <h2 class="nearby-place-title">Other Restaurants Like This</h2>
-            <h3 class="nearby-place-subtitle">Here's what's nearby and a similar vibe to The Four Horsemen:</h3>
-            <div class="nearby-place-scroll" id="nearby-restaurants-scroll">
-                <!-- Restaurants will be dynamically inserted here -->
+            <h2 class="nearby-place-title">Places with a similar vibe</h2>
+            <div class="filters-container">
+                <button class="filter-button active" data-category="restaurants">Food</button>
+                <button class="filter-button" data-category="drinks">Drinks</button>
+                <button class="filter-button" data-category="coffee">Coffee</button>
+                <button class="filter-button" data-category="party">Party</button>
+            </div>
+            <div class="nearby-place-scroll" id="nearby-places-content">
+                <!-- Places cards go here -->
             </div>
         </div>
+
+        <!-- Other Restaurants Like This Section -->
+        <!-- <div class="nearby-place-container">
+            <h2 class="nearby-place-title">Other Restaurants Like This</h2>
+            <h3 class="nearby-place-subtitle">Here's what's nearby and a similar vibe to The Four Horsemen:</h3>
+            <div class="nearby-place-scroll" id="nearby-restaurants-scroll"> -->
+                <!-- Restaurants will be dynamically inserted here -->
+            <!-- </div>
+        </div> -->
 
 
         <!-- New Nearby Bars Section -->
-        <div class="nearby-place-container">
+        <!-- <div class="nearby-place-container">
             <h2 class="nearby-place-title">Drinks after dinner?</h2>
             <h3 class="nearby-place-subtitle">Here's what's nearby and a similar vibe to The Four Horsemen:</h3>
-            <div class="nearby-place-scroll" id="nearby-bars-scroll">
+            <div class="nearby-place-scroll" id="nearby-bars-scroll"> -->
                 <!-- Bars will be dynamically inserted here -->
-            </div>
-        </div>
+            <!-- </div>
+        </div> -->
     </div>
 
     <script>
@@ -83,99 +96,6 @@
                     mapView.style.display = 'none';
                 }
             }
-
-            // Function to render nearby restaurants
-            function renderNearbyRestaurants(restaurants) {
-                const restaurantsContainer = document.getElementById('nearby-restaurants-scroll');
-                restaurantsContainer.innerHTML = restaurants.map(restaurant => `
-                    <a href="${restaurant.link}" class="nearby-place-link" target="_blank" rel="noopener noreferrer">
-                        <div class="nearby-place-card">
-                            <img src="${restaurant.imageUrl}" alt="${restaurant.name}" class="nearby-place-image" 
-                                onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
-                            <div class="nearby-place-details">
-                                <div class="nearby-place-name">${restaurant.name}</div>
-                                
-                                <div class="nearby-place-description">${restaurant.description}</div>
-                            </div>
-                        </div>
-                    </a>
-                `).join('');
-            }
-
-            // Function to render nearby bars
-            function renderNearbyBars(bars) {
-                const barsContainer = document.getElementById('nearby-bars-scroll');
-                barsContainer.innerHTML = bars.map(bar => `
-                    <a href="${bar.link}" class="nearby-place-link" target="_blank" rel="noopener noreferrer">
-                        <div class="nearby-place-card">
-                            <img src="${bar.imageUrl}" alt="${bar.name}" class="nearby-place-image" 
-                                onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
-                            <div class="nearby-place-details">
-                                <div class="nearby-place-name">${bar.name}</div>
-                                
-                                <div class="nearby-place-description">${bar.description}</div>
-                            </div>
-                        </div>
-                    </a>
-                `).join('');
-            }
-
-            // remove neighborhood
-            // <div class="nearby-bar-neighborhood">${bar.neighborhood}</div>
-
-            // Nearby bars data
-            const nearbyBars = [
-                {
-                    name: "Maison Premiere",
-                    neighborhood: "Williamsburg",
-                    description: "Charming spot with a Parisian café vibe and a New Orleans cocktail scene. Famous for its wide absinthe choices, reasonably priced oysters, and expertly made classic cocktails. Atmosphere is elegantly nostalgic and inviting.",
-                    imageUrl: "https://i.pinimg.com/736x/e1/41/b9/e141b924de3986262d7e97fecbe07bdd.jpg",
-                    link: "https://makeplana.com/bars/maison-premiere-williamsburg"
-                },
-                {
-                    name: "Bar Blondeau",
-                    neighborhood: "Williamsburg",
-                    description: "Trendy spot on the 6th floor, boasting stunning Manhattan skyline views. Sip on natural wines and seasonal cocktails while enjoying European-inspired small plates like oysters, tuna toast, and fried chicken. Instant vibe.",
-                    imageUrl: "https://robbreport.com/wp-content/uploads/2021/08/BarBlondeau_0721_LizClayman_HERO.jpg?w=1000",
-                    link: "https://makeplana.com/bars/bar-blondeau-williamsburg"
-                },
-                {
-                    name: "Sauced",
-                    neighborhood: "Williamsburg",
-                    description: "Chill spot with no menu, serving up handpicked natural wines by the glass and bottle. Enjoy daily food specials and live tunes for a one-of-a-kind wine experience.",
-                    imageUrl: "https://www.tagvenue.com/resize/31/04/fit-900-600;53515-outdoor-garden-room.jpg",
-                    link: "https://makeplana.com/bars/sauced-williamsburg"
-                }
-            ];
-
-            // Nearby restaurants data
-            const nearbyRestaurants = [
-                {
-                    name: "Maison Premiere",
-                    neighborhood: "Williamsburg",
-                    description: "Charming spot with a Parisian café vibe and a New Orleans cocktail scene. Famous for its wide absinthe choices, reasonably priced oysters, and expertly made classic cocktails. Atmosphere is elegantly nostalgic and inviting.",
-                    imageUrl: "https://i.pinimg.com/736x/e1/41/b9/e141b924de3986262d7e97fecbe07bdd.jpg",
-                    link: "https://makeplana.com/bars/maison-premiere-williamsburg"
-                },
-                {
-                    name: "Bar Blondeau",
-                    neighborhood: "Williamsburg",
-                    description: "Trendy spot on the 6th floor, boasting stunning Manhattan skyline views. Sip on natural wines and seasonal cocktails while enjoying European-inspired small plates like oysters, tuna toast, and fried chicken. Instant vibe.",
-                    imageUrl: "https://robbreport.com/wp-content/uploads/2021/08/BarBlondeau_0721_LizClayman_HERO.jpg?w=1000",
-                    link: "https://makeplana.com/bars/bar-blondeau-williamsburg"
-                },
-                {
-                    name: "Sauced",
-                    neighborhood: "Williamsburg",
-                    description: "Chill spot with no menu, serving up handpicked natural wines by the glass and bottle. Enjoy daily food specials and live tunes for a one-of-a-kind wine experience.",
-                    imageUrl: "https://www.tagvenue.com/resize/31/04/fit-900-600;53515-outdoor-garden-room.jpg",
-                    link: "https://makeplana.com/bars/sauced-williamsburg"
-                }
-            ];
-
-            // Render nearby bars
-            renderNearbyBars(nearbyBars);
-            renderNearbyRestaurants(nearbyRestaurants);
         });
 
         function renderButtons(mapsUrl, reservationUrl) {
@@ -204,6 +124,142 @@
             const reservationUrl = 'https://resy.com/cities/new-york-ny/venues/the-four-horsemen?date=2024-07-17&seats=2';
             renderButtons(mapsUrl, reservationUrl);
         });
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category data objects
+            const categoryData = {
+                restaurants: [
+                    {
+                        name: "Shalom Japan",
+                        neighborhood: "Williamsburg",
+                        description: "This one-of-a-kind spot mixes Jewish and Japanese cuisines, crafted by husband-and-wife chefs Aaron and Sawako. Expect creative eats like matzoh ball ramen and Wagyu pastrami sandwiches, all served in a cozy, inviting atmosphere.",
+                        imageUrl: "https://image.resy.com/3/003/2/69657/f60538761589f806f089cf82d45e0ac8aa1a7064/jpg/1600x1600",
+                        link: "https://makeplana.com/restaurants/shalom-japan-williamsburg"
+                    },
+                    {
+                        name: "Santa Fe BK",
+                        neighborhood: "Williamsburg",
+                        description: "Authentic New Mexico flavors served up in Brooklyn. Enjoy Southwestern-style green chile breakfast burritos, cheeseburgers, and dinner favorites like enchiladas. Pair your meal with hand-muddled margaritas in a cozy, friendly vibe.",
+                        imageUrl: "https://cdn.vox-cdn.com/thumbor/TuvkYO58ARKHFnCh56KYa9K6TXA=/0x0:4000x2667/1200x0/filters:focal(0x0:4000x2667):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/23052586/ChristianR_SantaFe_2.jpg",
+                        link: "https://makeplana.com/restaurants/santa-fe-bk-williamsburg"
+                    },
+                    {
+                        name: "Diner",
+                        neighborhood: "Williamsburg",
+                        description: "A charming eatery set in a vintage Pullman dining car that’s around 90 years old. It serves local, seasonal, and sustainable dishes in a warm wooden setting. A cherished spot in the community for more than 22 years.",
+                        imageUrl: "https://image.resy.com/3/003/2/2038/86548720a7c611dc5cb521501378b1e3aaba3cb3/jpg/1600x1600",
+                        link: "https://makeplana.com/restaurants/diner-williamsburg"
+                    }
+                    // Add more restaurants
+                ],
+                drinks: [
+                    {
+                        name: "Maison Premiere",
+                        neighborhood: "Williamsburg",
+                        description: "Charming spot with a Parisian café vibe and a New Orleans cocktail scene. Famous for its wide absinthe choices, reasonably priced oysters, and expertly made classic cocktails. Atmosphere is elegantly nostalgic and inviting.",
+                        imageUrl: "https://i.pinimg.com/736x/e1/41/b9/e141b924de3986262d7e97fecbe07bdd.jpg",
+                        link: "https://makeplana.com/bars/maison-premiere-williamsburg"
+                    },
+                    {
+                        name: "Bar Blondeau",
+                        neighborhood: "Williamsburg",
+                        description: "Trendy spot on the 6th floor, boasting stunning Manhattan skyline views. Sip on natural wines and seasonal cocktails while enjoying European-inspired small plates like oysters, tuna toast, and fried chicken. Instant vibe.",
+                        imageUrl: "https://robbreport.com/wp-content/uploads/2021/08/BarBlondeau_0721_LizClayman_HERO.jpg?w=1000",
+                        link: "https://makeplana.com/bars/bar-blondeau-williamsburg"
+                    },
+                    {
+                        name: "Sauced",
+                        neighborhood: "Williamsburg",
+                        description: "Chill spot with no menu, serving up handpicked natural wines by the glass and bottle. Enjoy daily food specials and live tunes for a one-of-a-kind wine experience.",
+                        imageUrl: "https://www.tagvenue.com/resize/31/04/fit-900-600;53515-outdoor-garden-room.jpg",
+                        link: "https://makeplana.com/bars/sauced-williamsburg"
+                    }
+                    // Add more bars
+                ],
+                coffee: [
+                    {
+                        name: "Alita Cafe",
+                        neighborhood: "Williamsburg",
+                        description: "Alita comes from the nickname Alejandro grew up calling his “abuela” (grandmother in Spanish). The memories of being raised in her kitchen, along with the value of family, are the inspiration behind providing a warm and inviting space to share the owners’ passion for hospitality.",
+                        imageUrl: "https://images.squarespace-cdn.com/content/v1/5e80f3ab8b78ee2864054d1b/1614383787502-EAMOURNYO7GKT8IGLT17/Alita%2BOutside-4.jpg?format=2500w",
+                        link: "https://www.alitacafe.com/"
+                    },
+                    {
+                        name: "Variety Coffee Roasters",
+                        neighborhood: "Williamsburg",
+                        description: "The focus is always on freshness when sourcing coffee. The menu is designed to reflect the growing seasons of various coffee-growing regions, showcasing only the freshest beans. Coffee is roasted daily in Brooklyn, driven by a genuine love and passion for coffee.",
+                        imageUrl: "https://varietycoffeeroasters.com/cdn/shop/files/image_27_55afe700-70d8-4b67-bb5c-d1f6fad6a410.jpg?v=1639436103&width=550",
+                        link: "https://varietycoffeeroasters.com/pages/locations"
+                    },
+                    {
+                        name: "PPL",
+                        neighborhood: "Williamsburg",
+                        description: "Plants, people, and coffee.",
+                        imageUrl: "https://images.ctfassets.net/ph4gbgsekqey/2yI0hF27hc2ACURBlArgwh/d6d28cce99852309ecae384a06991bdb/IMG_2471.jpg?w=1000&q=70&fm=webp",
+                        link: "https://pplnyc.com/"
+                    },
+                ],
+                party: [
+                    {
+                        name: "The Woods",
+                        neighborhood: "Williamsburg",
+                        description: "Lively bar and music venue known for its spacious outdoor courtyard and vibrant atmosphere.",
+                        imageUrl: "https://static.wixstatic.com/media/f795ca_421b40d3594240d299c00fbe9d08d704~mv2.jpg/v1/crop/x_761,y_0,w_4485,h_3497/fill/w_1462,h_1140,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Photo%20Aug%2001%202023%2C%205%2018%2016%20AM.jpg",
+                        link: "https://www.thewoodsbk.com/"
+                    },
+                    {
+                        name: "Cafe Balerica",
+                        neighborhood: "Williamsburg",
+                        description: "Vibrant bar and nightclub that captures the spirit of the Balearic Islands.",
+                        imageUrl: "https://images.squarespace-cdn.com/content/v1/62597d3cee57f31c6f409350/cda1b83d-d055-4a80-9011-7e427406bd3e/Downstairs+1.jpg?format=1000w",
+                        link: "https://www.cafebalearica.com/"
+                    },
+                    {
+                        name: "Whiskey Brooklyn",
+                        neighborhood: "Williamsburg",
+                        description: "Diverse crowd, throwback music, affordable drinks.",
+                        imageUrl: "https://thevendry.com/cdn-cgi/image/width=3840,quality=75,fit=contain,metadata=none,format=auto/https%3A%2F%2Fs3.us-east-1.amazonaws.com%2Fuploads.thevendry.co%2F23052%2F1676384621731_grand.jpg",
+                        link: "https://whiskeybrooklyn.com/"
+                    },
+                ]
+            };
+
+            // Function to render places
+            function renderPlaces(category) {
+                const placesContainer = document.getElementById('nearby-places-content');
+                const places = categoryData[category];
+                
+                placesContainer.innerHTML = places.map(place => `
+                    <a href="${place.link}" class="nearby-place-link" target="_blank" rel="noopener noreferrer">
+                        <div class="nearby-place-card">
+                            <img src="${place.imageUrl}" alt="${place.name}" class="nearby-place-image" 
+                                onerror="this.src='https://www.budget101.com/images/image-not-available.png?6068'">
+                            <div class="nearby-place-details">
+                                <div class="nearby-place-name">${place.name}</div>
+                                <div class="nearby-place-description">${place.description}</div>
+                            </div>
+                        </div>
+                    </a>
+                `).join('');
+            }
+
+            // Add click handlers for category buttons
+            const buttons = document.querySelectorAll('.filter-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    // Render places for selected category
+                    renderPlaces(this.dataset.category);
+                });
+            });
+
+            // Initialize with restaurants
+            renderPlaces('restaurants');
+        });
+
     </script>
 </body>
 </html>

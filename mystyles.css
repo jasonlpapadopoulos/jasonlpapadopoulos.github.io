@@ -938,6 +938,8 @@
   scrollbar-color: #555 #222;
   gap: 15px;
   padding-bottom: 15px;
+  width: 60vw;
+  max-width: 600px;
 }
 
 .nearby-place-scroll::-webkit-scrollbar {

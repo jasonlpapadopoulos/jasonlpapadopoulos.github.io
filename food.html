@@ -359,7 +359,7 @@ class RestaurantDisplay {
         console.error('Cuisine filter container not found');
         return;
     }
-    console.log('Cuisine container found, updating options...');
+    // console.log('Cuisine container found, updating options...');
     cuisineContainer.innerHTML = ''; // Clear existing options
 
     // Get filtered restaurants based on selected neighborhoods
@@ -376,7 +376,7 @@ class RestaurantDisplay {
     // Convert the set to an array and sort it alphabetically
     const sortedCuisines = Array.from(cuisineSet).sort();
 
-    console.log(`Sorted cuisine set: ${sortedCuisines.join(', ')}`); // Log the sorted cuisines
+    // console.log(`Sorted cuisine set: ${sortedCuisines.join(', ')}`); // Log the sorted cuisines
 
     // Append the sorted options to the cuisine container
     sortedCuisines.forEach(cuisine => {
@@ -386,7 +386,7 @@ class RestaurantDisplay {
         cuisineContainer.appendChild(label);
         console.log(`Added cuisine option: ${cuisine}`);
     });
-    console.log('Cuisine filter options updated');
+    // console.log('Cuisine filter options updated');
 }
 
 }
