@@ -12,14 +12,36 @@ app.use(express.json()); // For parsing JSON request bodies
 // app.use(cors()); // Allow all origins by default
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:5500', 'http://127.0.0.1:5500', 'https://jasonlpapadopoulos-github-io.onrender.com'],
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:3000', 
+      'http://localhost:5500', 
+      'http://127.0.0.1:5500',
+      'https://jasonlpapadopoulos-github-io.onrender.com',
+      'https://makeplana.com',
+      'https://www.makeplana.com'  // Include www subdomain just in case
+    ];
+    
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      console.log('Blocked origin:', origin); // For debugging
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
   credentials: true,
-  maxAge: 86400 // Cache preflight request results for 24 hours
+  maxAge: 86400
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+app.use((err, req, res, next) => {
+  console.error('Error:', err.message);
+  console.error('Origin:', req.headers.origin);
+  res.status(500).json({ error: 'Internal server error' });
+});
 
 // MySQL connection pool
 const db = mysql.createPool({

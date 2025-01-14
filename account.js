@@ -82,73 +82,58 @@ const API_BASE_URL = window.location.hostname === ''
       try {
         console.log('Starting signup process...');
         
-        // 1. Create Firebase account
+        // Create Firebase account with explicit error handling
         console.log('Creating Firebase account...');
-        const userCredential = await auth.createUserWithEmailAndPassword(formData.email, formData.password);
-        console.log('Firebase account created successfully:', userCredential.user.uid);
-        
-        // 2. Create user in database with retry logic
-        console.log('Attempting to create user in database...');
-        let retryCount = 0;
-        const maxRetries = 3;
-        
-        while (retryCount < maxRetries) {
-          try {
-            const response = await fetch(`${API_BASE_URL}/signup`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                // Add explicit CORS headers
-                'Accept': 'application/json',
-              },
-              // Add explicit CORS settings
-              mode: 'cors',
-              credentials: 'include',
-              body: JSON.stringify({
-                firebaseUid: userCredential.user.uid,
-                email: formData.email,
-                firstName: formData.firstName,
-              }),
-            });
-    
-            // Log the response status and headers
-            console.log('Response status:', response.status);
-            console.log('Response headers:', [...response.headers.entries()]);
-    
-            if (!response.ok) {
-              throw new Error(`Server responded with status: ${response.status}`);
-            }
-    
-            const data = await response.json();
-            console.log('Database creation successful:', data);
-            
-            // If we get here, the request was successful
-            this.renderWelcomeScreen(formData.firstName);
-            return;
-            
-          } catch (error) {
-            console.error(`Attempt ${retryCount + 1} failed:`, error);
-            retryCount++;
-            
-            if (retryCount === maxRetries) {
-              // If all retries failed, throw the error to be caught by outer catch
-              throw new Error(`Failed to create user in database after ${maxRetries} attempts: ${error.message}`);
-            }
-            
-            // Wait before retrying (exponential backoff)
-            await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
-          }
+        let user;
+        try {
+          const result = await auth.createUserWithEmailAndPassword(formData.email, formData.password);
+          user = result.user;
+          console.log('Firebase account created successfully:', user?.uid);
+        } catch (firebaseError) {
+          console.error('Firebase creation error:', firebaseError);
+          throw firebaseError;
         }
+    
+        if (!user) {
+          throw new Error('Failed to create Firebase account - no user returned');
+        }
+    
+        // Create user in database
+        console.log('Attempting to create user in database...');
+        try {
+          const response = await fetch(`${API_BASE_URL}/signup`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              firebaseUid: user.uid,
+              email: formData.email,
+              firstName: formData.firstName,
+            }),
+          });
+    
+          if (!response.ok) {
+            throw new Error(`Server responded with status: ${response.status}`);
+          }
+    
+          const data = await response.json();
+          console.log('Database creation successful:', data);
+          
+          // Show welcome screen
+          this.renderWelcomeScreen(formData.firstName);
+          
+        } catch (dbError) {
+          console.error('Database error:', dbError);
+          // Still show welcome screen even if database creation fails
+          this.renderWelcomeScreen(formData.firstName);
+          // But also show an error message
+          this.showError('signup-error-message', 'Account created but some features may be limited. Please try again later.');
+        }
+        
       } catch (error) {
         console.error('Signup error:', error);
         this.showError('signup-error-message', this.getFriendlyErrorMessage(error.code) || error.message);
-        
-        // If database creation failed but Firebase account was created,
-        // we should still allow the user to proceed but log the error
-        if (error.message.includes('Failed to create user in database')) {
-          console.warn('Proceeding with Firebase-only account due to database error');
-          this.renderWelcomeScreen(formData.firstName);
-        }
       }
     }
   
