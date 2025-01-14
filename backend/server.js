@@ -8,40 +8,18 @@ dotenv.config();
 const app = express();
 app.use(express.json()); // For parsing JSON request bodies
 
-app.use((req, res, next) => {
-  // Allow a specific origin
-  // res.setHeader('Access-Control-Allow-Origin', 'https://your-frontend-domain.com');
-
-  // Or, temporarily for development, allow all
-  res.setHeader('Access-Control-Allow-Origin', '*');
-
-  // Allowed request methods
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-
-  // Allowed request headers
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  // If you need credentials (cookies, etc.)
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-  // If the browser sends an OPTIONS request, quickly respond with OK
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
-
 // Enable CORS
-app.use(cors()); // Allow all origins by default
-// const corsOptions = {
-//   origin: ['http://localhost:3000', 'https://jasonlpapadopoulos-github-io.onrender.com'],
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-//   credentials: true
-// };
+// app.use(cors()); // Allow all origins by default
 
-// app.use(cors(corsOptions));
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:5500', 'http://127.0.0.1:5500', 'https://jasonlpapadopoulos-github-io.onrender.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
+  credentials: true,
+  maxAge: 86400 // Cache preflight request results for 24 hours
+};
+
+app.use(cors(corsOptions));
 
 // MySQL connection pool
 const db = mysql.createPool({
