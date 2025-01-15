@@ -6,6 +6,276 @@
   <title>[Individual Island] - Greek Island Details</title>
   <style>
     body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f3f4f6;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(30, 136, 229, 0.1);
+      overflow: hidden;
+    }
+
+    .hero {
+      position: relative;
+      height: 400px;
+      background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://via.placeholder.com/1000x400');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .quick-info {
+      background: #1e88e5;
+      color: white;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      text-align: center;
+    }
+
+    .quick-info-item {
+      padding: 10px;
+    }
+
+    .quick-info-item i {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    /* Transportation Section */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .transport-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .transport-card h3 {
+      color: #1e88e5;
+      margin-top: 0;
+    }
+
+    /* Beaches Grid */
+    .beaches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .beach-card {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .beach-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .beach-image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .beach-info {
+      padding: 15px;
+      background: white;
+    }
+
+    /* Restaurants Section */
+    .restaurants-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .restaurant-card {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .restaurant-icon {
+      width: 50px;
+      height: 50px;
+      margin-right: 15px;
+      background: #1e88e5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    /* Section Headers */
+    .section-header {
+      margin: 40px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #1e88e5;
+      color: #1e88e5;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin: 20px 0;
+      padding: 12px 24px;
+      background: #1e88e5;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      background: #1565c0;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>[Individual Island]</h1>
+    </div>
+
+    <!-- Quick Info Bar -->
+    <div class="quick-info">
+      <div class="quick-info-item">
+        <i>🛥️</i>
+        <p>4.5 hours from Athens</p>
+      </div>
+      <div class="quick-info-item">
+        <i>🏊‍♂️</i>
+        <p>12 Beaches</p>
+      </div>
+      <div class="quick-info-item">
+        <i>🍽️</i>
+        <p>20+ Restaurants</p>
+      </div>
+      <div class="quick-info-item">
+        <i>📅</i>
+        <p>Best: June-September</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Transportation Section -->
+      <h2 class="section-header">Getting There & Around</h2>
+      <div class="transport-grid">
+        <div class="transport-card">
+          <h3>By Ferry</h3>
+          <p>4.5 hours from Piraeus Port</p>
+          <p>Daily departures: 7:30, 15:30</p>
+          <a href="#">Book Ferry Tickets →</a>
+        </div>
+        <div class="transport-card">
+          <h3>By Plane</h3>
+          <p>45 minutes from Athens</p>
+          <p>Multiple daily flights</p>
+          <a href="#">Book Flights →</a>
+        </div>
+        <div class="transport-card">
+          <h3>Local Transport</h3>
+          <p>Rent a car/moto/ATV</p>
+          <p>Local bus service available</p>
+          <a href="#">View Options →</a>
+        </div>
+      </div>
+
+      <!-- Beaches Section -->
+      <h2 class="section-header">Must-Visit Beaches</h2>
+      <div class="beaches-grid">
+        <div class="beach-card">
+          <div class="beach-image" style="background-image: url('https://via.placeholder.com/300x200')"></div>
+          <div class="beach-info">
+            <h3>Beach Name</h3>
+            <p>Sandy • Swimming • Sunset Views</p>
+          </div>
+        </div>
+        <div class="beach-card">
+          <div class="beach-image" style="background-image: url('https://via.placeholder.com/300x200')"></div>
+          <div class="beach-info">
+            <h3>Beach Name</h3>
+            <p>Pebbles • Snorkeling • Family Friendly</p>
+          </div>
+        </div>
+        <!-- Add more beach cards as needed -->
+      </div>
+
+      <!-- Restaurants Section -->
+      <h2 class="section-header">Where to Eat</h2>
+      <div class="restaurants-list">
+        <div class="restaurant-card">
+          <div class="restaurant-icon">🍽️</div>
+          <div>
+            <h3>Restaurant Name</h3>
+            <p>Traditional Greek • $$</p>
+          </div>
+        </div>
+        <div class="restaurant-card">
+          <div class="restaurant-icon">🍽️</div>
+          <div>
+            <h3>Restaurant Name</h3>
+            <p>Seafood • $$$</p>
+          </div>
+        </div>
+        <!-- Add more restaurant cards as needed -->
+      </div>
+
+      <a href="makeplana.com/islands" class="back-button">← Back to Islands</a>
+    </div>
+  </div>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[Individual Island] - Greek Island Details</title>
+  <style>
+    body {
       font-family: Arial, sans-serif;
       background-color: #f3f4f6;
       color: #333;
@@ -110,4 +380,4 @@
     </div>
   </div>
 </body>
-</html>
+</html> -->
