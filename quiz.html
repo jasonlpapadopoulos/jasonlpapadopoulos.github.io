@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Vacation in Greece</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e3f2fd;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      position: relative;
+    }
+    .progress-bar {
+      height: 10px;
+      width: 100%;
+      background: #f0f0f0;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: #1e88e5;
+      width: 0;
+      transition: width 0.3s ease-in-out;
+    }
+    .question {
+      display: none;
+      animation: fade-in 0.3s ease-in-out;
+    }
+    .question.active {
+      display: block;
+    }
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .question p {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #1e88e5;
+    }
+    .options {
+      margin-bottom: 20px;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+    }
+    .btn {
+      padding: 10px 20px;
+      background: #1e88e5;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .btn:disabled {
+      background: #b0bec5;
+      cursor: not-allowed;
+    }
+    .btn:hover:not(:disabled) {
+      background: #1565c0;
+    }
+    .modern-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .modern-options {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .option-card {
+      height: 160px;
+      padding: 1rem;
+      border: 2px solid #1e88e5;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+      position: relative;
+    }
+
+    .option-card:hover {
+      border-color: #1565c0;
+      transform: translateY(-2px);
+    }
+
+    .option-card.selected {
+      background: #1e88e5;
+      color: white;
+      transform: scale(1.05);
+      border-color: orange;
+    }
+
+    .option-card input[type="radio"],
+    .option-card input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .option-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .option-label {
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .option-description {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="progress-bar">
+      <div class="progress-bar-fill"></div>
+    </div>
+    <form id="quizForm">
+      <div class="question active" data-step="1">
+        <p>Who's coming?</p>
+        <div class="modern-options">
+          <label class="option-card">
+            <input type="radio" name="group" value="Just me">
+            <span class="option-icon">👤</span>
+            <span class="option-label">Just me</span>
+            <span class="option-description">Solo adventure</span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="group" value="Couple">
+            <span class="option-icon">❤️</span>
+            <span class="option-label">Couple</span>
+            <span class="option-description">Romantic getaway</span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="group" value="Friends">
+            <span class="option-icon">👥</span>
+            <span class="option-label">Friends</span>
+            <span class="option-description">Group fun</span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="group" value="Family">
+            <span class="option-icon">👨‍👩‍👧‍👦</span>
+            <span class="option-label">Family</span>
+            <span class="option-description">Family time</span>
+          </label>
+        </div>
+      </div>
+      <div class="question" data-step="2">
+        <p>How long is your trip?</p>
+        <div class="options">
+          <label><input type="radio" name="trip_length" value="2-3 days">2-3 days</label>
+          <label><input type="radio" name="trip_length" value="4-7 days">4-7 days</label>
+          <label><input type="radio" name="trip_length" value="7 days+">7 days+</label>
+          <label><input type="radio" name="trip_length" value="Month+">Month+</label>
+        </div>
+      </div>
+      <!-- Budget Range -->
+        <div class="question" data-step="3">
+            <p>What’s your budget range?</p>
+            <div class="options">
+            <label><input type="radio" name="budget" value="€">€</label>
+            <label><input type="radio" name="budget" value="€€">€€</label>
+            <label><input type="radio" name="budget" value="€€€">€€€</label>
+            <label><input type="radio" name="budget" value="€€€€">€€€€</label>
+            </div>
+        </div>
+        
+        <!-- Main Interests -->
+        <div class="question" data-step="4">
+            <p>What are your main interests? (select up to 3)</p>
+            <div class="checkbox-group">
+            <label><input type="checkbox" name="interests" value="Beaches">Beaches</label>
+            <label><input type="checkbox" name="interests" value="Historical sites">Historical sites and archaeology</label>
+            <label><input type="checkbox" name="interests" value="Food and wine">Food and wine</label>
+            <label><input type="checkbox" name="interests" value="Nightlife">Nightlife and parties</label>
+            <label><input type="checkbox" name="interests" value="Traditional villages">Traditional villages</label>
+            <label><input type="checkbox" name="interests" value="Hiking and nature">Hiking and nature</label>
+            <label><input type="checkbox" name="interests" value="Photography">Photography</label>
+            <label><input type="checkbox" name="interests" value="Scuba diving">Scuba diving & watersports</label>
+            <label><input type="checkbox" name="interests" value="Art and culture">Art and culture</label>
+            </div>
+        </div>
+        
+        <!-- Crowd Tradeoff -->
+        <div class="question" data-step="5">
+            <p>The Crowd Tradeoff</p>
+            <div class="options">
+            <label><input type="radio" name="crowds" value="Avoid crowds">I would skip on mainstream destinations</label>
+            <label><input type="radio" name="crowds" value="Must-see">I want to visit the “must-sees”</label>
+            <label><input type="radio" name="crowds" value="In-between">Somewhere in-between</label>
+            </div>
+        </div>
+        
+        <!-- Accommodation -->
+        <div class="question" data-step="6">
+            <p>What’s your style of accommodation?</p>
+            <div class="options">
+            <label><input type="radio" name="accommodation" value="All-inclusive resorts">All-inclusive resorts</label>
+            <label><input type="radio" name="accommodation" value="Central location">Central location - I want to walk to things</label>
+            <label><input type="radio" name="accommodation" value="Remote and scenic">Remote and scenic - I am ok with driving</label>
+            <label><input type="radio" name="accommodation" value="Camping">Camping</label>
+            </div>
+        </div>
+        
+        <!-- Transportation Preferences -->
+        <div class="question" data-step="7">
+            <p>Transportation preferences</p>
+            <div class="options">
+            <label><input type="radio" name="transport" value="Fly">Places I can fly to</label>
+            <label><input type="radio" name="transport" value="Drive">Places I can drive to</label>
+            <label><input type="radio" name="transport" value="Short ferry">Short ferry rides (below 5 hours)</label>
+            <label><input type="radio" name="transport" value="Long ferry">Long ferry rides (6 to 12 hours)</label>
+            </div>
+        </div>
+        
+        <!-- Athens Option -->
+        <div class="question" data-step="8">
+            <p>If flying to Athens first, would you care to spend a few days there?</p>
+            <div class="options">
+            <label><input type="radio" name="athens" value="Yes">Yes</label>
+            <label><input type="radio" name="athens" value="No">No</label>
+        </div>
+        </div>
+      <!-- Add more questions similarly -->
+      <div class="navigation">
+        <button type="button" class="btn" id="prevBtn" disabled>Back</button>
+        <button type="button" class="btn" id="nextBtn">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const questions = document.querySelectorAll('.question');
+    const progressBarFill = document.querySelector('.progress-bar-fill');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentStep = 0;
+
+    function updateProgress() {
+      const progress = ((currentStep + 1) / questions.length) * 100;
+      progressBarFill.style.width = progress + '%';
+    }
+
+    function showQuestion(step) {
+      questions.forEach((question, index) => {
+        question.classList.toggle('active', index === step);
+      });
+      prevBtn.disabled = step === 0;
+      nextBtn.textContent = step === questions.length - 1 ? 'Submit' : 'Next';
+      updateProgress();
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentStep < questions.length - 1) {
+        currentStep++;
+        showQuestion(currentStep);
+      } else {
+        // Redirect to the specified URL when the "Submit" button is clicked
+        window.location.href = 'https://makeplana.com/islands';
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentStep > 0) {
+        currentStep--;
+        showQuestion(currentStep);
+      }
+    });
+
+    showQuestion(currentStep);
+</script>
+
+</body>
+</html>
+
+
+
+
