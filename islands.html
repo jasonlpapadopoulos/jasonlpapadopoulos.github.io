@@ -23,6 +23,46 @@
       gap: 20px;
       justify-content: center;
     }
+    .filters {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .filter-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .filter {
+      display: flex;
+      flex-direction: column;
+      min-width: 200px;
+    }
+    .filter label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #1e88e5;
+    }
+    .filter select {
+      padding: 10px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      background-color: white;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    .filter select:hover {
+      border-color: #1e88e5;
+    }
+    .filter select:focus {
+      outline: none;
+      border-color: #1e88e5;
+      box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.1);
+    }
     .tile {
       background: white;
       border: 2px solid #1e88e5;
@@ -54,6 +94,44 @@
 </head>
 <body>
   <h1>Our Recommendations</h1>
+
+  <div class="filters">
+    <div class="filter-group">
+      <div class="filter">
+        <label for="bestFor">Best For</label>
+        <select id="bestFor">
+          <option value="">All Travelers</option>
+          <option value="solo">Solo</option>
+          <option value="couple">Couple</option>
+          <option value="friends">Friends</option>
+          <option value="family">Family</option>
+        </select>
+      </div>
+
+      <div class="filter">
+        <label for="budget">Budget Range</label>
+        <select id="budget">
+          <option value="">Any Budget</option>
+          <option value="budget">€</option>
+          <option value="moderate">€€</option>
+          <option value="luxury">€€€</option>
+          <option value="uluxury">€€€€</option>
+        </select>
+      </div>
+
+      <div class="filter">
+        <label for="season">More filters</label>
+        <select id="season">
+          <option value="">Option 1</option>
+          <option value="spring">Option 2</option>
+          <option value="summer">Option 3</option>
+          <option value="fall">Option 4</option>
+          <option value="winter">Option 5</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <!-- Tile 1 -->
     <a href="individual-island.html" style="text-decoration: none; color: inherit;">
@@ -85,6 +163,20 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Naxos-port.JPG" alt="Naxos">
         <h2>Naxos</h2>
         <p>A mix of sandy beaches, traditional villages, and ancient ruins. Great for a laid-back and cultural experience.</p>
+        </div>
+    </a>
+    <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+        <div class="tile">
+        <img src="https://images.unsplash.com/photo-1628530509833-24a2fa088f83?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Serifos">
+        <h2>Serifos</h2>
+        <p>A quieter Cycladic gem, Serifos offers unspoiled beaches, traditional hilltop villages, and an overall authentic Greek island experience.</p>
+        </div>
+    </a>
+    <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+        <div class="tile">
+        <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcQ--7rwDW0IlViL3tkwm3DiWLP0J8Je2R8hrbmwrFGP13qWMN5ErU2JUPwx8LWw9ccQ06jrVXj5MIR6BElLj1kM1h5iT2QgM2usfTFc0A" alt="Zakynthos">
+        <h2>Zakynthos</h2>
+        <p>Known for the iconic Navagio (Shipwreck) Beach, and its vibrant marine life, Zakynthos combines natural beauty with lively resorts and quaint villages.</p>
         </div>
     </a>
   </div>

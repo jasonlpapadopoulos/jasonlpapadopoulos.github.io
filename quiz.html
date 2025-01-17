@@ -195,71 +195,201 @@
       </div>
       <div class="question" data-step="2">
         <p>How long is your trip?</p>
-        <div class="options">
-          <label><input type="radio" name="trip_length" value="2-3 days">2-3 days</label>
-          <label><input type="radio" name="trip_length" value="4-7 days">4-7 days</label>
-          <label><input type="radio" name="trip_length" value="7 days+">7 days+</label>
-          <label><input type="radio" name="trip_length" value="Month+">Month+</label>
+        <div class="modern-options">
+          <label class="option-card">
+            <input type="radio" name="trip_length" value="2-3 days">
+            <span class="option-icon">⏳</span>
+            <span class="option-label">2-3 days</span>
+            <span class="option-description">A quick getaway</span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="trip_length" value="4-7 days">
+            <span class="option-icon">📅</span>
+            <span class="option-label">4-7 days</span>
+            <span class="option-description">A week-long adventure</span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="trip_length" value="7 days+">
+            <span class="option-icon">🌴</span>
+            <span class="option-label">7 days+</span>
+            <span class="option-description">Take your time</span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="trip_length" value="Month+">
+            <span class="option-icon">🌍</span>
+            <span class="option-label">Month+</span>
+            <span class="option-description">Live the experience</span>
+          </label>
         </div>
       </div>
       <!-- Budget Range -->
-        <div class="question" data-step="3">
-            <p>What’s your budget range?</p>
-            <div class="options">
-            <label><input type="radio" name="budget" value="€">€</label>
-            <label><input type="radio" name="budget" value="€€">€€</label>
-            <label><input type="radio" name="budget" value="€€€">€€€</label>
-            <label><input type="radio" name="budget" value="€€€€">€€€€</label>
-            </div>
+      <div class="question" data-step="3">
+        <p>What’s your budget range?</p>
+        <div class="modern-options">
+          <label class="option-card">
+            <input type="radio" name="budget" value="€">
+            <span class="option-icon">💸</span>
+            <span class="option-label">€</span>
+            <span class="option-description">Budget-friendly</span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="budget" value="€€">
+            <span class="option-icon">💵</span>
+            <span class="option-label">€€</span>
+            <span class="option-description">Moderate spend</span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="budget" value="€€€">
+            <span class="option-icon">💳</span>
+            <span class="option-label">€€€</span>
+            <span class="option-description">Comfortable</span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="budget" value="€€€€">
+            <span class="option-icon">🤑</span>
+            <span class="option-label">€€€€</span>
+            <span class="option-description">Luxurious</span>
+          </label>
         </div>
-        
+      </div>
         <!-- Main Interests -->
         <div class="question" data-step="4">
-            <p>What are your main interests? (select up to 3)</p>
-            <div class="checkbox-group">
-            <label><input type="checkbox" name="interests" value="Beaches">Beaches</label>
-            <label><input type="checkbox" name="interests" value="Historical sites">Historical sites and archaeology</label>
-            <label><input type="checkbox" name="interests" value="Food and wine">Food and wine</label>
-            <label><input type="checkbox" name="interests" value="Nightlife">Nightlife and parties</label>
-            <label><input type="checkbox" name="interests" value="Traditional villages">Traditional villages</label>
-            <label><input type="checkbox" name="interests" value="Hiking and nature">Hiking and nature</label>
-            <label><input type="checkbox" name="interests" value="Photography">Photography</label>
-            <label><input type="checkbox" name="interests" value="Scuba diving">Scuba diving & watersports</label>
-            <label><input type="checkbox" name="interests" value="Art and culture">Art and culture</label>
-            </div>
+          <p>What are your main interests? (select up to 3)</p>
+          <div class="modern-checkbox-group">
+            <label class="checkbox-card">
+              <input type="checkbox" name="interests" value="Beaches">
+              <span class="option-icon">🏖️</span>
+              <span class="option-label">Beaches</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="interests" value="Historical sites">
+              <span class="option-icon">🏛️</span>
+              <span class="option-label">Historical sites</span>
+              <span class="option-description">Archaeology and landmarks</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="interests" value="Food and wine">
+              <span class="option-icon">🍷</span>
+              <span class="option-label">Food and wine</span>
+              <span class="option-description">Culinary delights</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="interests" value="Nightlife">
+              <span class="option-icon">🎉</span>
+              <span class="option-label">Nightlife</span>
+              <span class="option-description">Parties and socializing</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="interests" value="Traditional villages">
+              <span class="option-icon">🏡</span>
+              <span class="option-label">Traditional villages</span>
+              <span class="option-description">Charming local culture</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="interests" value="Hiking and nature">
+              <span class="option-icon">🌲</span>
+              <span class="option-label">Hiking and nature</span>
+              <span class="option-description">Explore the outdoors</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="interests" value="Photography">
+              <span class="option-icon">📸</span>
+              <span class="option-label">Photography</span>
+              <span class="option-description">Capture the moments</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="interests" value="Scuba diving">
+              <span class="option-icon">🤿</span>
+              <span class="option-label">Scuba diving</span>
+              <span class="option-description">Water adventures</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="interests" value="Art and culture">
+              <span class="option-icon">🎨</span>
+              <span class="option-label">Art and culture</span>
+              <span class="option-description">Creative inspiration</span>
+            </label>
+          </div>
         </div>
-        
         <!-- Crowd Tradeoff -->
         <div class="question" data-step="5">
-            <p>The Crowd Tradeoff</p>
-            <div class="options">
-            <label><input type="radio" name="crowds" value="Avoid crowds">I would skip on mainstream destinations</label>
-            <label><input type="radio" name="crowds" value="Must-see">I want to visit the “must-sees”</label>
-            <label><input type="radio" name="crowds" value="In-between">Somewhere in-between</label>
-            </div>
+          <p>The Crowd Tradeoff</p>
+          <div class="modern-options">
+            <label class="option-card">
+              <input type="radio" name="crowds" value="Avoid crowds">
+              <span class="option-icon">🛤️</span>
+              <span class="option-label">Avoid crowds</span>
+              <span class="option-description">Skip the mainstream destinations</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="crowds" value="Must-see">
+              <span class="option-icon">📸</span>
+              <span class="option-label">Must-see</span>
+              <span class="option-description">Visit the iconic attractions</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="crowds" value="In-between">
+              <span class="option-icon">🌍</span>
+              <span class="option-label">In-between</span>
+              <span class="option-description">A balanced mix of both</span>
+            </label>
+          </div>
         </div>
-        
         <!-- Accommodation -->
         <div class="question" data-step="6">
-            <p>What’s your style of accommodation?</p>
-            <div class="options">
-            <label><input type="radio" name="accommodation" value="All-inclusive resorts">All-inclusive resorts</label>
-            <label><input type="radio" name="accommodation" value="Central location">Central location - I want to walk to things</label>
-            <label><input type="radio" name="accommodation" value="Remote and scenic">Remote and scenic - I am ok with driving</label>
-            <label><input type="radio" name="accommodation" value="Camping">Camping</label>
-            </div>
+          <p>What’s your style of accommodation?</p>
+          <div class="modern-options">
+            <label class="option-card">
+              <input type="radio" name="accommodation" value="All-inclusive resorts">
+              <span class="option-icon">🏨</span>
+              <span class="option-label">All-inclusive resorts</span>
+              <span class="option-description">Convenience and comfort</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="accommodation" value="Central location">
+              <span class="option-icon">🏙️</span>
+              <span class="option-label">Central location</span>
+              <span class="option-description">Walk to nearby attractions</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="accommodation" value="Remote and scenic">
+              <span class="option-icon">🌄</span>
+              <span class="option-label">Remote and scenic</span>
+              <span class="option-description">Drive to serene spots</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="accommodation" value="Camping">
+              <span class="option-icon">⛺</span>
+              <span class="option-label">Camping</span>
+              <span class="option-description">Close to nature</span>
+            </label>
+          </div>
         </div>
-        
         <!-- Transportation Preferences -->
         <div class="question" data-step="7">
-            <p>Transportation preferences</p>
-            <div class="options">
-            <label><input type="radio" name="transport" value="Fly">Places I can fly to</label>
-            <label><input type="radio" name="transport" value="Drive">Places I can drive to</label>
-            <label><input type="radio" name="transport" value="Short ferry">Short ferry rides (below 5 hours)</label>
-            <label><input type="radio" name="transport" value="Long ferry">Long ferry rides (6 to 12 hours)</label>
-            </div>
+          <p>Transportation preferences</p>
+          <div class="modern-options">
+            <label class="option-card">
+              <input type="radio" name="transport" value="Fly">
+              <span class="option-icon">✈️</span>
+              <span class="option-label">Fly</span>
+              <span class="option-description">Places you can fly to</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="transport" value="Short ferry">
+              <span class="option-icon">⛴️</span>
+              <span class="option-label">Short ferry</span>
+              <span class="option-description">Ferry rides under 5 hours</span>
+            </label>
+            <label class="option-card">
+              <input type="radio" name="transport" value="Long ferry">
+              <span class="option-icon">🛳️</span>
+              <span class="option-label">Long ferry</span>
+              <span class="option-description">Ferry rides 6-12 hours</span>
+            </label>
+          </div>
         </div>
+        
         
         <!-- Athens Option -->
         <div class="question" data-step="8">
@@ -268,7 +398,7 @@
             <label><input type="radio" name="athens" value="Yes">Yes</label>
             <label><input type="radio" name="athens" value="No">No</label>
         </div>
-        </div>
+      </div>
       <!-- Add more questions similarly -->
       <div class="navigation">
         <button type="button" class="btn" id="prevBtn" disabled>Back</button>
