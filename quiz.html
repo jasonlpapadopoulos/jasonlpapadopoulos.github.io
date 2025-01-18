@@ -373,20 +373,20 @@
               <input type="radio" name="transport" value="Fly">
               <span class="option-icon">✈️</span>
               <span class="option-label">Fly</span>
-              <span class="option-description">Places you can fly to</span>
+              <span class="option-description">Islands you can fly to</span>
             </label>
             <label class="option-card">
-              <input type="radio" name="transport" value="Short ferry">
+              <input type="radio" name="transport" value="Ferry">
               <span class="option-icon">⛴️</span>
-              <span class="option-label">Short ferry</span>
-              <span class="option-description">Ferry rides under 5 hours</span>
+              <span class="option-label">Ferry</span>
+              <span class="option-description">Reaching all islands</span>
             </label>
-            <label class="option-card">
+            <!-- <label class="option-card">
               <input type="radio" name="transport" value="Long ferry">
-              <span class="option-icon">🛳️</span>
-              <span class="option-label">Long ferry</span>
-              <span class="option-description">Ferry rides 6-12 hours</span>
-            </label>
+              <span class="option-icon">🚗⛴️</span>
+              <span class="option-label">Drive + Ferry</span>
+              <span class="option-description">Ferry rides from ports further away from Athens</span>
+            </label> -->
           </div>
         </div>
         
@@ -446,6 +446,16 @@
     });
 
     showQuestion(currentStep);
+
+    document.querySelectorAll('.option-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        // Remove 'selected' class from all cards
+        document.querySelectorAll('.option-card').forEach((c) => c.classList.remove('selected'));
+        
+        // Add 'selected' class to the clicked card
+        card.classList.add('selected');
+      });
+    });
 </script>
 
 </body>
