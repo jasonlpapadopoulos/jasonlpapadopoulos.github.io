@@ -17,6 +17,11 @@
       color: #1e88e5;
       margin-bottom: 30px;
     }
+    h4 {
+      text-align: center;
+      color: gray;
+      margin-bottom: 30px;
+    }
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -90,57 +95,200 @@
       font-size: 1rem;
       padding: 0 10px 20px;
     }
+
+    .view-toggle {
+      width: 100%;
+      display: flex;
+      background: linear-gradient(45deg, rgba(30, 136, 229, 0.2), rgba(21, 101, 192, 0.2));
+      border: 2px solid #1e88e5;
+      border-radius: 25px;
+      overflow: hidden;
+      max-width: 300px;
+      max-height: 50px;
+      margin: 20px auto;
+    }
+    
+    .view-toggle-option {
+      flex: 1;
+      padding: 12px 20px;
+      color: #1e88e5;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      width: 50%;
+      border-radius: 23px;
+      font-weight: bold;
+    }
+    
+    .view-toggle-option:hover {
+      background: rgba(30, 136, 229, 0.1);
+    }
+    
+    .view-toggle-option.active {
+      background: #1e88e5;
+      color: white;
+    }
+
+    /* Itinerary View Styles */
+    .itinerary-tile {
+      background: white;
+      border: 2px solid #1e88e5;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      transition: transform 0.3s;
+    }
+
+    .itinerary-tile:hover {
+      transform: translateY(-5px);
+    }
+
+    .itinerary-header {
+      background: #1e88e5;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .itinerary-content {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .itinerary-images {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .itinerary-images img {
+      width: 33.33%;
+      height: 200px;
+      object-fit: cover;
+      transition: all 0.3s;
+    }
+
+    .itinerary-images img:hover {
+      width: 50%;
+    }
+
+    .itinerary-details {
+      padding: 20px;
+      flex: 1;
+    }
+
+    .island-sequence {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+
+    .island-step {
+      background: #f3f4f6;
+      padding: 8px 15px;
+      border-radius: 20px;
+      margin: 5px;
+    }
+
+    .arrow {
+      color: #1e88e5;
+      margin: 0 10px;
+    }
+    #itineraries-view {
+        display: none; /* Hidden by default */
+    }
+
+    #islands-view {
+        display: flex; /* Default visible view */
+        flex-wrap: wrap; /* Adjust layout for tiles */
+        gap: 20px; /* Add spacing between tiles */
+    }
   </style>
 </head>
 <body>
-  <h1>Our Recommendations</h1>
+  
+    <h1>Your criteria</h1>
+    <div class="filters">
+        <div class="filter-group">
+            <div class="filter">
+            <label for="bestFor">Best For</label>
+            <select id="bestFor">
+                <option value="">All Travelers</option>
+                <option value="solo">Solo</option>
+                <option value="couple">Couple</option>
+                <option value="friends">Friends</option>
+                <option value="family">Family</option>
+            </select>
+            </div>
 
-  <div class="filters">
-    <div class="filter-group">
-      <div class="filter">
-        <label for="bestFor">Best For</label>
-        <select id="bestFor">
-          <option value="">All Travelers</option>
-          <option value="solo">Solo</option>
-          <option value="couple">Couple</option>
-          <option value="friends">Friends</option>
-          <option value="family">Family</option>
-        </select>
-      </div>
+            <div class="filter">
+            <label for="budget">Budget Range</label>
+            <select id="budget">
+                <option value="">Any Budget</option>
+                <option value="budget">€</option>
+                <option value="moderate">€€</option>
+                <option value="luxury">€€€</option>
+                <option value="uluxury">€€€€</option>
+            </select>
+            </div>
 
-      <div class="filter">
-        <label for="budget">Budget Range</label>
-        <select id="budget">
-          <option value="">Any Budget</option>
-          <option value="budget">€</option>
-          <option value="moderate">€€</option>
-          <option value="luxury">€€€</option>
-          <option value="uluxury">€€€€</option>
-        </select>
-      </div>
-
-      <div class="filter">
-        <label for="season">More filters</label>
-        <select id="season">
-          <option value="">Option 1</option>
-          <option value="spring">Option 2</option>
-          <option value="summer">Option 3</option>
-          <option value="fall">Option 4</option>
-          <option value="winter">Option 5</option>
-        </select>
-      </div>
+            <div class="filter">
+            <label for="season">More filters</label>
+            <select id="season">
+                <option value="">Option 1</option>
+                <option value="spring">Option 2</option>
+                <option value="summer">Option 3</option>
+                <option value="fall">Option 4</option>
+                <option value="winter">Option 5</option>
+            </select>
+            </div>
+        </div>
     </div>
-  </div>
+    <h1>Our Recommendations</h1>
+    <div class="view-toggle">
+    <div class="view-toggle-option active" onclick="toggleView('islands')">Islands</div>
+    <div class="view-toggle-option" onclick="toggleView('itineraries')">Itineraries</div>
+    </div>
+    <h4><i>See all islands that meet your criteria or curated itineraries.</i></h4>
+    <div id="itineraries-view">
+        <!-- Itinerary 1 -->
+        <div class="itinerary-tile">
+        <div class="itinerary-header">
+            <h2>Itinerary Name (5 Days)</h2>
+        </div>
+        <div class = "container">
+            <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+                <div class="tile">
+                    <img src="https://plus.unsplash.com/premium_photo-1661963643348-e95c6387ee8a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2FudG9yaW5pJTIwZ3JlZWNlfGVufDB8fDB8fHww" alt="Santorini">
+                    <h2>Santorini</h2>
+                    <p>Volcanic caldera with blue-domed churches and sunset views. World's most photographed Greek island.</p>
+                </div>
+            </a>
+            <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+                <div class="tile">
+                    <img src="https://images.unsplash.com/photo-1655535586022-a9e8ed3e2fe4?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bXlrb25vcyUyMGdyZWVjZXxlbnwwfHwwfHx8MA%3D%3D" alt="Mykonos">
+                    <h2>Mykonos</h2>
+                    <p>Cosmopolitan party island with iconic windmills and glamorous beach clubs. Celebrity magnet.</p>
+                </div>
+            </a>
+        </div>
+        </div>
+    </div>
 
-  <div class="container">
+    <div class="container" id="islands-view">
     <!-- Tile 1 -->
     <a href="individual-island.html" style="text-decoration: none; color: inherit;">
         <div class="tile">
             <img src="https://plus.unsplash.com/premium_photo-1661963643348-e95c6387ee8a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2FudG9yaW5pJTIwZ3JlZWNlfGVufDB8fDB8fHww" alt="Santorini">
-          <h2>Santorini</h2>
-          <p>Volcanic caldera with blue-domed churches and sunset views. World's most photographed Greek island.</p>
+            <h2>Santorini</h2>
+            <p>Volcanic caldera with blue-domed churches and sunset views. World's most photographed Greek island.</p>
         </div>
-      </a>
+        </a>
     <!-- Tile 2 -->
     <a href="individual-island.html" style="text-decoration: none; color: inherit;">
         <div class="tile">
@@ -179,6 +327,35 @@
         <p>Ionian treasure with famous shipwreck beach. Blue caves, caretta-caretta turtles, Venetian ruins.</p>
         </div>
     </a>
-  </div>
+    </div>
+
+  <script>
+    // JavaScript to toggle between Islands and Itineraries views
+    function toggleView(view) {
+    // Get references to the view containers
+    const islandsView = document.getElementById('islands-view');
+    const itinerariesView = document.getElementById('itineraries-view');
+
+    // Get references to the toggle options
+    const toggleOptions = document.querySelectorAll('.view-toggle-option');
+
+    // Hide both views initially
+    islandsView.style.display = 'none';
+    itinerariesView.style.display = 'none';
+
+    // Remove the 'active' class from all toggle options
+    toggleOptions.forEach(option => option.classList.remove('active'));
+
+    // Show the selected view and highlight the active toggle
+    if (view === 'islands') {
+        islandsView.style.display = 'flex'; // Use flex for consistent layout
+        document.querySelector('.view-toggle-option[onclick="toggleView(\'islands\')"]').classList.add('active');
+    } else if (view === 'itineraries') {
+        itinerariesView.style.display = 'block'; // Use block for stacked layout
+        document.querySelector('.view-toggle-option[onclick="toggleView(\'itineraries\')"]').classList.add('active');
+    }
+    }
+
+  </script>
 </body>
 </html>
