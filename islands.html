@@ -44,7 +44,7 @@
     .filter {
       display: flex;
       flex-direction: column;
-      min-width: 200px;
+      min-width: 100px;
     }
     .filter label {
       font-weight: bold;
@@ -99,7 +99,8 @@
     .view-toggle {
       width: 100%;
       display: flex;
-      background: linear-gradient(45deg, rgba(30, 136, 229, 0.2), rgba(21, 101, 192, 0.2));
+      /* background: linear-gradient(45deg, rgba(30, 136, 229, 0.2), rgba(21, 101, 192, 0.2)); */
+      background: white;
       border: 2px solid #1e88e5;
       border-radius: 25px;
       overflow: hidden;
@@ -216,36 +217,40 @@
     <div class="filters">
         <div class="filter-group">
             <div class="filter">
-            <label for="bestFor">Best For</label>
-            <select id="bestFor">
-                <option value="">All Travelers</option>
-                <option value="solo">Solo</option>
-                <option value="couple">Couple</option>
-                <option value="friends">Friends</option>
-                <option value="family">Family</option>
-            </select>
+            <label for="bestFor">Who's coming?</label>
+                <select id="bestFor">
+                    <option value="solo">Just me</option>
+                    <option value="couple">Couple</option>
+                    <option value="friends">Friends</option>
+                    <option value="family">Family</option>
+                </select>
             </div>
-
+            <div class="filter">
+                <label for="budget">Trip length</label>
+                <select id="budget">
+                    <option value="same-day">1 Day</option>
+                    <option value="quick-getaway">2-3 Days</option>
+                    <option value="few-days">4-7 Days</option>
+                    <option value="week">7+ Days</option>
+                </select>
+            </div>
             <div class="filter">
             <label for="budget">Budget Range</label>
-            <select id="budget">
-                <option value="">Any Budget</option>
-                <option value="budget">€</option>
-                <option value="moderate">€€</option>
-                <option value="luxury">€€€</option>
-                <option value="uluxury">€€€€</option>
-            </select>
+                <select id="budget">
+                    <option value="budget">€</option>
+                    <option value="moderate">€€</option>
+                    <option value="luxury">€€€</option>
+                    <option value="uluxury">€€€€</option>
+                </select>
             </div>
-
             <div class="filter">
-            <label for="season">More filters</label>
-            <select id="season">
-                <option value="">Option 1</option>
-                <option value="spring">Option 2</option>
-                <option value="summer">Option 3</option>
-                <option value="fall">Option 4</option>
-                <option value="winter">Option 5</option>
-            </select>
+                <label for="budget">The Crowd Tradeoff</label>
+                    <select id="budget">
+                        <option value="avoid">Avoid Crowds</option>
+                        <option value="must-see">Must-see</option>
+                        <option value="in-between">In-between</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -254,7 +259,7 @@
     <div class="view-toggle-option active" onclick="toggleView('islands')">Islands</div>
     <div class="view-toggle-option" onclick="toggleView('itineraries')">Itineraries</div>
     </div>
-    <h4><i>See all islands that meet your criteria or curated itineraries.</i></h4>
+    <h4><i>See all islands that meet your criteria or discover our curated itineraries.</i></h4>
     <div id="itineraries-view">
         <!-- Itinerary 1 -->
         <div class="itinerary-tile">
