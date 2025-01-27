@@ -6,6 +6,33 @@
     <title>My Itinerary</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
+        .day-slot {
+            background-color: #f0f8ff;
+            border: 2px dashed #3182ce;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .activity-slot {
+            background-color: #e6f2ff;
+            border: 1px solid #3182ce;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            border-radius: 0.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .activity-slot .time {
+            font-weight: bold;
+            color: #2c5282;
+        }
+        .island-slot {
+            background-color: #e6f2ff;
+            border: 1px solid #3182ce;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.25rem;
+        }
         .modal {
             background-color: rgba(0,0,0,0.5);
         }
@@ -24,28 +51,55 @@
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto p-4 md:p-6">
-        <h1 class="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-blue-800">My Itinerary</h1>
-        
-        <div class="flex flex-col md:flex-row mobile-stack space-y-4 md:space-y-0 md:space-x-6">
+        <h1 class="text-3xl font-bold text-center mb-6 text-blue-800">My Itinerary</h1>
+
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
             <!-- Calendar Section -->
             <div class="w-full md:w-2/3 bg-white shadow-lg rounded-lg p-4">
                 <h2 class="text-lg md:text-xl font-semibold mb-4">Trip Calendar</h2>
-                <div class="space-y-4">
-                    <div class="border rounded p-3 bg-blue-50">
-                        <h3 class="font-medium text-gray-700">Day 1</h3>
-                        <div class="mt-2 bg-white rounded p-2">
-                            <p class="text-sm text-gray-600">No islands added yet</p>
+                <div class="space-y-6">
+                    <!-- Day 1 -->
+                    <div class="bg-white shadow-lg rounded-lg p-4">
+                        <h3 class="text-xl font-bold text-blue-800">Day 1</h3>
+
+                        <!-- Island Slot -->
+                        <div class="island-slot">
+                            <p class="font-semibold text-gray-700">Island: Serifos</p>
+
+                            <!-- Activity Slots -->
+                            <div class="activity-slot">
+                                <span>Beach: Ganema</span>
+                                <span class="time">10:00 AM - 1:00 PM</span>
+                            </div>
+                            <div class="activity-slot">
+                                <span>Lunch: Stamatis</span>
+                                <span class="time">2:00 PM - 3:30 PM</span>
+                            </div>
                         </div>
+
+                        <!-- Add Activity Button -->
+                        <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+                            + Add Activity
+                        </button>
                     </div>
-                    <div class="border rounded p-3 bg-blue-50">
-                        <h3 class="font-medium text-gray-700">Day 2</h3>
-                        <div class="mt-2 bg-white rounded p-2">
-                            <p class="text-sm text-gray-600">No islands added yet</p>
+
+                    <!-- Day 2 -->
+                    <div class="bg-white shadow-lg rounded-lg p-4">
+                        <h3 class="text-xl font-bold text-blue-800">Day 2</h3>
+
+                        <!-- Island Slots -->
+                        <div class="island-slot">
+                            <p class="font-semibold text-gray-700">Island: No island added yet</p>
                         </div>
+
+                        <!-- Add Activity Button -->
+                        <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+                            + Add Activity
+                        </button>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Islands Section -->
             <div class="w-full md:w-1/3 bg-white shadow-lg rounded-lg p-4">
                 <h2 class="text-lg md:text-xl font-semibold mb-4">Islands Selected</h2>
@@ -72,78 +126,76 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal -->
-    <div id="dateModal" class="fixed inset-0 modal hidden z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg shadow-xl w-11/12 md:w-1/2 p-6">
-            <h2 id="modalTitle" class="text-xl font-bold mb-4">Add Island to Itinerary</h2>
-            
-            <div class="grid grid-cols-7 gap-2 mb-4">
-                <div class="text-center font-semibold">Mon</div>
-                <div class="text-center font-semibold">Tue</div>
-                <div class="text-center font-semibold">Wed</div>
-                <div class="text-center font-semibold">Thu</div>
-                <div class="text-center font-semibold">Fri</div>
-                <div class="text-center font-semibold">Sat</div>
-                <div class="text-center font-semibold">Sun</div>
+        <!-- Modal -->
+        <div id="dateModal" class="fixed inset-0 modal hidden z-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg shadow-xl w-11/12 md:w-1/2 p-6">
+                <h2 id="modalTitle" class="text-xl font-bold mb-4">Add Island to Itinerary</h2>
                 
-                <!-- Placeholder for calendar days -->
-                <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">1</div>
-                <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">2</div>
-                <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">3</div>
-                <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">4</div>
-                <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">5</div>
-                <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">6</div>
-                <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">7</div>
-                <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">8</div>
-            </div>
-            
-            <div class="flex justify-end space-x-2">
-                <button onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
-                    Cancel
-                </button>
-                <button onclick="confirmSelection()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    Confirm
-                </button>
+                <div class="grid grid-cols-7 gap-2 mb-4">
+                    <div class="text-center font-semibold">Mon</div>
+                    <div class="text-center font-semibold">Tue</div>
+                    <div class="text-center font-semibold">Wed</div>
+                    <div class="text-center font-semibold">Thu</div>
+                    <div class="text-center font-semibold">Fri</div>
+                    <div class="text-center font-semibold">Sat</div>
+                    <div class="text-center font-semibold">Sun</div>
+                    
+                    <!-- Placeholder for calendar days -->
+                    <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">1</div>
+                    <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">2</div>
+                    <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">3</div>
+                    <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">4</div>
+                    <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">5</div>
+                    <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">6</div>
+                    <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">7</div>
+                    <div class="calendar-day p-2 border text-center" onclick="selectDay(this)">8</div>
+                </div>
+                
+                <div class="flex justify-end space-x-2">
+                    <button onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                        Cancel
+                    </button>
+                    <button onclick="confirmSelection()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        Confirm
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-
-    <script>
-        let selectedIsland = '';
-        const selectedDays = new Set();
-
-        function openModal(island) {
-            selectedIsland = island;
-            document.getElementById('modalTitle').textContent = `Add ${island} to Itinerary`;
-            document.getElementById('dateModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('dateModal').classList.add('hidden');
-            selectedDays.clear();
-            document.querySelectorAll('.calendar-day').forEach(day => day.classList.remove('selected'));
-        }
-
-        function selectDay(dayElement) {
-            dayElement.classList.toggle('selected');
-            const day = dayElement.textContent;
-            
-            if (selectedDays.has(day)) {
-                selectedDays.delete(day);
-            } else {
-                selectedDays.add(day);
-            }
-        }
-
-        function confirmSelection() {
-            if (selectedDays.size > 0) {
-                alert(`Added ${selectedIsland} to days: ${[...selectedDays].join(', ')}`);
-                closeModal();
-            } else {
-                alert('Please select at least one day');
-            }
-        }
-    </script>
 </body>
+<script>
+    let selectedIsland = '';
+    const selectedDays = new Set();
+
+    function openModal(island) {
+        selectedIsland = island;
+        document.getElementById('modalTitle').textContent = `Add ${island} to Itinerary`;
+        document.getElementById('dateModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('dateModal').classList.add('hidden');
+        selectedDays.clear();
+        document.querySelectorAll('.calendar-day').forEach(day => day.classList.remove('selected'));
+    }
+
+    function selectDay(dayElement) {
+        dayElement.classList.toggle('selected');
+        const day = dayElement.textContent;
+        
+        if (selectedDays.has(day)) {
+            selectedDays.delete(day);
+        } else {
+            selectedDays.add(day);
+        }
+    }
+
+    function confirmSelection() {
+        if (selectedDays.size > 0) {
+            alert(`Added ${selectedIsland} to days: ${[...selectedDays].join(', ')}`);
+            closeModal();
+        } else {
+            alert('Please select at least one day');
+        }
+    }
+</script>
 </html>
