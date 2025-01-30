@@ -3,56 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recommended Greek Islands</title>
+  <title>Greek Island Recommendations</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f3f4f6;
-      color: #333;
-      margin: 0;
-      padding: 20px;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+    :root {
+      --primary: #1e88e5;
+      --accent: #0EA5E9;
+      --background: #F8FAFC;
+      --text: #0F172A;
     }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
     h1 {
       text-align: center;
-      color: #1e88e5;
-      margin-bottom: 30px;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      font-weight: 800;
     }
-    h4 {
-      text-align: center;
-      color: gray;
-      margin-bottom: 30px;
-    }
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
+
     .filters {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem 1rem;
+      margin: 1rem auto;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      position: relative;
+      max-width: 1400px;
     }
+
+    .filters::before,
+    .filters::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 40px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .filters::before {
+      left: 0;
+      background: linear-gradient(to right, white, transparent);
+    }
+
+    .filters::after {
+      right: 0;
+      background: linear-gradient(to left, white, transparent);
+    }
+
     .filter-group {
       display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 0.5rem;
+      scroll-padding: 1rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
     }
+
+    .filter-group::-webkit-scrollbar {
+      display: none;
+    }
+
     .filter {
-      display: flex;
-      flex-direction: column;
-      min-width: 100px;
+      flex: 0 0 auto;
+      min-width: 200px;
+      max-width: 250px;
     }
+
     .filter label {
+      display: block;
       font-weight: bold;
-      margin-bottom: 8px;
-      color: #1e88e5;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
     }
+
     .filter select {
-      padding: 10px;
+      width: 100%;
+      padding: 0.75rem;
       border: 2px solid #e0e0e0;
       border-radius: 6px;
       font-size: 1rem;
@@ -60,307 +106,593 @@
       cursor: pointer;
       transition: border-color 0.3s;
     }
+
     .filter select:hover {
-      border-color: #1e88e5;
+      border-color: var(--primary);
     }
+
     .filter select:focus {
       outline: none;
-      border-color: #1e88e5;
+      border-color: var(--primary);
       box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.1);
     }
-    .tile {
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .island-card {
       background: white;
-      border: 2px solid #1e88e5;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
       overflow: hidden;
-      width: 250px;
-      text-align: center;
-      transition: transform 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      height: 475px;
+      display: flex;
+      flex-direction: column;
     }
-    .tile:hover {
+
+    .island-card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     }
-    .tile img {
+
+    .island-image {
       width: 100%;
-      height: 150px;
+      height: 200px;
       object-fit: cover;
+      flex-shrink: 0;
     }
-    .tile h2 {
+
+    .match-meter {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .island-content {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .island-title {
       font-size: 1.5rem;
-      color: #1e88e5;
-      margin: 15px 0;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
     }
-    .tile p {
-      font-size: 1rem;
-      padding: 0 10px 20px;
+
+    .island-description {
+      color: var(--text);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+      height: 75px
+    }
+
+    .island-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      margin-top: auto;
+    }
+
+    .action-button {
+      background: white;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      min-width: 120px;
+    }
+
+    .action-button:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(30, 136, 229, 0.2);
+    }
+
+    .action-button.liked {
+      background: var(--primary);
+      color: white;
+    }
+
+    .action-button.liked:hover {
+      background: #1976d2;
     }
 
     .view-toggle {
-      width: 100%;
+      max-width: 1400px;
+      margin: 2rem auto 1rem;
       display: flex;
-      /* background: linear-gradient(45deg, rgba(30, 136, 229, 0.2), rgba(21, 101, 192, 0.2)); */
-      background: white;
-      border: 2px solid #1e88e5;
-      border-radius: 25px;
-      overflow: hidden;
-      max-width: 300px;
-      max-height: 50px;
-      margin: 20px auto;
+      justify-content: center;
+      gap: 1rem;
     }
-    
-    .view-toggle-option {
-      flex: 1;
-      padding: 12px 20px;
-      color: #1e88e5;
-      text-align: center;
+
+    .view-toggle button {
+      padding: 0.75rem 2rem;
+      border: 2px solid var(--primary);
+      background: transparent;
+      color: var(--primary);
+      border-radius: 12px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      position: relative;
-      width: 50%;
-      border-radius: 23px;
-      font-weight: bold;
+      font-size: 1.125rem;
     }
-    
-    .view-toggle-option:hover {
-      background: rgba(30, 136, 229, 0.1);
-    }
-    
-    .view-toggle-option.active {
-      background: #1e88e5;
+
+    .view-toggle button.active {
+      background: var(--primary);
       color: white;
     }
 
-    /* Itinerary View Styles */
-    .itinerary-tile {
+    .view-container {
+      display: none;
+    }
+
+    .view-container.active {
+      display: block;
+    }
+
+    .itinerary-card {
       background: white;
-      border: 2px solid #1e88e5;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
       overflow: hidden;
-      width: 100%;
-      max-width: 800px;
-      margin: 20px auto;
-      transition: transform 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      margin-bottom: 2rem;
     }
 
-    .itinerary-tile:hover {
+    .itinerary-card:hover {
       transform: translateY(-5px);
-    }
-
-    .itinerary-header {
-      background: #1e88e5;
-      color: white;
-      padding: 15px;
-      text-align: center;
-    }
-
-    .itinerary-content {
-      display: flex;
-      align-items: stretch;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     }
 
     .itinerary-images {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      height: 250px;
     }
 
     .itinerary-images img {
-      width: 33.33%;
-      height: 200px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      transition: all 0.3s;
     }
 
-    .itinerary-images img:hover {
-      width: 50%;
+    .itinerary-content {
+      padding: 2rem;
     }
 
-    .itinerary-details {
-      padding: 20px;
-      flex: 1;
+    .itinerary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
     }
 
-    .island-sequence {
+    .itinerary-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .itinerary-meta {
+      display: flex;
+      gap: 2rem;
+      margin: 1rem 0;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .itinerary-meta span {
       display: flex;
       align-items: center;
-      margin: 15px 0;
-      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
-    .island-step {
-      background: #f3f4f6;
-      padding: 8px 15px;
-      border-radius: 20px;
-      margin: 5px;
+    .timeline {
+      margin: 1.5rem 0;
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--primary);
     }
 
-    .arrow {
-      color: #1e88e5;
-      margin: 0 10px;
-    }
-    #itineraries-view {
-        display: none; /* Hidden by default */
+    .timeline-item {
+      position: relative;
+      padding-bottom: 1.5rem;
     }
 
-    #islands-view {
-        display: flex; /* Default visible view */
-        flex-wrap: wrap; /* Adjust layout for tiles */
-        gap: 20px; /* Add spacing between tiles */
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.6rem;
+      top: 0.5rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    .timeline-day {
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .filter-group {
+        justify-content: flex-start;
+        gap: 0.75rem;
+      }
+      
+      .filter {
+        min-width: 180px;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        padding: 1rem 0.5rem;
+      }
+
+      .itinerary-images {
+        grid-template-columns: 1fr;
+        height: 200px;
+      }
+
+      .itinerary-images img:not(:first-child) {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
+  <h1>Your Criteria</h1>
   
-    <h1>Your criteria</h1>
-    <div class="filters">
-        <div class="filter-group">
-            <div class="filter">
-            <label for="bestFor">Who's coming?</label>
-                <select id="bestFor">
-                    <option value="solo">Just me</option>
-                    <option value="couple">Couple</option>
-                    <option value="friends">Friends</option>
-                    <option value="family">Family</option>
-                </select>
-            </div>
-            <div class="filter">
-                <label for="budget">Trip length</label>
-                <select id="budget">
-                    <option value="same-day">1 Day</option>
-                    <option value="quick-getaway">2-3 Days</option>
-                    <option value="few-days">4-7 Days</option>
-                    <option value="week">7+ Days</option>
-                </select>
-            </div>
-            <div class="filter">
-            <label for="budget">Budget Range</label>
-                <select id="budget">
-                    <option value="budget">€</option>
-                    <option value="moderate">€€</option>
-                    <option value="luxury">€€€</option>
-                    <option value="uluxury">€€€€</option>
-                </select>
-            </div>
-            <div class="filter">
-                <label for="budget">The Crowd Tradeoff</label>
-                    <select id="budget">
-                        <option value="avoid">Avoid Crowds</option>
-                        <option value="must-see">Must-see</option>
-                        <option value="in-between">In-between</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+  <div class="filters">
+    <div class="filter-group">
+      <div class="filter">
+        <label for="bestFor">Who's coming?</label>
+        <select id="bestFor">
+          <option value="solo">Just me</option>
+          <option value="couple">Couple</option>
+          <option value="friends">Friends</option>
+          <option value="family">Family</option>
+        </select>
+      </div>
+      <div class="filter">
+        <label for="tripLength">Trip length</label>
+        <select id="tripLength">
+          <option value="same-day">1 Day</option>
+          <option value="quick-getaway">2-3 Days</option>
+          <option value="few-days">4-7 Days</option>
+          <option value="week">7+ Days</option>
+        </select>
+      </div>
+      <div class="filter">
+        <label for="budget">Budget Range</label>
+        <select id="budget">
+          <option value="budget">€</option>
+          <option value="moderate">€€</option>
+          <option value="luxury">€€€</option>
+          <option value="uluxury">€€€€</option>
+        </select>
+      </div>
+      <div class="filter">
+        <label for="crowds">The Crowd Tradeoff</label>
+        <select id="crowds">
+          <option value="avoid">Avoid Crowds</option>
+          <option value="must-see">Must-see</option>
+          <option value="in-between">In-between</option>
+        </select>
+      </div>
     </div>
-    <h1>Our Recommendations</h1>
-    <div class="view-toggle">
-    <div class="view-toggle-option active" onclick="toggleView('islands')">Islands</div>
-    <div class="view-toggle-option" onclick="toggleView('itineraries')">Itineraries</div>
-    </div>
-    <h4><i>See all islands that meet your criteria or discover our curated itineraries.</i></h4>
-    <div id="itineraries-view">
-        <!-- Itinerary 1 -->
-        <div class="itinerary-tile">
-        <div class="itinerary-header">
-            <h2>Itinerary Name (5 Days)</h2>
-        </div>
-        <div class = "container">
-            <a href="individual-island.html" style="text-decoration: none; color: inherit;">
-                <div class="tile">
-                    <img src="https://plus.unsplash.com/premium_photo-1661963643348-e95c6387ee8a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2FudG9yaW5pJTIwZ3JlZWNlfGVufDB8fDB8fHww" alt="Santorini">
-                    <h2>Santorini</h2>
-                    <p>Volcanic caldera with blue-domed churches and sunset views. World's most photographed Greek island.</p>
-                </div>
-            </a>
-            <a href="individual-island.html" style="text-decoration: none; color: inherit;">
-                <div class="tile">
-                    <img src="https://images.unsplash.com/photo-1655535586022-a9e8ed3e2fe4?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bXlrb25vcyUyMGdyZWVjZXxlbnwwfHwwfHx8MA%3D%3D" alt="Mykonos">
-                    <h2>Mykonos</h2>
-                    <p>Cosmopolitan party island with iconic windmills and glamorous beach clubs. Celebrity magnet.</p>
-                </div>
-            </a>
-        </div>
-        </div>
-    </div>
+  </div>
 
-    <div class="container" id="islands-view">
-    <!-- Tile 1 -->
-    <a href="individual-island.html" style="text-decoration: none; color: inherit;">
-        <div class="tile">
-            <img src="https://plus.unsplash.com/premium_photo-1661963643348-e95c6387ee8a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2FudG9yaW5pJTIwZ3JlZWNlfGVufDB8fDB8fHww" alt="Santorini">
-            <h2>Santorini</h2>
-            <p>Volcanic caldera with blue-domed churches and sunset views. World's most photographed Greek island.</p>
+  <div class="view-toggle">
+    <button onclick="toggleView('islands')" class="active">Individual Islands</button>
+    <button onclick="toggleView('itineraries')">Curated Itineraries</button>
+  </div>
+
+  <div id="islands-view" class="view-container active">
+    <h1>Our Recommendations</h1>
+    <div class="container">
+      <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+        <div class="island-card">
+          <div class="match-meter">Match: 98%</div>
+          <img src="https://plus.unsplash.com/premium_photo-1661963643348-e95c6387ee8a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2FudG9yaW5pJTIwZ3JlZWNlfGVufDB8fDB8fHww" alt="Santorini" class="island-image">
+          <div class="island-content">
+            <h2 class="island-title">Santorini</h2>
+            <p class="island-description">Volcanic caldera with blue-domed churches and sunset views. World's most photographed Greek island.</p>
+            <div class="island-actions">
+              <button class="action-button" onclick="likeIsland(this)">
+                <span>Save</span>
+              </button>
+              <button class="action-button">
+                <span>Learn More</span>
+              </button>
+            </div>
+          </div>
         </div>
-        </a>
-    <!-- Tile 2 -->
-    <a href="individual-island.html" style="text-decoration: none; color: inherit;">
-        <div class="tile">
-        <img src="https://images.unsplash.com/photo-1655535586022-a9e8ed3e2fe4?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bXlrb25vcyUyMGdyZWVjZXxlbnwwfHwwfHx8MA%3D%3D" alt="Mykonos">
-        <h2>Mykonos</h2>
-        <p>Cosmopolitan party island with iconic windmills and glamorous beach clubs. Celebrity magnet.</p>
+      </a>
+      <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+        <div class="island-card">
+          <div class="match-meter">Match: 95%</div>
+          <img src="https://images.unsplash.com/photo-1655535586022-a9e8ed3e2fe4?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bXlrb25vcyUyMGdyZWVjZXxlbnwwfHwwfHx8MA%3D%3D" alt="Mykonos" class="island-image">
+          <div class="island-content">
+            <h2 class="island-title">Mykonos</h2>
+            <p class="island-description">Cosmopolitan party island with iconic windmills and glamorous beach clubs. Celebrity magnet.</p>
+            <div class="island-actions">
+              <button class="action-button" onclick="likeIsland(this)">
+                <span>Save</span>
+              </button>
+              <button class="action-button">
+                <span>Share</span>
+              </button>
+            </div>
+          </div>
         </div>
-    </a>
-    <!-- Tile 3 -->
-    <a href="individual-island.html" style="text-decoration: none; color: inherit;">
-        <div class="tile">
-        <img src="https://images.unsplash.com/photo-1554465149-476c5d52d7fd?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Crete">
-        <h2>Crete</h2>
-        <p>Greece's largest island. Ancient Minoan palaces, dramatic gorges, pristine beaches, and rich culinary traditions.</p>
+      </a>
+      <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+        <div class="island-card">
+          <div class="match-meter">Match: 92%</div>
+          <img src="https://images.unsplash.com/photo-1554465149-476c5d52d7fd?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Crete" class="island-image">
+          <div class="island-content">
+            <h2 class="island-title">Crete</h2>
+            <p class="island-description">Greece's largest island. Ancient Minoan palaces, dramatic gorges, pristine beaches, and rich culinary traditions.</p>
+            <div class="island-actions">
+              <button class="action-button" onclick="likeIsland(this)">
+                <span>Save</span>
+              </button>
+              <button class="action-button">
+                <span>Share</span>
+              </button>
+            </div>
+          </div>
         </div>
-    </a>
-    <!-- Tile 4 -->
-    <a href="individual-island.html" style="text-decoration: none; color: inherit;">
-        <div class="tile">
-        <img src="https://images.unsplash.com/photo-1569872867058-60ba67626985?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Naxos">
-        <h2>Naxos</h2>
-        <p>Largest Cycladic island. Amazing food, green valleys, marble quarries, ancient kouros statues, and endless beaches.</p>
+      </a>
+      <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+        <div class="island-card">
+          <div class="match-meter">Match: 90%</div>
+          <img src="https://images.unsplash.com/photo-1569872867058-60ba67626985?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Naxos" class="island-image">
+          <div class="island-content">
+            <h2 class="island-title">Naxos</h2>
+            <p class="island-description">Largest Cycladic island. Amazing food, green valleys, marble quarries, ancient kouros statues, and endless beaches.</p>
+            <div class="island-actions">
+              <button class="action-button" onclick="likeIsland(this)">
+                <span>Save</span>
+              </button>
+              <button class="action-button">
+                <span>Share</span>
+              </button>
+            </div>
+          </div>
         </div>
-    </a>
-    <a href="individual-island.html" style="text-decoration: none; color: inherit;">
-        <div class="tile">
-        <img src="https://images.unsplash.com/photo-1628530509833-24a2fa088f83?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Serifos">
-        <h2>Serifos</h2>
-        <p>Rugged Cycladic beauty with dramatic Chora perched on hill. Iron mining history, wild beaches, stark beauty.</p>
+      </a>
+      <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+        <div class="island-card">
+          <div class="match-meter">Match: 88%</div>
+          <img src="https://images.unsplash.com/photo-1628530509833-24a2fa088f83?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Serifos" class="island-image">
+          <div class="island-content">
+            <h2 class="island-title">Serifos</h2>
+            <p class="island-description">Rugged Cycladic beauty with dramatic Chora perched on hill. Iron mining history, wild beaches, stark beauty.</p>
+            <div class="island-actions">
+              <button class="action-button" onclick="likeIsland(this)">
+                <span>Save</span>
+              </button>
+              <button class="action-button">
+                <span>Share</span>
+              </button>
+            </div>
+          </div>
         </div>
-    </a>
-    <a href="individual-island.html" style="text-decoration: none; color: inherit;">
-        <div class="tile">
-        <img src="https://images.unsplash.com/photo-1629286520821-ca8b5b18a8c1?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Zakynthos">
-        <h2>Zakynthos</h2>
-        <p>Ionian treasure with famous shipwreck beach. Blue caves, caretta-caretta turtles, Venetian ruins.</p>
+      </a>
+      <a href="individual-island.html" style="text-decoration: none; color: inherit;">
+        <div class="island-card">
+          <div class="match-meter">Match: 85%</div>
+          <img src="https://images.unsplash.com/photo-1629286520821-ca8b5b18a8c1?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Zakynthos" class="island-image">
+          <div class="island-content">
+            <h2 class="island-title">Zakynthos</h2>
+            <p class="island-description">Ionian treasure with famous shipwreck beach. Blue caves, caretta-caretta turtles, Venetian ruins.</p>
+            <div class="island-actions">
+              <button class="action-button" onclick="likeIsland(this)">
+                <span>Save</span>
+              </button>
+              <button class="action-button">
+                <span>Share</span>
+              </button>
+            </div>
+          </div>
         </div>
-    </a>
+      </a>
     </div>
+  </div>
+
+  <div id="itineraries-view" class="view-container">
+    <h1>Curated Itineraries</h1>
+    <div class="container">
+      <div class="itinerary-card">
+        <div class="itinerary-images">
+          <img src="https://plus.unsplash.com/premium_photo-1661963643348-e95c6387ee8a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Santorini">
+          <img src="https://images.unsplash.com/photo-1569872867058-60ba67626985?q=80&w=2970&auto=format&fit=crop" alt="Naxos">
+          <img src="https://images.unsplash.com/photo-1655535586022-a9e8ed3e2fe4?w=800&auto=format&fit=crop" alt="Mykonos">
+        </div>
+        <div class="itinerary-content">
+          <div class="match-meter">Match: 96%</div>
+          <div class="itinerary-header">
+            <div>
+              <h2 class="itinerary-title">Classic Cyclades</h2>
+              <div class="itinerary-meta">
+                <span>7 Days</span>
+                <span>€€€</span>
+                <span>Ferry-hopping</span>
+              </div>
+            </div>
+          </div>
+          <p>Experience the essence of the Cyclades with this classic route combining iconic views, vibrant nightlife, and authentic island life.</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-day">Days 1-3: Santorini</div>
+              <p>Caldera views, wine tasting, sunset in Oia</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-day">Days 4-5: Naxos</div>
+              <p>Beach hopping, mountain villages, local cuisine</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-day">Days 6-7: Mykonos</div>
+              <p>Windmills, Little Venice, beach clubs</p>
+            </div>
+          </div>
+          <div class="island-actions">
+            <button class="action-button" onclick="likeIsland(this)">
+              <span>Save</span>
+            </button>
+            <button class="action-button">
+              <span>View Details</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="itinerary-card">
+        <div class="itinerary-images">
+          <img src="https://images.unsplash.com/photo-1554465149-476c5d52d7fd?q=80&w=2970&auto=format&fit=crop" alt="Crete">
+          <img src="https://images.unsplash.com/photo-1628530509833-24a2fa088f83?q=80&w=3024&auto=format&fit=crop" alt="Serifos">
+          <img src="https://images.unsplash.com/photo-1569872867058-60ba67626985?q=80&w=2970&auto=format&fit=crop" alt="Naxos">
+        </div>
+        <div class="itinerary-content">
+          <div class="match-meter">Match: 94%</div>
+          <div class="itinerary-header">
+            <div>
+              <h2 class="itinerary-title">History & Nature Explorer</h2>
+              <div class="itinerary-meta">
+                <span>10 Days</span>
+                <span>€€</span>
+                <span>Mixed Transport</span>
+              </div>
+            </div>
+          </div>
+          <p>Dive deep into Greek history while exploring pristine nature and authentic village life away from the crowds.</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-day">Days 1-4: Crete</div>
+              <p>Knossos Palace, Samaria Gorge, traditional villages</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-day">Days 5-7: Serifos</div>
+              <p>Mining trails, secluded beaches, local festivals</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-day">Days 8-10: Naxos</div>
+              <p>Ancient kouros, marble villages, food experiences</p>
+            </div>
+          </div>
+          <div class="island-actions">
+            <button class="action-button" onclick="likeIsland(this)">
+              <span>Save</span>
+            </button>
+            <button class="action-button">
+              <span>View Details</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="itinerary-card">
+        <div class="itinerary-images">
+          <img src="https://images.unsplash.com/photo-1629286520821-ca8b5b18a8c1?q=80&w=3132&auto=format&fit=crop" alt="Zakynthos">
+          <img src="https://images.unsplash.com/photo-1655535586022-a9e8ed3e2fe4?w=800&auto=format&fit=crop" alt="Mykonos">
+          <img src="https://plus.unsplash.com/premium_photo-1661963643348-e95c6387ee8a?w=800&auto=format&fit=crop" alt="Santorini">
+        </div>
+        <div class="itinerary-content">
+          <div class="match-meter">Match: 92%</div>
+          <div class="itinerary-header">
+            <div>
+              <h2 class="itinerary-title">Island Hopping Extravaganza</h2>
+              <div class="itinerary-meta">
+                <span>12 Days</span>
+                <span>€€€€</span>
+                <span>Luxury Travel</span>
+              </div>
+            </div>
+          </div>
+          <p>The ultimate Greek island experience combining natural wonders, luxury accommodations, and iconic destinations.</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-day">Days 1-4: Zakynthos</div>
+              <p>Private boat tours, Shipwreck Beach, Blue Caves</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-day">Days 5-8: Mykonos</div>
+              <p>VIP beach clubs, luxury shopping, yacht day</p>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-day">Days 9-12: Santorini</div>
+              <p>Private caldera villa, helicopter tour, wine tasting</p>
+            </div>
+          </div>
+          <div class="island-actions">
+            <button class="action-button" onclick="likeIsland(this)">
+              <span>Save</span>
+            </button>
+            <button class="action-button">
+              <span>View Details</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // JavaScript to toggle between Islands and Itineraries views
+    function likeIsland(button) {
+      button.classList.toggle('liked');
+      button.innerHTML = button.classList.contains('liked') ? 
+        '<span>Saved ✨</span>' : 
+        '<span>Save</span>';
+    }
+
     function toggleView(view) {
-    // Get references to the view containers
-    const islandsView = document.getElementById('islands-view');
-    const itinerariesView = document.getElementById('itineraries-view');
+      // Update buttons
+      document.querySelectorAll('.view-toggle button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
 
-    // Get references to the toggle options
-    const toggleOptions = document.querySelectorAll('.view-toggle-option');
-
-    // Hide both views initially
-    islandsView.style.display = 'none';
-    itinerariesView.style.display = 'none';
-
-    // Remove the 'active' class from all toggle options
-    toggleOptions.forEach(option => option.classList.remove('active'));
-
-    // Show the selected view and highlight the active toggle
-    if (view === 'islands') {
-        islandsView.style.display = 'flex'; // Use flex for consistent layout
-        document.querySelector('.view-toggle-option[onclick="toggleView(\'islands\')"]').classList.add('active');
-    } else if (view === 'itineraries') {
-        itinerariesView.style.display = 'block'; // Use block for stacked layout
-        document.querySelector('.view-toggle-option[onclick="toggleView(\'itineraries\')"]').classList.add('active');
+      // Update views
+      document.querySelectorAll('.view-container').forEach(container => {
+        container.classList.remove('active');
+      });
+      document.getElementById(`${view}-view`).classList.add('active');
     }
-    }
-
   </script>
 </body>
 </html>
